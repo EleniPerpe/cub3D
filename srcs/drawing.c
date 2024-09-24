@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/25 00:12:32 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/25 00:35:01 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	draw_player(t_game *game)
 	}
 
 }
-
-
 
 void draw_map(t_game *game)
 {

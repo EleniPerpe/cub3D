@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/25 00:11:20 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/25 00:34:44 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	keyboard_control(void *param)
 {
-
 	t_game	*game;
 
 	game = param;

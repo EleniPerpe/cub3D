@@ -6,12 +6,11 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 00:28:27 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/25 00:34:29 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include <unistd.h>
 
 void	ft_error(void);
 void	free_map(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/24 14:15:00 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:12:37 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,19 @@ typedef struct s_game
 	int			map_fd;
 	int			height_map;
 	int			width_map;
-	int			p_c;
-	int			c_c;
-	int			e_c;
-	int			steps;
+	char		*SO;
+	char		*NO;
+	char		*WE;
+	char		*EA;
+	int			*C;
+	int			*F;
 	int			x;
 	int			y;
 	int			flood_x;
 	int			flood_y;
 	char		**map;
-	// mlx_texture_t SO;
+	// mlx_texture_t SO; instead of mlx_image_t
 	mlx_image_t	*player;
-	mlx_image_t	*collectible;
-	mlx_image_t	*exit;
-	mlx_image_t	*floor;
-	mlx_image_t	*wall;
 	mlx_t		*mlx;	
 }	t_game;
 

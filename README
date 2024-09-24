@@ -1,0 +1,10 @@
+# Problems to solve:
+
+1- seg fault in ft_memset()
+
+2- start angle must be pi /2
+
+3- movment still need fix
+
+4- seg fault if the player hit the upper edge
+	(it will be fixed automatically when doing the walls)

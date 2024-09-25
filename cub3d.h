@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 12:08:46 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:21:50 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ int32_t	pixel_color(int r, int g, int b, int a);
 void	keyboard_control(void *param);
 void	draw_player(t_game *game);
 void	draw_map(t_game *game);
+int is_only_spaces(char *str);
 
 #endif

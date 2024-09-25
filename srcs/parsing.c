@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 16:36:58 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:45:55 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int		find_width_map(t_game *game, char *reader);
 int		fill_map_variables(t_game *game);
 int		check_rgb(char *variable, int **color);
-void check_textures(t_game *game);
-int assign_texture(char **destination, char *variable, char *prefix);
+void	check_textures(t_game *game);
+int		assign_texture(char **destination, char *variable, char *prefix);
+int		is_only_spaces(char *str);
 
 int	arg_check(int argc, char *arg)
 {
@@ -58,11 +59,9 @@ void	map_reader(t_game *game, char *map)
 {
 	char	*reader;
 	int		y;
-	int		temp_width;
 	int		info_count;
 
 	info_count = 0;
-	temp_width = 0;
 	game->map_fd = open(map, O_RDONLY);
 	if (game->map_fd < 0)
 	{
@@ -72,17 +71,59 @@ void	map_reader(t_game *game, char *map)
 	y = 0;
 	info_count = fill_map_variables(game);
 	reader = get_next_line(game->map_fd);
+	// printf("Ayti epistrefei : %s.\n", reader);
+	while (is_only_spaces(reader) == 0)
+		reader = get_next_line(game->map_fd);
 	game->map = ft_calloc(200, sizeof(char *));
 	while (reader != NULL)
 	{
 		game->map[y] = ft_strdup(reader);
+		printf("...%s, %d\n", game->map[y], y);
 		free(reader);
 		reader = get_next_line(game->map_fd);
 		y++;
-		game->height_map++;
-		// game->width_map = find_width_map(game, reader);			
+		game->height_map++;		
+	}
+	y -= 1;
+	while (y >= 0)
+	{
+		if (is_only_spaces(game->map[y]) == 0)
+		{
+			printf("Hi and y : %d\n", y);
+			free(game->map[y]);
+			game->map[y] = NULL;
+		}
+		else
+			break ;
+		y--;
+		game->height_map--;
+	}
+			printf("Hi and y at the end is: %d\n", y);
+	y = 0;
+	while (game->map[y] != NULL)
+	{
+		printf("/%s\n", game->map[y]);
+		y++;
 	}
 	close(game->map_fd);
+}
+
+int is_only_spaces(char *str)
+{
+    int i = 
+	
+	i = 0;
+	if (str[0] == '\n')
+		return (0);
+    while (str[i] != '\0')
+    {
+        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+		{
+            return (1);
+		}
+        i++;
+    }
+    return (0);
 }
 
 int fill_map_variables(t_game *game)
@@ -147,7 +188,7 @@ int	check_rgb(char *variable, int **color)
 		{
 			printf("Invalid RGB numbers\n");
 			free_split(c);
-			free(color);
+			// free(color);
 			exit(EXIT_FAILURE);
 		}
 		i++;
@@ -175,7 +216,6 @@ void check_textures(t_game *game)
 	int flag;
 
 	flag = 0;
-	printf("%s\n%s\n%s\n%s\n", game->NO, game->SO, game->WE, game->EA);
 	if (game->SO == NULL || !(ft_strncmp(game->SO, "./path_to_the_south_texture", 27) == 0))
 		flag = 1;
 	else if (game->WE == NULL || !(ft_strncmp(game->WE, "./path_to_the_west_texture", 24) == 0))

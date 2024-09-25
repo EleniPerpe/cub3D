@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 12:10:48 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:48:54 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,26 @@ void	free_map(t_game *game);
 int	main(int argc, char **argv)
 {
 	t_game				game;
-	int	map_array_in[128] = { // we will take it later from the map
-		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-		1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
-		1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,
-		1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,
-		1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,
-		1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,
-		1,0,0,0,0,1,0,1,1,1,0,0,0,0,1,1,
-		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+	int	map_array_in[136] = { // we will take it later from the map
+		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+		1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,
+		1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,
+		1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,
+		1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,
+		1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,
+		1,0,0,0,0,1,0,1,1,1,0,0,0,0,1,1,1,
+		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 	};
 	// to-do: create init_map()
 	// to-do: create init_player()
 	ft_memset(&game, 0, sizeof(t_game));
 	game.map_array = map_array_in;
 	game.map_unit_size = 64;
-	game.map_unit_x = 16;
+	game.map_unit_x = 17;
 	game.map_unit_y = 8;
 	game.name = "CUB3D";
 	game.window_height = 512;
-	game.window_width = 1024;
+	game.window_width = 1088;
 	game.player.x_player = 512; // must take the coordinate from the map
 	game.player.y_player = 261;
 	game.player.angle_player =  - pi / 2 / 2;

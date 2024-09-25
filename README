@@ -8,3 +8,6 @@
 
 4- seg fault if the player hit the upper edge
 	(it will be fixed automatically when doing the walls)
+
+
+if I put one of the info down off the map, it gives seg fault

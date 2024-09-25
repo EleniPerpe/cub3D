@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 00:34:29 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:10:48 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char **argv)
 	};
 	// to-do: create init_map()
 	// to-do: create init_player()
+	ft_memset(&game, 0, sizeof(t_game));
 	game.map_array = map_array_in;
 	game.map_unit_size = 64;
 	game.map_unit_x = 16;
@@ -57,7 +58,6 @@ int	main(int argc, char **argv)
 	game.player.dx_player = cos (game.player.angle_player) * 5;
 	game.player.dy_player = sin (game.player.angle_player) * 5;
 	arg_check(argc, argv[1]);
-	// ft_memset(&game, 0, sizeof(t_game));
 	map_reader(&game, argv[1]);
 	if (game.map == NULL)
 		ft_error();

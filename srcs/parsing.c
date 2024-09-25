@@ -6,16 +6,17 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/24 18:12:54 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:36:58 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 int		find_width_map(t_game *game, char *reader);
-void	fill_map_variables(t_game *game);
-void	check_legitimacy(t_game *game, char *C, char *F);
+int		fill_map_variables(t_game *game);
+int		check_rgb(char *variable, int **color);
 void check_textures(t_game *game);
+int assign_texture(char **destination, char *variable, char *prefix);
 
 int	arg_check(int argc, char *arg)
 {
@@ -58,7 +59,9 @@ void	map_reader(t_game *game, char *map)
 	char	*reader;
 	int		y;
 	int		temp_width;
+	int		info_count;
 
+	info_count = 0;
 	temp_width = 0;
 	game->map_fd = open(map, O_RDONLY);
 	if (game->map_fd < 0)
@@ -67,7 +70,7 @@ void	map_reader(t_game *game, char *map)
 		exit(EXIT_FAILURE);
 	}
 	y = 0;
-	fill_map_variables(game);
+	info_count = fill_map_variables(game);
 	reader = get_next_line(game->map_fd);
 	game->map = ft_calloc(200, sizeof(char *));
 	while (reader != NULL)
@@ -82,58 +85,89 @@ void	map_reader(t_game *game, char *map)
 	close(game->map_fd);
 }
 
-void fill_map_variables(t_game *game)
+int fill_map_variables(t_game *game)
 {
 	char	*variable;
-	char 	*C;
-	char	*F;
+	int		i;
+	int		j;
 
+	i = 0;
 	variable = get_next_line(game->map_fd);
-	while (variable != NULL && variable[0] != '1')
+	while (variable != NULL)
 	{
-		if (ft_strncmp(variable, "SO", 2) == 0)
-			game->SO = variable + 5;
-		if (ft_strncmp(variable, "NO", 2) == 0)
-			game->NO = variable + 5;
-		if (ft_strncmp(variable, "WE", 2) == 0)
-			game->WE = variable + 5;
-		if (ft_strncmp(variable, "EA", 2) == 0)
-			game->EA = variable + 5;
-		if (ft_strncmp(variable, "C", 1) == 0)
-			C = variable;
-		if (ft_strncmp(variable, "F", 1) == 0)
-			F = variable;
-		variable = get_next_line(game->map_fd);			
+		j = 0;
+		while (variable[j] != '\0' && isdigit(variable[j]))
+        	j++;
+		if ((variable[j]) != '\0')
+		{
+			i += assign_texture(&game->SO, variable, "SO");
+			i += assign_texture(&game->WE, variable, "WE");
+			i += assign_texture(&game->EA, variable, "EA");
+			i += assign_texture(&game->NO, variable, "NO");
+			if (ft_strnstr(variable, "C", ft_strlen(variable)) != NULL)
+				i += check_rgb(variable, &game->C);
+			if (ft_strnstr(variable, "F", ft_strlen(variable)) != NULL)
+				i += check_rgb(variable, &game->F);
+			if (i != 6)
+				variable = get_next_line(game->map_fd);
+			else
+				break ;
+		}
 	}
-	check_legitimacy(game, C, F);
+	check_textures(game);
+	return (i);
 }
 
-void	check_legitimacy(t_game *game, char *C, char *F)
+
+int	check_rgb(char *variable, int **color)
 {
 	int i;
 	char **c;
-	char **f;
+	int	count;
 
-	check_textures(game);
-	game->C = ft_malloc(4 * sizeof(int));
-	game->F = ft_malloc(4 * sizeof(int));
-	c = ft_split(C + 1, ',');
-	f = ft_split(F + 1, ',');
+	count = 0;
 	i = 0;
-	while (c[i] != NULL && f[i] != NULL)
+	while (variable[i] == ' ' || isalpha(variable[i]))
+		i++;
+	c = ft_split(variable + i, ',');
+	while (c[count] != NULL)
+    	 count++;
+	if (count != 3)
 	{
-		game->C[i] = ft_atoi(c[i]);
-		game->F[i] = ft_atoi(f[i]);
-		if ((game->C[i] < 0 || game->C[i] > 255) || (game->F[i] < 0 || game->F[i] > 255) || i > 2)
+		printf("Invalid RGB numbers\n");
+		free_split(c);
+		exit(EXIT_FAILURE);		
+	}
+	*color = ft_malloc(3 * sizeof(int));
+	i = 0;
+	while (c[i] != NULL)
+	{
+		(*color)[i] = ft_atoi(c[i]);
+		if (((*color)[i] < 0 || (*color)[i] > 255) || i > 3)
 		{
 			printf("Invalid RGB numbers\n");
 			free_split(c);
-			free_split(f);
-			//free C and F
+			free(color);
 			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
+	return (1);
+}
+int assign_texture(char **destination, char *variable, char *prefix)
+{
+	int i = 0;
+	char *needle;
+
+	needle = ft_strnstr(variable, prefix, ft_strlen(variable));
+	if (needle != NULL)
+	{
+		while (needle[i + 2] == ' ')
+			i++;
+		*destination = ft_strdup(needle + (i + 2));
+		return (1);
+	}
+	return (0);
 }
 
 void check_textures(t_game *game)
@@ -141,13 +175,14 @@ void check_textures(t_game *game)
 	int flag;
 
 	flag = 0;
-	if (!(ft_strncmp(game->SO, "path_to_the_south_texture", 25) == 0))
+	printf("%s\n%s\n%s\n%s\n", game->NO, game->SO, game->WE, game->EA);
+	if (game->SO == NULL || !(ft_strncmp(game->SO, "./path_to_the_south_texture", 27) == 0))
 		flag = 1;
-	if (!(ft_strncmp(game->WE, "path_to_the_west_texture", 24) == 0))
+	else if (game->WE == NULL || !(ft_strncmp(game->WE, "./path_to_the_west_texture", 24) == 0))
 		flag = 1;
-	if (!(ft_strncmp(game->EA, "path_to_the_east_texture", 24) == 0))
+	else if (game->EA == NULL || !(ft_strncmp(game->EA, "./path_to_the_east_texture", 24) == 0))
 		flag = 1;
-	if (!(ft_strncmp(game->NO, "path_to_the_north_texture", 25) == 0))
+	else if (game->NO == NULL || !(ft_strncmp(game->NO, "./path_to_the_north_texture", 25) == 0))
 		flag = 1;
 	if (flag == 1)
 	{

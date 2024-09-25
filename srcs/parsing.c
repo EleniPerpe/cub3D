@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 18:45:55 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:56:13 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,18 @@ void	map_reader(t_game *game, char *map)
 	while (reader != NULL)
 	{
 		game->map[y] = ft_strdup(reader);
-		printf("...%s, %d\n", game->map[y], y);
+		// printf("...%s, %d\n", game->map[y], y);
 		free(reader);
 		reader = get_next_line(game->map_fd);
 		y++;
-		game->height_map++;		
+		game->height_map++;
 	}
 	y -= 1;
 	while (y >= 0)
 	{
 		if (is_only_spaces(game->map[y]) == 0)
 		{
-			printf("Hi and y : %d\n", y);
+			// printf("Hi and y : %d\n", y);
 			free(game->map[y]);
 			game->map[y] = NULL;
 		}
@@ -98,20 +98,20 @@ void	map_reader(t_game *game, char *map)
 		y--;
 		game->height_map--;
 	}
-			printf("Hi and y at the end is: %d\n", y);
-	y = 0;
-	while (game->map[y] != NULL)
-	{
-		printf("/%s\n", game->map[y]);
-		y++;
-	}
+			// printf("Hi and y at the end is: %d\n", y);
+	// y = 0;
+	// while (game->map[y] != NULL)
+	// {
+	// 	printf("/%s\n", game->map[y]);
+	// 	y++;
+	// }
 	close(game->map_fd);
 }
 
 int is_only_spaces(char *str)
 {
-    int i = 
-	
+    int i =
+
 	i = 0;
 	if (str[0] == '\n')
 		return (0);
@@ -177,7 +177,7 @@ int	check_rgb(char *variable, int **color)
 	{
 		printf("Invalid RGB numbers\n");
 		free_split(c);
-		exit(EXIT_FAILURE);		
+		exit(EXIT_FAILURE);
 	}
 	*color = ft_malloc(3 * sizeof(int));
 	i = 0;
@@ -235,7 +235,7 @@ void check_textures(t_game *game)
 // 	int length;
 
 // 	length = ft_strlen(reader);
-// 	while ((reader[length] != ' ' || reader[length] != '\n' 
+// 	while ((reader[length] != ' ' || reader[length] != '\n'
 // 		|| reader[length != '\0']) && length >= 0)
 // 		length--;
 // 	if (game->width_map < length)

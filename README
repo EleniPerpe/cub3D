@@ -6,8 +6,16 @@
 
 3- movment still need fix
 
-4- seg fault if the player hit the upper edge
+// Done:4- seg fault if the player hit the upper edge
 	(it will be fixed automatically when doing the walls)
 
 
 if I put one of the info down off the map, it gives seg fault
+
+
+To do:
+in the struct player we must fill the variable start_angle from the map
+S ===>game->player.start_angle = pi / 2;
+N ===>game->player.start_angle =  (3 * pi / 2);
+W ===>game->player.start_angle = pi;
+E ===>game->player.start_angle = 0;

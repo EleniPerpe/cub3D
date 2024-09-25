@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/25 00:34:44 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/25 22:25:24 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,34 @@ void	keyboard_control(void *param)
 		mlx_close_window(game->mlx);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 	{
-		// if (game->player.y_player < game->window_height - 1)
-			game->player.y_player+= game->player.dy_player;
-			game->player.x_player+= game->player.dx_player;
+		game->player.y_player+= game->player.dy_player;
+		game->player.x_player+= game->player.dx_player;
+		if (game->player.y_player < 0)
+			game->player.y_player = 0;
 	}
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S) )
 	{
-		// if (game->player.y_player > 0)
-			game->player.y_player -= game->player.dy_player;
-			game->player.x_player -= game->player.dx_player;
+		game->player.y_player -= game->player.dy_player;
+		game->player.x_player -= game->player.dx_player;
+		if (game->player.y_player > game->window_height - 1)
+			game->player.y_player = game->window_height - 1;
 	}
-	if (mlx_is_key_down(game->mlx, MLX_KEY_D) )
+
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
 	{
-		// if (game->player.x_player > 0)
-			game->player.x_player -= game->player.dx_player;
-			game->player.y_player += game->player.dy_player;
+		game->player.x_player += cos(game->player.angle_player - pi / 2) * 5;
+		game->player.y_player += sin(game->player.angle_player - pi / 2) * 5;
+		if (game->player.x_player < 0)
+			game->player.x_player = 0;
 	}
-	if (mlx_is_key_down(game->mlx, MLX_KEY_A) )
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 	{
-		// if (game->player.x_player < game->window_width - 1)
-			game->player.x_player += game->player.dx_player;
-			game->player.y_player -= game->player.dy_player;
+		game->player.x_player += cos(game->player.angle_player + pi / 2) * 5;
+		game->player.y_player += sin(game->player.angle_player + pi / 2) * 5;
+		if (game->player.x_player > game->window_width - 9)
+			game->player.x_player = game->window_width - 9; // because the square size is 8 for the player
 	}
+
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) )
 	{
 		game->player.angle_player -= 0.1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 18:21:50 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/25 20:42:43 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # include "MLX42/include/MLX42/MLX42.h"
 
 # define pi 3.1415926535
+# define dir_SO pi / 2
+# define dir_NO  (3 * pi / 2)
+# define dir_WE pi
+# define dir_EA 0
 
 typedef struct s_player
 {
@@ -31,6 +35,7 @@ typedef struct s_player
 	float			dx_player;
 	float			dy_player;
 	float			angle_player;
+	float			start_angle;
 } t_player;
 
 typedef struct s_game

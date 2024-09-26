@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 22:28:48 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/26 14:45:28 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,18 @@ void	free_map(t_game *game);
 int	main(int argc, char **argv)
 {
 	t_game				game;
-	int	map_array_in[136] = { // we will take it later from the map
-		1,1,1,1,1,1,1,
-		1,0,1,0,1,1,1,
-		1,0,1,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,1,1,1,1,1,1
+	int	map_array_in[9] = { // we will take it later from the map
+		1,1,1,
+		1,0,1,
+		1,1,1
 	};
 	// to-do: create init_map()
 	// to-do: create init_player()
 	ft_memset(&game, 0, sizeof(t_game));
 	game.map_array = map_array_in;
-	game.map_unit_size = 50;
-	game.map_unit_x = 7;
-	game.map_unit_y = 8;
+	game.map_unit_size = 10;
+	game.map_unit_x = 3;
+	game.map_unit_y = 3;
 	game.name = "CUB3D";
 	game.window_height = 512;
 	game.window_width = 512;

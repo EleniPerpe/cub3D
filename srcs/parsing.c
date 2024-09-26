@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 19:56:13 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/26 14:42:36 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ void	map_reader(t_game *game, char *map)
 	}
 	y = 0;
 	info_count = fill_map_variables(game);
+	if (info_count != 6)
+	{
+		printf("Error\nNot enough map info!\n");
+		exit(EXIT_FAILURE);
+	}
 	reader = get_next_line(game->map_fd);
 	// printf("Ayti epistrefei : %s.\n", reader);
 	while (is_only_spaces(reader) == 0)
@@ -89,7 +94,7 @@ void	map_reader(t_game *game, char *map)
 	{
 		if (is_only_spaces(game->map[y]) == 0)
 		{
-			// printf("Hi and y : %d\n", y);
+			printf("Hi and y : %d\n", y);
 			free(game->map[y]);
 			game->map[y] = NULL;
 		}
@@ -98,13 +103,13 @@ void	map_reader(t_game *game, char *map)
 		y--;
 		game->height_map--;
 	}
-			// printf("Hi and y at the end is: %d\n", y);
-	// y = 0;
-	// while (game->map[y] != NULL)
-	// {
-	// 	printf("/%s\n", game->map[y]);
-	// 	y++;
-	// }
+			printf("Hi and y at the end is: %d\n", y);
+	y = 0;
+	while (game->map[y] != NULL)
+	{
+		printf("/%s\n", game->map[y]);
+		y++;
+	}
 	close(game->map_fd);
 }
 
@@ -131,30 +136,65 @@ int fill_map_variables(t_game *game)
 	char	*variable;
 	int		i;
 	int		j;
+	int		alpha;
 
 	i = 0;
+	alpha = 0;
 	variable = get_next_line(game->map_fd);
 	while (variable != NULL)
 	{
 		j = 0;
-		while (variable[j] != '\0' && isdigit(variable[j]))
+		while (variable[j] != '\0')
+		{
+			if (ft_isalpha(variable[j]))
+				break;
         	j++;
+		}
 		if ((variable[j]) != '\0')
 		{
 			i += assign_texture(&game->SO, variable, "SO");
+			printf("SO : %d\n", i);
+
 			i += assign_texture(&game->WE, variable, "WE");
+			printf("WE : %d\n", i);
+			
 			i += assign_texture(&game->EA, variable, "EA");
+			printf("EA : %d\n", i);
+			
 			i += assign_texture(&game->NO, variable, "NO");
+			printf("NO : %d\n", i);
+			
 			if (ft_strnstr(variable, "C", ft_strlen(variable)) != NULL)
+			{
 				i += check_rgb(variable, &game->C);
+				printf("C : %d\n", i);
+				
+			}
 			if (ft_strnstr(variable, "F", ft_strlen(variable)) != NULL)
+			{
 				i += check_rgb(variable, &game->F);
-			if (i != 6)
-				variable = get_next_line(game->map_fd);
-			else
+				printf("F : %d with line %s\n", i, variable);
+			}
+			if (i == 6)
 				break ;
 		}
+		else
+		{
+			j = 0;
+			while (variable[j] != '\0')
+			{
+				if (variable[j] == ' ' || variable[j] == '\n')
+					j++;
+				else
+				{
+					printf("error!!!\n");
+					exit(EXIT_FAILURE);
+				}
+			}
+		}
+		variable = get_next_line(game->map_fd);
 	}
+	printf("i : %d\n", i);
 	check_textures(game);
 	return (i);
 }

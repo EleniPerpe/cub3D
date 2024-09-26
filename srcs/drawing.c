@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/25 20:21:32 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/26 13:33:57 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	draw_player(t_game *game)
 			mlx_put_pixel(game->mlx_img, game->player.x_player + i, game->player.y_player + j, color);
 		}
 	}
-	printf("the angel is : %f\n",game->player.angle_player);
+	// printf("the angel is : %f\n",game->player.angle_player);
 }
 
 void draw_map(t_game *game)

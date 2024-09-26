@@ -2,20 +2,18 @@
 SO ./path_to_the_south_texture
 
 
-
-WE       ./path_to_the_west_texture
-
-
-EA   ./path_to_the_east_texture
   
-
-        C   245,230,0
-
-      
 F    220,100,0
 
 
+EA   ./path_to_the_east_texture
+      
 
+
+WE       ./path_to_the_west_texture
+           
+
+        C   245,230,0
 			
 			
 

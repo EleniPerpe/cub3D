@@ -6,18 +6,21 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/26 14:42:36 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:30:04 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int		find_width_map(t_game *game, char *reader);
 int		fill_map_variables(t_game *game);
 int		check_rgb(char *variable, int **color);
 void	check_textures(t_game *game);
-int		assign_texture(char **destination, char *variable, char *prefix);
+int		assign_texture(const char **destination, char *variable, char *prefix);
 int		is_only_spaces(char *str);
+void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path);
+void	ft_error_tex(void);
+void	find_map_width(t_game *game);
+void find_start_pos(t_game *game);
 
 int	arg_check(int argc, char *arg)
 {
@@ -37,24 +40,6 @@ int	arg_check(int argc, char *arg)
 	return (1);
 }
 
-void	check_map_walls(t_game *game, int i, int j)
-{
-	while (i < game->height_map)
-	{
-		j = 0;
-		while (j < game->width_map)
-		{
-			if ((i == 0 || i == game->height_map - 1) && game->map[i][j] != '1')
-				ft_error_exit(game, "Error\nThere are no walls around!");
-			if ((j == 0 || j == game->width_map - 1) && game->map[i][j] != '1')
-				ft_error_exit(game, "Error\nThere are no walls around!");
-			j++;
-		}
-		i++;
-	}
-	// check_valid_assets(game);
-	// check_unknown(game);
-}
 void	map_reader(t_game *game, char *map)
 {
 	char	*reader;
@@ -76,14 +61,12 @@ void	map_reader(t_game *game, char *map)
 		exit(EXIT_FAILURE);
 	}
 	reader = get_next_line(game->map_fd);
-	// printf("Ayti epistrefei : %s.\n", reader);
 	while (is_only_spaces(reader) == 0)
 		reader = get_next_line(game->map_fd);
 	game->map = ft_calloc(200, sizeof(char *));
 	while (reader != NULL)
 	{
 		game->map[y] = ft_strdup(reader);
-		// printf("...%s, %d\n", game->map[y], y);
 		free(reader);
 		reader = get_next_line(game->map_fd);
 		y++;
@@ -94,7 +77,6 @@ void	map_reader(t_game *game, char *map)
 	{
 		if (is_only_spaces(game->map[y]) == 0)
 		{
-			printf("Hi and y : %d\n", y);
 			free(game->map[y]);
 			game->map[y] = NULL;
 		}
@@ -103,14 +85,83 @@ void	map_reader(t_game *game, char *map)
 		y--;
 		game->height_map--;
 	}
-			printf("Hi and y at the end is: %d\n", y);
+	printf("height : %d\n", game->height_map);
+	find_map_width(game);
+	find_start_pos(game);
+	// y = 0;
+	// while (game->map[y] != NULL)
+	// {
+	// 	printf("/%s\n", game->map[y]);
+	// 	y++;
+	// }
+	close(game->map_fd);
+}
+
+void find_start_pos(t_game *game)
+{
+	int x;
+	int y;
+	int flag;
+	
 	y = 0;
+	flag = 0;
+	game->start_pos = ft_malloc(sizeof(int) * 2);
 	while (game->map[y] != NULL)
 	{
-		printf("/%s\n", game->map[y]);
+		x = 0;
+		while (game->map[y][x] != '\0')
+		{
+			if (ft_isalpha(game->map[y][x]))
+			{
+				if (game->map[y][x] != 'N' && game->map[y][x] != 'E' && game->map[y][x] != 'W' && game->map[y][x] != 'S')
+				{
+					printf("Wrong player character!\n");
+					exit(EXIT_FAILURE); //remove
+				}
+				else
+				{
+					game->orientation = game->map[y][x];
+					game->start_pos[0] = y;
+					game->start_pos[1] = x;
+					flag++;
+				}
+			}
+			x++;
+		}
 		y++;
 	}
-	close(game->map_fd);
+	if (flag != 1)
+	{
+		printf("Insufficient characters\n");
+		free(game->start_pos);
+		exit(EXIT_FAILURE);
+	}
+	printf("All good :)\n");
+}
+
+void find_map_width(t_game *game)
+{
+	int x;
+	int y;
+	int	temp;
+	
+	y = 0;
+	temp = 0;
+	while (game->map[y] != NULL)
+	{
+		x = 0;
+		while (game->map[y][x] != '\0')
+		{
+			x++;	
+		}
+		while (game->map[y][x - 1] == ' ' || game->map[y][x - 1] == '\n')
+			x--;
+		if (x > temp)
+			temp = x;
+		y++;
+	}
+	game->width_map = temp;
+	printf("width : %d\n", game->width_map);
 }
 
 int is_only_spaces(char *str)
@@ -153,28 +204,13 @@ int fill_map_variables(t_game *game)
 		if ((variable[j]) != '\0')
 		{
 			i += assign_texture(&game->SO, variable, "SO");
-			printf("SO : %d\n", i);
-
 			i += assign_texture(&game->WE, variable, "WE");
-			printf("WE : %d\n", i);
-			
 			i += assign_texture(&game->EA, variable, "EA");
-			printf("EA : %d\n", i);
-			
 			i += assign_texture(&game->NO, variable, "NO");
-			printf("NO : %d\n", i);
-			
 			if (ft_strnstr(variable, "C", ft_strlen(variable)) != NULL)
-			{
 				i += check_rgb(variable, &game->C);
-				printf("C : %d\n", i);
-				
-			}
 			if (ft_strnstr(variable, "F", ft_strlen(variable)) != NULL)
-			{
 				i += check_rgb(variable, &game->F);
-				printf("F : %d with line %s\n", i, variable);
-			}
 			if (i == 6)
 				break ;
 		}
@@ -194,7 +230,10 @@ int fill_map_variables(t_game *game)
 		}
 		variable = get_next_line(game->map_fd);
 	}
-	printf("i : %d\n", i);
+	// printf("Path SO: .%s.", game->SO);
+	// printf("Path NO: .%s.", game->NO);
+	// printf("Path WE: .%s.", game->WE);
+	// printf("Path EA: .%s.", game->EA);
 	check_textures(game);
 	return (i);
 }
@@ -235,17 +274,22 @@ int	check_rgb(char *variable, int **color)
 	}
 	return (1);
 }
-int assign_texture(char **destination, char *variable, char *prefix)
+int assign_texture(const char **destination, char *variable, char *prefix)
 {
 	int i = 0;
 	char *needle;
+	char *temp;
 
 	needle = ft_strnstr(variable, prefix, ft_strlen(variable));
 	if (needle != NULL)
 	{
 		while (needle[i + 2] == ' ')
 			i++;
-		*destination = ft_strdup(needle + (i + 2));
+		temp = ft_strdup(needle + (i + 2));
+		*destination = ft_malloc(sizeof(char ) * ft_strlen(temp));
+		ft_strlcpy((char *)*destination, temp, ft_strlen(temp));
+		free(temp);
+		// printf("%s\n\n", *destination);
 		return (1);
 	}
 	return (0);
@@ -253,32 +297,75 @@ int assign_texture(char **destination, char *variable, char *prefix)
 
 void check_textures(t_game *game)
 {
-	int flag;
+	// (void)game;
+	ft_load_image(game, &game->tex.east_image, game->EA);
+	ft_load_image(game, &game->tex.west_image, game->WE);
+	ft_load_image(game, &game->tex.south_image, game->SO);
+	ft_load_image(game, &game->tex.north_image, game->NO);
 
-	flag = 0;
-	if (game->SO == NULL || !(ft_strncmp(game->SO, "./path_to_the_south_texture", 27) == 0))
-		flag = 1;
-	else if (game->WE == NULL || !(ft_strncmp(game->WE, "./path_to_the_west_texture", 24) == 0))
-		flag = 1;
-	else if (game->EA == NULL || !(ft_strncmp(game->EA, "./path_to_the_east_texture", 24) == 0))
-		flag = 1;
-	else if (game->NO == NULL || !(ft_strncmp(game->NO, "./path_to_the_north_texture", 25) == 0))
-		flag = 1;
-	if (flag == 1)
-	{
-		printf("Invalid textures paths\n");
-		exit(EXIT_FAILURE);
-	}
+	// int flag;
+	// printf("Path NO: |%s|\n", game->NO);
+	// printf("Path SO: |%s|\n", game->SO);
+	// printf("Path WE: |%s|\n", game->WE);
+	// printf("Path EA: |%s|\n", game->EA);
+	// // flag = 0;
+	// game->tex.south = mlx_load_png(game->SO);
+	// game->tex.north = mlx_load_png(game->NO);
+	// game->tex.west = mlx_load_png(game->WE);
+	// game->tex.east = mlx_load_png(game->EA);
+	// if (game->tex.east == NULL || game->tex.south == NULL || game->tex.west == NULL
+	// 	|| game->tex.north == NULL)
+	// {
+	// 	printf("Couldn't load the image1!\n");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// game->tex.east_image = mlx_texture_to_image(game->mlx, game->tex.east);
+	// game->tex.south_image = mlx_texture_to_image(game->mlx, game->tex.south);
+	// game->tex.west_image = mlx_texture_to_image(game->mlx, game->tex.west);
+	// game->tex.north_image = mlx_texture_to_image(game->mlx, game->tex.north);
+	// if (game->tex.east_image == NULL || game->tex.south_image == NULL
+	// 	|| game->tex.west_image == NULL || game->tex.north_image == NULL)
+	// {
+	// 	printf("Couldn't load the image2!\n");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// mlx_delete_texture(game->tex.south);
+	// mlx_delete_texture(game->tex.west);
+	// mlx_delete_texture(game->tex.east);
+	// mlx_delete_texture(game->tex.north);
+
+	// Waiting info about the resizing
+	
+	// if (mlx_resize_image(game->tex.east_image, 40, 40) == false ||
+	// mlx_resize_image(game->tex.west_image, 40, 40) == false ||
+	// mlx_resize_image(game->tex.south_image, 40, 40) == false ||
+	// mlx_resize_image(game->tex.north_image, 40, 40) == false)
+	// {
+	// 	printf("Couldn't load the image!\n");
+	// 	exit(EXIT_FAILURE);
+	// }
 }
-// int find_width_map(t_game *game, char *reader)
-// {
-// 	int length;
+void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
+{
+	mlx_texture_t	*temp_texture;
 
-// 	length = ft_strlen(reader);
-// 	while ((reader[length] != ' ' || reader[length] != '\n'
-// 		|| reader[length != '\0']) && length >= 0)
-// 		length--;
-// 	if (game->width_map < length)
-// 		game->width_map = length;
-// 	return (game->width_map);
-// }
+	temp_texture = mlx_load_png(file_path);
+	if (temp_texture == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	*image = mlx_texture_to_image(game->mlx, temp_texture);
+	if (*image == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	mlx_delete_texture(temp_texture);
+}
+
+void	ft_error_tex(void)
+{
+	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
+	exit(EXIT_FAILURE);
+}

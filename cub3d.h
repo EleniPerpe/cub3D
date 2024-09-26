@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 20:42:43 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/26 20:27:34 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,27 @@ typedef struct s_player
 	float			start_angle;
 } t_player;
 
+typedef struct s_texture
+{
+	mlx_texture_t *north;
+	mlx_texture_t *south;
+	mlx_texture_t *west;
+	mlx_texture_t *east;
+	mlx_image_t *north_image;
+	mlx_image_t *south_image;
+	mlx_image_t *west_image;
+	mlx_image_t *east_image;
+}	t_texture;
+
 typedef struct s_game
 {
 	int			map_fd;
 	int			height_map;
 	int			width_map;
-	char		*SO;
-	char		*NO;
-	char		*WE;
-	char		*EA;
+	const char		*SO;
+	const char		*NO;
+	const char		*WE;
+	const char		*EA;
 	int			*C;
 	int			*F;
 	int			x;
@@ -54,10 +66,13 @@ typedef struct s_game
 	int			flood_x;
 	int			flood_y;
 	char		**map;
+	int			*start_pos;
+	char		orientation;
 	// mlx_texture_t SO; instead of mlx_image_t
 	// mlx_image_t	*player;
 	mlx_image_t	*mlx_img; // new
 	const char		*name; // new
+	t_texture	tex;
 	t_player	player;
 	mlx_t		*mlx; // new
 	int			window_width;

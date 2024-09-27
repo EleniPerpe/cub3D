@@ -6,7 +6,7 @@
 #    By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 15:13:49 by eperperi          #+#    #+#              #
-#    Updated: 2024/09/25 00:22:38 by rshatra          ###   ########.fr        #
+#    Updated: 2024/09/27 14:41:01 by rshatra          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME	=	cub3D
 CC			=	gcc -g -fsanitize=address
 # LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
 CFLAGS		=	-Wall -Wextra -Werror
-MLXFLAGS	=	-lglfw -L "$(HOME)/.brew/opt/glfw/lib/"
+MLXFLAGS	=	-lglfw #-L "$(HOME)/.brew/opt/glfw/lib/"
 
 GREEN	=	\033[0;32m
 CYAN	=	\033[0;36m
@@ -30,6 +30,7 @@ GNL_DIR =	./Get_next_line/
 SRC		 =	$(SRC_DIR)main.c \
 			$(SRC_DIR)parsing.c \
 			$(SRC_DIR)drawing.c \
+			$(SRC_DIR)init_game.c \
 			$(SRC_DIR)movment.c \
 			$(SRC_DIR)window_init.c
 GNL_SRC  =	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c

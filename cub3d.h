@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/27 14:07:18 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:45:14 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_game
 	int			map_unit_x;
 	int			map_unit_y;
 	int			map_unit_size;
-	const int	*map_array; // later must take it from the map file after parsing
+	char	map_array[16][30]; // later must take it from the map file after parsing
 }	t_game;
 
 int		arg_check(int argc, char *arg);
@@ -87,8 +87,16 @@ int		init_mlx(t_game *game);
 void	draw(void *param);
 int32_t	pixel_color(int r, int g, int b, int a);
 void	keyboard_control(void *param);
+void	clean_window(t_game *game);
 void	draw_player(t_game *game);
 void	draw_map(t_game *game);
-int is_only_spaces(char *str);
+int		is_only_spaces(char *str);
+void	init_map(t_game *game);
+void	init_player(t_game *game);
+void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
+void	draw_ray(t_game *game);
+void	draw_line(t_game *game, int x0, int y0, int x1, int y1);
+
+
 
 #endif

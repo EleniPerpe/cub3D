@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/25 22:28:48 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/26 18:06:49 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,11 @@ void	free_map(t_game *game);
 int	main(int argc, char **argv)
 {
 	t_game				game;
-	int	map_array_in[136] = { // we will take it later from the map
-		1,1,1,1,1,1,1,
-		1,0,1,0,1,1,1,
-		1,0,1,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,0,0,0,1,1,1,
-		1,1,1,1,1,1,1
-	};
-	// to-do: create init_map()
-	// to-do: create init_player()
+
 	ft_memset(&game, 0, sizeof(t_game));
-	game.map_array = map_array_in;
-	game.map_unit_size = 50;
-	game.map_unit_x = 7;
-	game.map_unit_y = 8;
-	game.name = "CUB3D";
-	game.window_height = 512;
-	game.window_width = 512;
-	game.player.x_player = 256; // must take the coordinate from the map
-	game.player.y_player = 256;
-	game.player.angle_player =   dir_NO; //must take it from game.player.start_angle
-	game.player.dx_player = cos (game.player.angle_player) * 5;
-	game.player.dy_player = sin (game.player.angle_player) * 5;
+	init_map(&game);
+	init_player(&game);
+
 	arg_check(argc, argv[1]);
 	map_reader(&game, argv[1]);
 	if (game.map == NULL)

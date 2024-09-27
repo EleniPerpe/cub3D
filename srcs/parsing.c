@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/26 20:30:04 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:41:52 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int		is_only_spaces(char *str);
 void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path);
 void	ft_error_tex(void);
 void	find_map_width(t_game *game);
-void find_start_pos(t_game *game);
+void	find_start_pos(t_game *game);
+void	check_walls( t_game *game, int x, int y);
 
 int	arg_check(int argc, char *arg)
 {
@@ -88,13 +89,33 @@ void	map_reader(t_game *game, char *map)
 	printf("height : %d\n", game->height_map);
 	find_map_width(game);
 	find_start_pos(game);
-	// y = 0;
-	// while (game->map[y] != NULL)
-	// {
-	// 	printf("/%s\n", game->map[y]);
-	// 	y++;
-	// }
+	check_walls(game, game->start_pos[0], game->start_pos[1]);
 	close(game->map_fd);
+}
+
+void check_walls( t_game *game, int x, int y)
+{
+	if (x < 0 || x >= game->height_map
+		|| y < 0 || y >= game->width_map + 1)
+		return ;
+	if (game->map[x][y] == '1')
+		return ;
+	if (game->map[x][y] == '0' && (x - 1 == -1 || y - 1 == -1 
+		|| x == game->height_map - 1))
+	{
+		printf("No closed map!\n");
+		exit(EXIT_FAILURE);
+	}
+	if (game->map[x][y] == ' ' || game->map[x][y] == '\n')
+	{
+		printf("No closed map!\n");
+		exit(EXIT_FAILURE);
+	}
+	game->map[x][y] = '1';
+	check_walls(game, x - 1, y);
+	check_walls(game, x + 1, y);
+	check_walls(game, x, y - 1);
+	check_walls(game, x, y + 1);
 }
 
 void find_start_pos(t_game *game)
@@ -136,7 +157,6 @@ void find_start_pos(t_game *game)
 		free(game->start_pos);
 		exit(EXIT_FAILURE);
 	}
-	printf("All good :)\n");
 }
 
 void find_map_width(t_game *game)
@@ -161,7 +181,6 @@ void find_map_width(t_game *game)
 		y++;
 	}
 	game->width_map = temp;
-	printf("width : %d\n", game->width_map);
 }
 
 int is_only_spaces(char *str)
@@ -219,11 +238,11 @@ int fill_map_variables(t_game *game)
 			j = 0;
 			while (variable[j] != '\0')
 			{
-				if (variable[j] == ' ' || variable[j] == '\n')
+				if (variable[j] == ' ' || variable[j] == '\n' || variable[j] == '\t')
 					j++;
 				else
 				{
-					printf("error!!!\n");
+					printf("variable[] = %d, error!!!\n", variable[j]);
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -309,30 +328,6 @@ void check_textures(t_game *game)
 	// printf("Path WE: |%s|\n", game->WE);
 	// printf("Path EA: |%s|\n", game->EA);
 	// // flag = 0;
-	// game->tex.south = mlx_load_png(game->SO);
-	// game->tex.north = mlx_load_png(game->NO);
-	// game->tex.west = mlx_load_png(game->WE);
-	// game->tex.east = mlx_load_png(game->EA);
-	// if (game->tex.east == NULL || game->tex.south == NULL || game->tex.west == NULL
-	// 	|| game->tex.north == NULL)
-	// {
-	// 	printf("Couldn't load the image1!\n");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// game->tex.east_image = mlx_texture_to_image(game->mlx, game->tex.east);
-	// game->tex.south_image = mlx_texture_to_image(game->mlx, game->tex.south);
-	// game->tex.west_image = mlx_texture_to_image(game->mlx, game->tex.west);
-	// game->tex.north_image = mlx_texture_to_image(game->mlx, game->tex.north);
-	// if (game->tex.east_image == NULL || game->tex.south_image == NULL
-	// 	|| game->tex.west_image == NULL || game->tex.north_image == NULL)
-	// {
-	// 	printf("Couldn't load the image2!\n");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// mlx_delete_texture(game->tex.south);
-	// mlx_delete_texture(game->tex.west);
-	// mlx_delete_texture(game->tex.east);
-	// mlx_delete_texture(game->tex.north);
 
 	// Waiting info about the resizing
 	
@@ -355,6 +350,7 @@ void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
 		mlx_terminate(game->mlx);
 		ft_error_tex();
 	}
+	// printf("%p\n",game->mlx);
 	*image = mlx_texture_to_image(game->mlx, temp_texture);
 	if (*image == NULL)
 	{

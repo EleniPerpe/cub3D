@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/26 20:27:34 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:07:18 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ typedef struct s_player
 
 typedef struct s_texture
 {
-	mlx_texture_t *north;
-	mlx_texture_t *south;
-	mlx_texture_t *west;
-	mlx_texture_t *east;
 	mlx_image_t *north_image;
 	mlx_image_t *south_image;
 	mlx_image_t *west_image;

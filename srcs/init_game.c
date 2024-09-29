@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:29:10 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/27 22:29:15 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/29 18:34:13 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void init_player(t_game *game)
 {
 	game->player.x_player = 400; // must take the coordinate from the map
 	game->player.y_player = 400;
-	game->player.angle_player =   1; //must take it from game.player.start_angle
+	game->player.angle_player =   dir_NO; //must take it from game.player.start_angle
 	game->player.dx_player = cos (game->player.angle_player) * 5; // 5 is the speed of movment
 	game->player.dy_player = sin (game->player.angle_player) * 5;
 }

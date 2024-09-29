@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/27 19:52:39 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/29 19:13:57 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	init_player(t_game *game);
 void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
 void	draw_ray(t_game *game);
 void	draw_line(t_game *game, int x0, int y0, int x1, int y1);
-
-
+void coordinate_corrector(t_game *game);
 
 #endif
+

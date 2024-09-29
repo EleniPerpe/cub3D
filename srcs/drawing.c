@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/27 22:38:28 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/29 22:56:19 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	draw_player(t_game *game)
 {
 	uint32_t	color;
 	// printf("player_x = %f\nplayer_y: %f\n",game->player.x_player, game->player.y_player);
+	// printf("player angle = %f\n",game->player.angle_player);
 	color = pixel_color(255, 0, 0, 255);  // Red color
 	for (int i = 0; i < 8; i++)  // Loop over tile height
 	{
@@ -145,43 +146,52 @@ void	draw_ray(t_game *game)
 	{
 		dof = 0;
 		r_num++;
-		if (ray_angle > pi/* && ray_angle < 3 * pi / 2*/)
+		if (ray_angle > pi + 0.05 && ray_angle < 2 * pi - 0.05) // we must skip any angle near to pi because tan()
+				//is not accurate and some times gives 0 in vlaues near pi +-
+				// and we can'y divide on 0
 		{
-
 			ray_y = (int)game->player.y_player / 64 * 64 - 0.001;
 			// ray_x = game->player.x_player - ((game->player.y_player - ray_y) / tan(ray_angle - 180));
 			ray_x = game->player.x_player - ((game->player.y_player - ray_y) / tan(ray_angle)); // tan(a) = tan(a - 180)
 			xo = -64 / tan (ray_angle);
 			yo = -64;
-			// printf("ray_y: %f\nray_x: %f\nxo: %f\n yo: %f\n",ray_y,ray_x,xo,yo);
-			// printf("player angle: %f\n",game->player.angle_player);
 		}
-		else if (ray_angle < pi /*&& ray_angle > pi /2*/)
+		else if (ray_angle < pi - 0.05 && ray_angle != 0)
 		{
-			ray_y = (int)game->player.y_player / 64 * 64 + 63.999;
+			ray_y = (int)game->player.y_player / 64 * 64 + 64;
 			ray_x = game->player.x_player + ((game->player.y_player - ray_y) / tan(ray_angle));
 			yo = 64;
 			xo = -64 / tan(ray_angle) ;
 		}
-		else if (ray_angle == 0 || ray_angle == pi)
+		else /*if (ray_angle == 0 || ray_angle == pi || ray_angle < pi + 0.05 || ray_angle > pi - 0.05)*/
 		{
 			ray_x = game->player.x_player;
 			ray_y = game->player.y_player;
+			xo = 0;
+			yo = 0;
 			dof = 8;
 		}
+		printf("ray_y: %f\nray_x: %f\nxo: %f\n yo: %f\n",ray_y,ray_x,xo,yo);
+		printf("player angle: %f\n",game->player.angle_player);
+		printf("player x: %f\nplayer y: %f\n",game->player.x_player,game->player.y_player);
 		while ( dof < 8)
 		{
 			mx = (int) (ray_x) / 64;
 			my = (int) (ray_y) / 64;
-			if ( mx < game->window_width && my < game->window_height
-				&& game->map_array[my][mx] == '1')
-					break ;
-			else
+			if ( mx < game->window_width / 64 && mx > 0 && my < game->window_height / 64
+					&& my >0)
 			{
-				ray_x += xo;
-				ray_y += yo;
-				dof++;
+				if (game->map_array[my][mx] == '1')
+					break ;
+				else
+				{
+					ray_x += xo;
+					ray_y += yo;
+					dof++;
+				}
 			}
+			else
+				break ;
 		}
 		draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)ray_x, (int)ray_y);
 
@@ -238,9 +248,12 @@ void draw_line(t_game *game, int x0, int y0, int x1, int y1)
 	// int sx = (x0 < x1) ? 1 : -1;
 	// int sy = (y0 < y1) ? 1 : -1;
 	int err = dx - dy;
+	if (x1 < 0 || y1 < 0)
+		return ;
 	while (1)
 	{
-		mlx_put_pixel(game->mlx_img, x0, y0, color);
+		if (x0 >= 0 && x0 < game->window_width && y0 >= 0 && y0 < game->window_height)
+			mlx_put_pixel(game->mlx_img, x0, y0, color);
 		if (x0 == x1 && y0 == y1)
 			break;
 		int err2 = err * 2;

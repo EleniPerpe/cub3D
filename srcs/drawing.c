@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/29 23:00:53 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:08:24 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void draw_map(t_game *game)
 		x = 0;
 		while (x < game->map_unit_x)
 		{
+			if (game->map_array[y][x] == '\0')
+				break ;
 			// Determine the color of the tile based on the map array
 			if (game->map_array[y][x] == '1')
 				tile_color = pixel_color(0, 100, 100, 255);

@@ -6,13 +6,13 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/27 14:41:52 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:10:41 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int		fill_map_variables(t_game *game);
+void	fill_map_variables(t_game *game);
 int		check_rgb(char *variable, int **color);
 void	check_textures(t_game *game);
 int		assign_texture(const char **destination, char *variable, char *prefix);
@@ -22,6 +22,13 @@ void	ft_error_tex(void);
 void	find_map_width(t_game *game);
 void	find_start_pos(t_game *game);
 void	check_walls( t_game *game, int x, int y);
+int		check_for_assign(t_game *game, char *variable);
+void	fill_real_map(t_game *game, char *reader);
+void	process_variable(t_game *game, char *variable, int *i);
+void	validate_rgb_count(char **c);
+void	check_start_pos_flag(int flag, t_game *game);
+void	validate_player_char(char c);
+void	check_unique_textures(t_game *game);
 
 int	arg_check(int argc, char *arg)
 {
@@ -44,26 +51,29 @@ int	arg_check(int argc, char *arg)
 void	map_reader(t_game *game, char *map)
 {
 	char	*reader;
-	int		y;
-	int		info_count;
 
-	info_count = 0;
 	game->map_fd = open(map, O_RDONLY);
 	if (game->map_fd < 0)
 	{
 		printf("Error\nCouldn't load the map!\n");
 		exit(EXIT_FAILURE);
 	}
-	y = 0;
-	info_count = fill_map_variables(game);
-	if (info_count != 6)
-	{
-		printf("Error\nNot enough map info!\n");
-		exit(EXIT_FAILURE);
-	}
+	fill_map_variables(game);
 	reader = get_next_line(game->map_fd);
 	while (is_only_spaces(reader) == 0)
 		reader = get_next_line(game->map_fd);
+	fill_real_map(game, reader);
+	find_map_width(game);
+	find_start_pos(game);
+	check_walls(game, game->start_pos[0], game->start_pos[1]);
+	close(game->map_fd);
+}
+
+void fill_real_map(t_game *game, char *reader)
+{
+	int y;
+
+	y = 0;
 	game->map = ft_calloc(200, sizeof(char *));
 	while (reader != NULL)
 	{
@@ -86,11 +96,6 @@ void	map_reader(t_game *game, char *map)
 		y--;
 		game->height_map--;
 	}
-	printf("height : %d\n", game->height_map);
-	find_map_width(game);
-	find_start_pos(game);
-	check_walls(game, game->start_pos[0], game->start_pos[1]);
-	close(game->map_fd);
 }
 
 void check_walls( t_game *game, int x, int y)
@@ -120,13 +125,12 @@ void check_walls( t_game *game, int x, int y)
 
 void find_start_pos(t_game *game)
 {
-	int x;
-	int y;
-	int flag;
-	
+	int x, y, flag;
+
 	y = 0;
 	flag = 0;
 	game->start_pos = ft_malloc(sizeof(int) * 2);
+
 	while (game->map[y] != NULL)
 	{
 		x = 0;
@@ -134,28 +138,35 @@ void find_start_pos(t_game *game)
 		{
 			if (ft_isalpha(game->map[y][x]))
 			{
-				if (game->map[y][x] != 'N' && game->map[y][x] != 'E' && game->map[y][x] != 'W' && game->map[y][x] != 'S')
-				{
-					printf("Wrong player character!\n");
-					exit(EXIT_FAILURE); //remove
-				}
-				else
-				{
-					game->orientation = game->map[y][x];
-					game->start_pos[0] = y;
-					game->start_pos[1] = x;
-					flag++;
-				}
+				validate_player_char(game->map[y][x]);
+				game->orientation = game->map[y][x];
+				game->start_pos[0] = y;
+				game->start_pos[1] = x;
+				flag++;
 			}
 			x++;
 		}
 		y++;
 	}
+	check_start_pos_flag(flag, game);
+}
+
+void check_start_pos_flag(int flag, t_game *game)
+{
 	if (flag != 1)
 	{
 		printf("Insufficient characters\n");
 		free(game->start_pos);
 		exit(EXIT_FAILURE);
+	}
+}
+
+void validate_player_char(char c)
+{
+	if (c != 'N' && c != 'E' && c != 'W' && c != 'S')
+	{
+		printf("Wrong player character!\n");
+		exit(EXIT_FAILURE); // Handle error
 	}
 }
 
@@ -201,88 +212,120 @@ int is_only_spaces(char *str)
     return (0);
 }
 
-int fill_map_variables(t_game *game)
+void fill_map_variables(t_game *game)
 {
-	char	*variable;
-	int		i;
-	int		j;
-	int		alpha;
+	char *variable;
+	int i = 0;
 
-	i = 0;
-	alpha = 0;
 	variable = get_next_line(game->map_fd);
 	while (variable != NULL)
 	{
-		j = 0;
-		while (variable[j] != '\0')
-		{
-			if (ft_isalpha(variable[j]))
-				break;
-        	j++;
-		}
-		if ((variable[j]) != '\0')
-		{
-			i += assign_texture(&game->SO, variable, "SO");
-			i += assign_texture(&game->WE, variable, "WE");
-			i += assign_texture(&game->EA, variable, "EA");
-			i += assign_texture(&game->NO, variable, "NO");
-			if (ft_strnstr(variable, "C", ft_strlen(variable)) != NULL)
-				i += check_rgb(variable, &game->C);
-			if (ft_strnstr(variable, "F", ft_strlen(variable)) != NULL)
-				i += check_rgb(variable, &game->F);
-			if (i == 6)
-				break ;
-		}
-		else
-		{
-			j = 0;
-			while (variable[j] != '\0')
-			{
-				if (variable[j] == ' ' || variable[j] == '\n' || variable[j] == '\t')
-					j++;
-				else
-				{
-					printf("variable[] = %d, error!!!\n", variable[j]);
-					exit(EXIT_FAILURE);
-				}
-			}
-		}
+		process_variable(game, variable, &i);
+		if (i == 6)
+			break;
 		variable = get_next_line(game->map_fd);
 	}
-	// printf("Path SO: .%s.", game->SO);
-	// printf("Path NO: .%s.", game->NO);
-	// printf("Path WE: .%s.", game->WE);
-	// printf("Path EA: .%s.", game->EA);
+	check_unique_textures(game);
 	check_textures(game);
-	return (i);
+}
+
+void	check_unique_textures(t_game *game)
+{
+	if ((ft_strncmp(game->SO, game->NO, ft_strlen(game->SO)) == 0)
+		|| (ft_strncmp(game->SO, game->EA, ft_strlen(game->SO)) == 0)
+			|| (ft_strncmp(game->SO, game->WE, ft_strlen(game->SO)) == 0))
+			{
+				printf("No allowed to use the same texture!\n");
+				exit(EXIT_FAILURE);
+			}
+	if ((ft_strncmp(game->NO, game->EA, ft_strlen(game->NO)) == 0)
+		|| (ft_strncmp(game->NO, game->WE, ft_strlen(game->NO)) == 0))
+			{
+				printf("No allowed to use the same texture!\n");
+				exit(EXIT_FAILURE);
+			}
+	if ((ft_strncmp(game->EA, game->WE, ft_strlen(game->EA)) == 0))
+			{
+				printf("No allowed to use the same texture!\n");
+				exit(EXIT_FAILURE);
+			}
 }
 
 
-int	check_rgb(char *variable, int **color)
+void process_variable(t_game *game, char *variable, int *i)
+{
+	int j = 0;
+
+	while (variable[j] && !ft_isalpha(variable[j]))
+		j++;
+	
+	if (variable[j])
+	{
+		*i += check_for_assign(game, variable);
+		if (*i == 6)
+			return;
+	}
+	else
+	{
+		while (*variable)
+		{
+			if (*variable != ' ' && *variable != '\n' && *variable != '\t')
+			{
+				printf("Not enough variables!\n");
+				exit(EXIT_FAILURE);
+			}
+			variable++;
+		}
+	}
+}
+
+int check_for_assign(t_game *game, char *variable)
 {
 	int i;
-	char **c;
-	int	count;
 
-	count = 0;
 	i = 0;
-	while (variable[i] == ' ' || isalpha(variable[i]))
-		i++;
-	c = ft_split(variable + i, ',');
+	i += assign_texture(&game->SO, variable, "SO");
+	i += assign_texture(&game->WE, variable, "WE");
+	i += assign_texture(&game->EA, variable, "EA");
+	i += assign_texture(&game->NO, variable, "NO");
+	if (ft_strnstr(variable, "C", ft_strlen(variable)) != NULL)
+		i += check_rgb(variable, &game->C);
+	if (ft_strnstr(variable, "F", ft_strlen(variable)) != NULL)
+		i += check_rgb(variable, &game->F);
+	return (i);
+}
+
+void validate_rgb_count(char **c)
+{
+	int count = 0;
+
 	while (c[count] != NULL)
-    	 count++;
+		count++;
+
 	if (count != 3)
 	{
 		printf("Invalid RGB numbers\n");
 		free_split(c);
 		exit(EXIT_FAILURE);
 	}
+}
+
+int	check_rgb(char *variable, int **color)
+{
+	int		i;
+	char	**c;
+
+	i = 0;
+	while (variable[i] == ' ' || isalpha(variable[i]))
+		i++;
+	c = ft_split(variable + i, ',');
+	validate_rgb_count(c);
 	*color = ft_malloc(3 * sizeof(int));
 	i = 0;
 	while (c[i] != NULL)
 	{
 		(*color)[i] = ft_atoi(c[i]);
-		if (((*color)[i] < 0 || (*color)[i] > 255) || i > 3)
+		if ((*color)[i] < 0 || (*color)[i] > 255)
 		{
 			printf("Invalid RGB numbers\n");
 			free_split(c);
@@ -291,8 +334,10 @@ int	check_rgb(char *variable, int **color)
 		}
 		i++;
 	}
+	free_split(c);
 	return (1);
 }
+
 int assign_texture(const char **destination, char *variable, char *prefix)
 {
 	int i = 0;
@@ -308,7 +353,6 @@ int assign_texture(const char **destination, char *variable, char *prefix)
 		*destination = ft_malloc(sizeof(char ) * ft_strlen(temp));
 		ft_strlcpy((char *)*destination, temp, ft_strlen(temp));
 		free(temp);
-		// printf("%s\n\n", *destination);
 		return (1);
 	}
 	return (0);

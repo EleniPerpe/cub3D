@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/27 22:44:55 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/30 15:36:22 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 	ft_memset(&game, 0, sizeof(t_game));
 	init_map(&game);
 	init_player(&game);
-
+	init_mlx(&game);
 	arg_check(argc, argv[1]);
 	map_reader(&game, argv[1]);
 	if (game.map == NULL)

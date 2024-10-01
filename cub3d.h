@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/01 14:55:26 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:46:33 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 # include "Get_next_line/get_next_line.h"
 # include "MLX42/include/MLX42/MLX42.h"
 
-# define pi 3.1415926535
-# define dir_SO pi / 2
-# define dir_NO  (3 * pi / 2)
-# define dir_WE pi
-# define dir_EA 0
+# define PI 3.1415926535
+# define DIR_SO PI / 2
+# define DIR_NO  (3 * PI / 2)
+# define DIR_WE PI
+# define DIR_EA 0
 
 typedef struct s_player
 {
@@ -57,10 +57,6 @@ typedef struct s_game
 	const char		*ea;
 	int				*c;
 	int				*f;
-	int				x;
-	int				y;
-	int				flood_x;
-	int				flood_y;
 	char			**map;
 	int				*start_pos;
 	char			orientation;
@@ -76,7 +72,6 @@ typedef struct s_game
 	int				map_unit_x;
 	int				map_unit_y;
 	int				map_unit_size;
-	char			map_array[16][30]; // later must take it from the map file after parsing
 }	t_game;
 
 int		arg_check(int argc, char *arg);
@@ -94,7 +89,7 @@ void	init_map(t_game *game);
 void	init_player(t_game *game);
 void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
 void	draw_ray(t_game *game);
-void	draw_line(t_game *game, int x0, int y0, int x1, int y1);
+void	draw_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
 void	coordinate_corrector(t_game *game);
 void	fill_real_map(t_game *game, char *reader);
 void	find_map_width(t_game *game);
@@ -104,5 +99,6 @@ void	check_textures(t_game *game);
 int		check_rgb(char *variable, int **color);
 void	ft_setup_temp_map(t_game *game, char ***temp_map);
 void	check_walls(char **map, int x, int y, t_game *game);
+float calculate_dis(float x1, float y1, float x2, float y2);
 
 #endif

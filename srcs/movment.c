@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movment.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/30 13:49:45 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:57:44 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	keyboard_control(void *param)
 
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
 	{
-		game->player.x_player += cos(game->player.angle_player - pi / 2) * 5;
-		game->player.y_player += sin(game->player.angle_player - pi / 2) * 5;
+		game->player.x_player += cos(game->player.angle_player - PI / 2) * 5;
+		game->player.y_player += sin(game->player.angle_player - PI / 2) * 5;
 		coordinate_corrector(game);
 	}
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 	{
-		game->player.x_player += cos(game->player.angle_player + pi / 2) * 5;
-		game->player.y_player += sin(game->player.angle_player + pi / 2) * 5;
+		game->player.x_player += cos(game->player.angle_player + PI / 2) * 5;
+		game->player.y_player += sin(game->player.angle_player + PI / 2) * 5;
 		coordinate_corrector(game);
 	}
 
@@ -49,7 +49,7 @@ void	keyboard_control(void *param)
 	{
 		game->player.angle_player -= 0.1;
 		if (game->player.angle_player < 0)
-			game->player.angle_player += 2 * pi;
+			game->player.angle_player += 2 * PI;
 		game->player.dx_player = cos (game->player.angle_player) * 5;
 		game->player.dy_player = sin (game->player.angle_player) * 5;
 
@@ -57,8 +57,8 @@ void	keyboard_control(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) )
 	{
 		game->player.angle_player += 0.1;
-		if (game->player.angle_player > 2 * pi)
-			game->player.angle_player -= 2 * pi;
+		if (game->player.angle_player > 2 * PI)
+			game->player.angle_player -= 2 * PI;
 		game->player.dx_player = cos (game->player.angle_player) * 5;
 		game->player.dy_player = sin (game->player.angle_player) * 5;
 	}

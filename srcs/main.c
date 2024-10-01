@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/01 14:55:32 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/01 15:22:17 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,18 @@
 void	ft_error(void);
 void	free_map(t_game *game);
 
-// int	main(int argc, char **argv)
-// {
-// 	t_game				game;
-
-// 	arg_check(argc, argv[1]);
-// 	ft_memset(&game, 0, sizeof(t_game));
-// 	map_reader(&game, argv[1]);
-// 	if (game.map == NULL)
-// 		ft_error();
-	// check_map_walls(&game, 0, 0);
-// 	free_map(&game);
-// 	return (EXIT_SUCCESS);
-// }
-
 int	main(int argc, char **argv)
 {
 	t_game				game;
 
 	ft_memset(&game, 0, sizeof(t_game));
-	init_map(&game);
-	init_player(&game);
-	init_mlx(&game);
 	arg_check(argc, argv[1]);
+	init_mlx(&game);
 	map_reader(&game, argv[1]);
 	if (game.map == NULL)
 		ft_error();
+	init_map(&game);
+	init_player(&game);
 	mlx_loop_hook(game.mlx, draw, &game);
 	mlx_loop_hook(game.mlx, keyboard_control, &game);
 	mlx_loop(game.mlx);

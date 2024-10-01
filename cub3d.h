@@ -6,11 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/27 22:45:14 by rshatra          ###   ########.fr       */
-=======
-/*   Updated: 2024/09/29 19:13:57 by rshatra          ###   ########.fr       */
->>>>>>> ram
+/*   Updated: 2024/09/30 16:20:30 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +81,6 @@ typedef struct s_game
 
 int		arg_check(int argc, char *arg);
 void	map_reader(t_game *game, char *map);
-void	check_map_walls(t_game *game, int i, int j);
 void	ft_error_exit(t_game *game, const char *msg);
 int		init_mlx(t_game *game);
 void	draw(void *param);
@@ -101,6 +96,7 @@ void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
 void	draw_ray(t_game *game);
 void	draw_line(t_game *game, int x0, int y0, int x1, int y1);
 void coordinate_corrector(t_game *game);
+void check_walls( t_game *game, int x, int y);
 
 #endif
 

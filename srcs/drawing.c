@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/30 16:08:24 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:43:08 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,35 @@ void draw_map(t_game *game)
 	int yo;
 	uint32_t tile_color;
 
+	// y = 0;
+	// while (game->map[y] != NULL)
+	// {
+	// 	x = 0;
+	// 	while (game->map[y][x] != '\0')
+	// 	{
+	// 		printf("%c", game->map[y][x]);
+	// 		x++;
+	// 	}
+	// 	y++;
+	// }
+
 	y = 0;
-	while (y < game->map_unit_y)
+	while (game->map[y] != NULL)
 	{
 		x = 0;
-		while (x < game->map_unit_x)
+		while (game->map[y][x] != '\0')
 		{
-			if (game->map_array[y][x] == '\0')
-				break ;
+
+			// printf("the line is %d  ", y);
+			// printf("the char is %c\n", game->map[y][x]);
+			// if (game->map[y][x] == '\0')
+			// 	break ;
 			// Determine the color of the tile based on the map array
-			if (game->map_array[y][x] == '1')
+			if (game->map[y][x] == '1')
 				tile_color = pixel_color(0, 100, 100, 255);
-			else if (game->map_array[y][x] == '0')
+			else if (game->map[y][x] == '0')
 				tile_color = pixel_color(255, 255, 255, 255);
-			else
+			else if (game->map[y][x] == ' ' || game->map[y][x] == 'S')
 				tile_color = pixel_color(0, 0, 0, 255);
 			// Calculate the top-left corner of the tile
 			xo = x * game->map_unit_size;

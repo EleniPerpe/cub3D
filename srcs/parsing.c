@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/27 14:41:52 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/30 20:55:35 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,9 @@ void	map_reader(t_game *game, char *map)
 		y--;
 		game->height_map--;
 	}
-	printf("height : %d\n", game->height_map);
 	find_map_width(game);
 	find_start_pos(game);
-	check_walls(game, game->start_pos[0], game->start_pos[1]);
+	// check_walls(game, game->start_pos[0], game->start_pos[1]);
 	close(game->map_fd);
 }
 
@@ -100,7 +99,7 @@ void check_walls( t_game *game, int x, int y)
 		return ;
 	if (game->map[x][y] == '1')
 		return ;
-	if (game->map[x][y] == '0' && (x - 1 == -1 || y - 1 == -1 
+	if (game->map[x][y] == '0' && (x - 1 == -1 || y - 1 == -1
 		|| x == game->height_map - 1))
 	{
 		printf("No closed map!\n");
@@ -123,7 +122,7 @@ void find_start_pos(t_game *game)
 	int x;
 	int y;
 	int flag;
-	
+
 	y = 0;
 	flag = 0;
 	game->start_pos = ft_malloc(sizeof(int) * 2);
@@ -164,7 +163,7 @@ void find_map_width(t_game *game)
 	int x;
 	int y;
 	int	temp;
-	
+
 	y = 0;
 	temp = 0;
 	while (game->map[y] != NULL)
@@ -172,7 +171,7 @@ void find_map_width(t_game *game)
 		x = 0;
 		while (game->map[y][x] != '\0')
 		{
-			x++;	
+			x++;
 		}
 		while (game->map[y][x - 1] == ' ' || game->map[y][x - 1] == '\n')
 			x--;
@@ -330,7 +329,7 @@ void check_textures(t_game *game)
 	// // flag = 0;
 
 	// Waiting info about the resizing
-	
+
 	// if (mlx_resize_image(game->tex.east_image, 40, 40) == false ||
 	// mlx_resize_image(game->tex.west_image, 40, 40) == false ||
 	// mlx_resize_image(game->tex.south_image, 40, 40) == false ||
@@ -342,22 +341,25 @@ void check_textures(t_game *game)
 }
 void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
 {
-	mlx_texture_t	*temp_texture;
+	(void)game;
+	(void)image;
+	(void)file_path;
+// 	mlx_texture_t	*temp_texture;
 
-	temp_texture = mlx_load_png(file_path);
-	if (temp_texture == NULL)
-	{
-		mlx_terminate(game->mlx);
-		ft_error_tex();
-	}
-	// printf("%p\n",game->mlx);
-	*image = mlx_texture_to_image(game->mlx, temp_texture);
-	if (*image == NULL)
-	{
-		mlx_terminate(game->mlx);
-		ft_error_tex();
-	}
-	mlx_delete_texture(temp_texture);
+// 	temp_texture = mlx_load_png(file_path);
+// 	if (temp_texture == NULL)
+// 	{
+// 		mlx_terminate(game->mlx);
+// 		ft_error_tex();
+// 	}
+// 	// printf("%p\n",game->mlx);
+// 	*image = mlx_texture_to_image(game->mlx, temp_texture);
+// 	if (*image == NULL)
+// 	{
+// 		mlx_terminate(game->mlx);
+// 		ft_error_tex();
+// 	}
+// 	mlx_delete_texture(temp_texture);
 }
 
 void	ft_error_tex(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:55:14 by rshatra           #+#    #+#             */
-/*   Updated: 2024/09/26 20:22:06 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/09/30 20:52:49 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 int	init_mlx(t_game *game)
 {
-	game->mlx = mlx_init(game->window_width, game->window_height, game->name, false);
+	game->mlx = mlx_init(1920, 1080, "CUB3D", false);
 	if (!game->mlx)
 		return (1);
-	game->mlx_img = mlx_new_image(game->mlx, game->window_width, game->window_height);
+	game->mlx_img = mlx_new_image(game->mlx, 1920, 1080);
 	if (!game->mlx_img)
 	{
 		mlx_close_window(game->mlx);

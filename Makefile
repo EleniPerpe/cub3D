@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+         #
+#    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 15:13:49 by eperperi          #+#    #+#              #
-#    Updated: 2024/09/27 14:41:01 by rshatra          ###   ########.fr        #
+#    Updated: 2024/10/01 14:10:22 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,9 @@ GNL_DIR =	./Get_next_line/
 
 SRC		 =	$(SRC_DIR)main.c \
 			$(SRC_DIR)parsing.c \
+			$(SRC_DIR)parsing_checks.c \
+			$(SRC_DIR)parsing_variables.c \
+			$(SRC_DIR)parsing_main_map.c \
 			$(SRC_DIR)drawing.c \
 			$(SRC_DIR)init_game.c \
 			$(SRC_DIR)movment.c \

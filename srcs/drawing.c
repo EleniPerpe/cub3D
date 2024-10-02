@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/01 23:57:06 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:31:59 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void draw_map(t_game *game)
 	while (game->map[y] != NULL)
 	{
 		x = 0;
-		while (game->map[y][x] != '\0')
+		while (x < 15)
 		{
 
 			// printf("the line is %d  ", y);
@@ -173,7 +173,7 @@ void	draw_ray(t_game *game)
 		float hor_distance = 100000;
 		float hor_x;
 		float hor_y;
-		if (ray_angle > PI + 0.01 && ray_angle < 2 * PI - 0.01) // we must skip any angle near to PI because tan()
+		if (ray_angle > PI && ray_angle < 2 * PI) // we must skip any angle near to PI because tan()
 				//is not accurate and some times gives 0 in vlaues near PI +-
 				// and we can'y divide on 0
 		{
@@ -182,7 +182,7 @@ void	draw_ray(t_game *game)
 			xo = -64 / tan (ray_angle);
 			yo = -64;
 		}
-		else if (ray_angle < PI- 0.01 && ray_angle > 0.01)
+		else if (ray_angle < PI && ray_angle > 0)
 		{
 			ray_y = (int)game->player.y_player / 64 * 64 + 64.001; // little bit more to make sure that we are inside the tile
 			ray_x = game->player.x_player - (game->player.y_player - ray_y) / tan(ray_angle);
@@ -231,9 +231,9 @@ void	draw_ray(t_game *game)
 //============================================================================================================
 		// check for the vertical lines:
 		dof = 0;
-		float vir_distance = 100000;
-		float vir_x;
-		float vir_y;
+		float ver_distance = 100000;
+		float ver_x;
+		float ver_y;
 		if (ray_angle > PI / 2 + 0.01 && ray_angle < 3 * PI / 2 - 0.01)
 		{
 			ray_x = (int)game->player.x_player / 64 * 64 - 0.001;
@@ -264,9 +264,9 @@ void	draw_ray(t_game *game)
 			{
 				if (game->map[map_y][map_x] == '1')
 				{
-					vir_x = ray_x;
-					vir_y = ray_y;
-					vir_distance = calculate_dis(game->player.x_player ,game->player.y_player,vir_x,vir_y);
+					ver_x = ray_x;
+					ver_y = ray_y;
+					ver_distance = calculate_dis(game->player.x_player ,game->player.y_player,ver_x,ver_y);
 					break;
 				}
 				else
@@ -279,19 +279,39 @@ void	draw_ray(t_game *game)
 			else
 				break;
 		}
-		if(vir_distance < hor_distance)
+		float wall_distance;
+		wall_distance = 0;
+		if(ver_distance < hor_distance)
 		{
-			ray_x = vir_x;
-			ray_y = vir_y;
+			wall_distance = ver_distance;
+			ray_x = ver_x;
+			ray_y = ver_y;
 		}
-		if(vir_distance > hor_distance)
+		else if(ver_distance > hor_distance)
 		{
+			wall_distance = hor_distance;
 			ray_x = hor_x;
 			ray_y = hor_y;
 		}
+		float cat = fix_ang(game->player.angle_player - ray_angle);
+		wall_distance = wall_distance * cos(cat);
+		float line_hor = (game->map_unit_size * 320 ) / wall_distance;
+		if (line_hor > 320 )
+			line_hor = 320 ;
+		int lineOff = 160- (line_hor/2);
 		draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)ray_x, (int)ray_y, pixel_color(0, 0, 255, 255)); // blue
+		draw_line(game, (r_num * 8 + 1060), lineOff, (r_num * 8 + 1060), lineOff + line_hor, pixel_color(255, 0, 0, 255)); // blue
 		ray_angle += 0.01745329; //next ray
 	}
+}
+
+float fix_ang(float a)
+{
+	if (a > 2 * PI)
+		a -= 2 * PI;
+	if (a < 0)
+		a += 2 * PI;
+	return (a);
 }
 
 void draw_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color)

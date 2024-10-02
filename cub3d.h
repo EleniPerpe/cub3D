@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/01 23:46:33 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/02 16:39:08 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int		check_rgb(char *variable, int **color);
 void	ft_setup_temp_map(t_game *game, char ***temp_map);
 void	check_walls(char **map, int x, int y, t_game *game);
 float calculate_dis(float x1, float y1, float x2, float y2);
+float fix_ang(float a);
 
 #endif

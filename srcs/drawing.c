@@ -155,16 +155,17 @@ void	draw_ray(t_game *game)
 		float hor_distance = 100000;
 		float hor_x;
 		float hor_y;
-		if (ray_angle > PI + 0.1 && ray_angle < 2 * PI - 0.1) // we must skip any angle near to PI because tan()
+		// if (ray_angle > PI + 0.1 && ray_angle < 2 * PI - 0.1) // we must skip any angle near to PI because tan()
 				//is not accurate and some times gives 0 in vlaues near PI +-
 				// and we can'y divide on 0
+		if (sin(ray_angle) < -0.001)
 		{
 			ray_y = (int)game->player.y_player / 64 * 64 - 0.001;
 			ray_x = game->player.x_player - (game->player.y_player - ray_y) / tan(ray_angle); // tan(a) = tan(a - 180)
 			xo = -64 / tan (ray_angle);
 			yo = -64;
 		}
-		else if (ray_angle < PI- 0.1 && ray_angle > 0.1)
+		else if (sin(ray_angle) > 0.001) /*(ray_angle < PI- 0.1 && ray_angle > 0.1)*/
 		{
 			ray_y = (int)game->player.y_player / 64 * 64 + 64.001; // little bit more to make sure that we are inside the tile
 			ray_x = game->player.x_player - (game->player.y_player - ray_y) / tan(ray_angle);
@@ -210,14 +211,14 @@ void	draw_ray(t_game *game)
 		float vir_distance = 100000;
 		float vir_x;
 		float vir_y;
-		if (ray_angle > PI / 2 + 0.01 && ray_angle < 3 * PI / 2 - 0.01)
+		if (cos(ray_angle) < -0.01) /*(ray_angle > PI / 2 + 0.01 && ray_angle < 3 * PI / 2 - 0.01)*/
 		{
 			ray_x = (int)game->player.x_player / 64 * 64 - 0.001;
 			ray_y = game->player.y_player - (game->player.x_player - ray_x) * tan(ray_angle);
 			xo = -64;
 			yo = -64 * tan(ray_angle);
 		}
-		else if (ray_angle < PI / 2 - 0.01 || ray_angle > 3 * PI / 2 + 0.01)
+		else if (cos(ray_angle) > 0.01) /*(ray_angle < PI / 2 - 0.01 || ray_angle > 3 * PI / 2 + 0.01)*/
 		{
 			ray_x = (int)game->player.x_player / 64 * 64 + 64.001;
 			ray_y = game->player.y_player - (game->player.x_player - ray_x) * tan(ray_angle);

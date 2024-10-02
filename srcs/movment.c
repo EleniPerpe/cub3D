@@ -62,6 +62,11 @@ void	keyboard_control(void *param)
 		game->player.dx_player = cos (game->player.angle_player) * 5;
 		game->player.dy_player = sin (game->player.angle_player) * 5;
 	}
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT_SHIFT))
+	{
+		game->player.dx_player = cos (game->player.angle_player) * 12; // 12 is the speed of movment
+		game->player.dy_player = sin (game->player.angle_player) * 12;
+	}
 
 }
 

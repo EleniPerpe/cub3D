@@ -72,6 +72,7 @@ typedef struct s_game
 	int				map_unit_x;
 	int				map_unit_y;
 	int				map_unit_size;
+	// int				speed;
 }	t_game;
 
 int		arg_check(int argc, char *arg);
@@ -100,6 +101,8 @@ int		check_rgb(char *variable, int **color);
 void	ft_setup_temp_map(t_game *game, char ***temp_map);
 void	check_walls(char **map, int x, int y, t_game *game);
 float calculate_dis(float x1, float y1, float x2, float y2);
-float fix_ang(float a);
+// float fix_ang(float a);
+void draw_wall_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
+void draw_cross(t_game *game);
 
 #endif

@@ -14,8 +14,12 @@ if I put one of the info down off the map, it gives seg fault
 
 
 To do:
+Done:
 in the struct player we must fill the variable start_angle from the map
 S ===>game->player.start_angle = pi / 2;
 N ===>game->player.start_angle =  (3 * pi / 2);
 W ===>game->player.start_angle = pi;
 E ===>game->player.start_angle = 0;
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+minimize the window
+

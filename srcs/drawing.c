@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/02 20:19:19 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:21:58 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	clean_window(t_game *game)
 		while ( j <game->window_height)
 		{
 			if (j <= game->window_height / 2 - 70)
-				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0], game->c[1], game->c[2], 150));
+				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0], game->c[1], game->c[2], 0));
 			else
-				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 150));
+				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 0));
 			j++;
 		}
 		i++;
@@ -294,7 +294,7 @@ void	draw_ray(t_game *game)
 	float yo;
 	r_num = 0;
 	ray_angle = game->player.angle_player - 0.523598; // - 30 degree
-	while (r_num <60*2)
+	while (r_num <720)
 	// check for the horizontal lines:
 	{
 		dof = 0;
@@ -360,11 +360,13 @@ void	draw_ray(t_game *game)
 //=	==========================================================================================================
 		// check for the vertical lines:
 		dof = 0;
+		int flag = 0;
 		float ver_distance = 100000;
 		float ver_x;
 		float ver_y;
 		if (cos(ray_angle) < -0.01) /*(ray_angle > PI / 2 + 0.01 && ray_angle < 3 * PI / 2 - 0.01)*/
 		{
+			// printf("%f\n", ray_angle * 180 / M_PI);
 			ray_x = (int)game->player.x_player / 64 * 64 - 0.001;
 			ray_y = game->player.y_player - (game->player.x_player - ray_x) * tan(ray_angle);
 			xo = -64;
@@ -376,6 +378,15 @@ void	draw_ray(t_game *game)
 			ray_y = game->player.y_player - (game->player.x_player - ray_x) * tan(ray_angle);
 			xo = 64;
 			yo = 64 * tan(ray_angle);
+		}
+		else if (ray_angle * 180 / M_PI > 45 && ray_angle * 180 / M_PI <= 130)
+		{
+			ray_x = game->player.x_player;
+			ray_y = game->player.y_player;
+			xo = 0;
+			yo = 0;
+			dof = 25;
+			flag = 1;
 		}
 		else
 		{
@@ -412,29 +423,76 @@ void	draw_ray(t_game *game)
 		wall_distance = 0;
 		uint32_t wall_color;
 		wall_color = 0;
+		mlx_image_t *current_texture = NULL;
 		if(ver_distance < hor_distance)
 		{
+			current_texture = (ray_x > game->player.x_player) ? game->tex.east_image : game->tex.west_image;
 			wall_distance = ver_distance;
+			if (flag == 1)
+				current_texture = game->tex.south_image;
 			ray_x = ver_x;
 			ray_y = ver_y;
-			wall_color = pixel_color(255, 0, 0, 150);
+			// wall_color = pixel_color(255, 0, 0, 150);
 		}
 		else if(ver_distance > hor_distance)
 		{
+			current_texture = (ray_y > game->player.y_player) ? game->tex.south_image : game->tex.north_image;
+			if (flag == 1)
+				current_texture = game->tex.south_image;
+			// if (ray_y > 0)
+       		// 	current_texture = game->tex.south_image; // Ray is pointing down, so hit South wall
+			// else
+			// 	current_texture = game->tex.north_image;
 			wall_distance = hor_distance;
 			ray_x = hor_x;
 			ray_y = hor_y;
-			wall_color = pixel_color(70, 124, 100, 255);
+			// wall_color = pixel_color(70, 124, 100, 255);
 		}
+
 		float cat = game->player.angle_player - ray_angle;
 		wall_distance = wall_distance * cos(cat);
-		float line_hor = (game->map_unit_size * 960 ) / wall_distance;
-		if (line_hor > 960 )
-			line_hor = 960 ;
-		int lineOff = 960/2- (line_hor/2);
+		float line_height = (game->map_unit_size * 960 ) / wall_distance;
+		if (line_height > 960 )
+			line_height = 960 ;
+		int lineOff = 960/2- (line_height/2);
+		float hit_pos_x;
+		if (ver_distance < hor_distance)
+			hit_pos_x = fmod(ray_y, game->map_unit_size) / game->map_unit_size; // Vertical wall hit
+		else
+			hit_pos_x = fmod(ray_x, game->map_unit_size) / game->map_unit_size; // Horizontal wall hit
+		// Convert to texture coordinates (between 0 and texture width)
+		uint32_t texture_x = (int)(hit_pos_x * current_texture->width);
+		if (texture_x < 0) 
+			texture_x = 0;
+		if (texture_x >= current_texture->width)
+			texture_x = current_texture->width - 1;
+		// Loop over each vertical line of the wall
+		// Loop over the height of the wall slice
+		uint32_t texture_y;
+		uint32_t texture_color;
+		for (int y = lineOff; y < lineOff + line_height; y++) 
+		{
+			// Scale the y-coordinate to the texture height
+			texture_y = (int)((y - lineOff) * current_texture->height / line_height);
+			
+			// Ensure texture coordinates are within bounds
+			if (texture_y < 0)
+				texture_y = 0;
+			if (texture_y >= current_texture->height)
+				texture_y = current_texture->height - 1;
+
+			// Sample the texture color from (texture_x, texture_y)
+			texture_color = ((uint32_t *)current_texture->pixels)[texture_y * current_texture->width + texture_x];
+
+			// Draw the pixel on the screen without gaps
+			mlx_put_pixel(game->mlx_img, (r_num + 1000), y, texture_color);  // Removed * 8, now just r_num
+		}
+
+		
 		draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)ray_x, (int)ray_y, pixel_color(0, 0, 255, 255)); // blue
-		draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_hor, wall_color);
-		ray_angle += 0.01745329/2; //next ray
+		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, wall_color);
+		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, texture_color);
+		ray_angle += 0.01745329/12; //next ray
 	}
 }
 
@@ -475,6 +533,7 @@ float calculate_dis(float x1, float y1, float x2, float y2)
 {
 	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 }
+
 void draw_wall_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color)
 {
 	// Thickness is 8 pixels, so we'll draw parallel lines offset by thickness / 2
@@ -535,7 +594,8 @@ void draw_cross(t_game *game)
 
 	i = game->window_width * 0.75;
 	reference = i + 10;
-	cross_color = pixel_color(255,255,255,255); //white
+	cross_color = pixel_color(game->c[0],game->c[1],game->c[2],255); //white
+	// cross_color = pixel_color(255,255,255,255); //white
 	// draw the hor lines:
 	while (i < reference)
 	{

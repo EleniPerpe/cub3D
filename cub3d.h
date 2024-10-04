@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/02 16:39:08 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:04:35 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	init_player(t_game *game);
 void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
 void	draw_ray(t_game *game);
 void	draw_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
-void	coordinate_corrector(t_game *game);
+void	coordinate_corrector(t_game *game, char c);
 void	fill_real_map(t_game *game, char *reader);
 void	find_map_width(t_game *game);
 void	find_start_pos(t_game *game);

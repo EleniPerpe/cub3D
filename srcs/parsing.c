@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/01 15:07:25 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:15:59 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,7 @@ void    check_textures(t_game *game)
     ft_load_image(game, &game->tex.west_image, game->we);
     ft_load_image(game, &game->tex.south_image, game->so);
     ft_load_image(game, &game->tex.north_image, game->no);
-    // Waiting info about the resizing
-    // if (mlx_resize_image(game->tex.east_image, 40, 40) == false ||
-    // mlx_resize_image(game->tex.west_image, 40, 40) == false ||
-    // mlx_resize_image(game->tex.south_image, 40, 40) == false ||
-    // mlx_resize_image(game->tex.north_image, 40, 40) == false)
-    // {
-    //  printf("Couldn't load the image!\n");
-    //  exit(EXIT_FAILURE);
-    // }
+
 }
 void    ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
 {
@@ -86,6 +78,12 @@ void    ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
         ft_error_tex();
     }
     mlx_delete_texture(temp_texture);
+	// Don't know if it's needed
+	// if (mlx_resize_image(*image, 128, 128) == false)
+	// {
+    //  printf("Couldn't load the image!\n");
+    //  exit(EXIT_FAILURE);
+    // }
 }
 void    ft_error_tex(void)
 {

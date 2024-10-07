@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/03 16:04:35 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:50:40 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@
 # define DIR_NO  (3 * PI / 2)
 # define DIR_WE PI
 # define DIR_EA 0
+
+enum channel
+{
+	ALPHA,
+	RED,
+	GREEN,
+	BLUE,
+};
+
+typedef union s_color
+{
+	uint8_t		channel[4];
+	uint32_t	color;
+}			t_color;
 
 typedef struct s_player
 {
@@ -104,5 +118,6 @@ float calculate_dis(float x1, float y1, float x2, float y2);
 // float fix_ang(float a);
 void draw_wall_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
 void draw_cross(t_game *game);
+void mouse_move(int x, int y, t_game *game);
 
 #endif

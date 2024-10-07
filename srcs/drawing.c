@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/04 17:21:58 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:01:00 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,8 +484,17 @@ void	draw_ray(t_game *game)
 			// Sample the texture color from (texture_x, texture_y)
 			texture_color = ((uint32_t *)current_texture->pixels)[texture_y * current_texture->width + texture_x];
 
-			// Draw the pixel on the screen without gaps
-			mlx_put_pixel(game->mlx_img, (r_num + 1000), y, texture_color);  // Removed * 8, now just r_num
+			t_color clr;
+			
+		clr.channel[ALPHA] = (texture_color >> 24) & 0xFF; // Extract Alpha
+		clr.channel[RED] = (texture_color >> 16) & 0xFF;   // Extract Red
+		clr.channel[GREEN] = (texture_color >> 8) & 0xFF;   // Extract Green
+		clr.channel[BLUE] = texture_color & 0xFF;    
+
+			// Draw the pixel on the screen with the new color
+			mlx_put_pixel(game->mlx_img, (r_num + 1000), y, clr.color);
+
+			
 		}
 
 		
@@ -586,6 +595,7 @@ void draw_wall_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color
 		}
 	}
 }
+
 void draw_cross(t_game *game)
 {
 	uint32_t cross_color;

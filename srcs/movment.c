@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movment.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/07 15:09:12 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:49:35 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void    keyboard_control(void *param)
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_A))
     {
-        game->player.x_player += cos(game->player.angle_player - PI / 2) * 5;
-        game->player.y_player += sin(game->player.angle_player - PI / 2) * 5;
+        game->player.x_player += cos(game->player.angle_player - PI / 2) * 7;
+        game->player.y_player += sin(game->player.angle_player - PI / 2) * 7;
         coordinate_corrector(game, 'A');
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_D))
     {
-        game->player.x_player += cos(game->player.angle_player + PI / 2) * 5;
-        game->player.y_player += sin(game->player.angle_player + PI / 2) * 5;
+        game->player.x_player += cos(game->player.angle_player + PI / 2) * 7;
+        game->player.y_player += sin(game->player.angle_player + PI / 2) * 7;
         coordinate_corrector(game, 'D');
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) )
@@ -49,21 +49,21 @@ void    keyboard_control(void *param)
         game->player.angle_player -= 0.1;
         if (game->player.angle_player < 0)
             game->player.angle_player += 2 * PI;
-        game->player.dx_player = cos (game->player.angle_player) * 5;
-        game->player.dy_player = sin (game->player.angle_player) * 5;
+        game->player.dx_player = cos (game->player.angle_player) * 9;
+        game->player.dy_player = sin (game->player.angle_player) * 9;
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) )
     {
         game->player.angle_player += 0.1;
         if (game->player.angle_player > 2 * PI)
             game->player.angle_player -= 2 * PI;
-        game->player.dx_player = cos (game->player.angle_player) * 5;
-        game->player.dy_player = sin (game->player.angle_player) * 5;
+        game->player.dx_player = cos (game->player.angle_player) * 9;
+        game->player.dy_player = sin (game->player.angle_player) * 9;
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT_SHIFT))
     {
-        game->player.dx_player = cos (game->player.angle_player) * 12; // 12 is the speed of movement
-        game->player.dy_player = sin (game->player.angle_player) * 12;
+        game->player.dx_player = cos (game->player.angle_player) * 20; // 20 is the speed of movement
+        game->player.dy_player = sin (game->player.angle_player) * 20;
     }
 }
 
@@ -93,13 +93,13 @@ void coordinate_corrector(t_game *game, char c)
         }
         else if (c == 'A')
         {
-            game->player.x_player += cos(game->player.angle_player + PI / 2) * 5;
-            game->player.y_player += sin(game->player.angle_player + PI / 2) * 5;
+            game->player.x_player += cos(game->player.angle_player + PI / 2) * 7;
+            game->player.y_player += sin(game->player.angle_player + PI / 2) * 7;
         }
         else if (c == 'D')
         {
-            game->player.x_player -= cos(game->player.angle_player + PI / 2) * 5;
-            game->player.y_player -= sin(game->player.angle_player + PI / 2) * 5;
+            game->player.x_player -= cos(game->player.angle_player + PI / 2) * 7;
+            game->player.y_player -= sin(game->player.angle_player + PI / 2) * 7;
         }
     }
 }

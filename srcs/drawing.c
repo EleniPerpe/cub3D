@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/10 17:14:55 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:44:53 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,32 @@ void	draw(void *param)
 
 	game = param;
 	clean_window(game);
-	draw_map(game);
-	draw_player(game);
+	// draw_player(game);
+	// draw_map(game);
+	draw_minimap(game);
+	// draw_miniplayer(game);
 	draw_ray(game);
-	draw_cross(game);
+	// draw_cross(game);
 }
 
 void	clean_window(t_game *game)
 {
 	// to draw a black window in the empty places
-	uint32_t	color;
+	// uint32_t	color;
 	int i;
 	int j;
 
 	i = 0;
-	color = pixel_color(0, 0, 0, 255);
+	// color = pixel_color(0, 0, 0, 255);
 	while ( i <game->window_width)
 	{
 		j= 0;
 		while ( j <game->window_height)
 		{
 			if (j <= game->window_height / 2 - 70)
-				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0], game->c[1], game->c[2], 0));
+				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0], game->c[1], game->c[2], 180));
 			else
-				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 0));
+				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 150));
 			j++;
 		}
 		i++;
@@ -69,6 +71,91 @@ void	draw_player(t_game *game)
 		i++;
 	}
 }
+void	draw_miniplayer(t_game *game)
+{
+	uint32_t	color;
+	int	i;
+	int	j;
+
+	i = 0;
+	int x = game->player.x_player / (game->window_width/ (9*32));
+	int y = game->player.y_player / (game->window_height/(9*32));
+	// printf("player_x = %f\nplayer_y: %f\n",game->player.x_player, game->player.y_player);
+	// printf("player angle = %f\n",game->player.angle_player);
+	color = pixel_color(255, 0, 0, 255);  // Red color
+	while (i < 4)  // Loop over tile height
+	{
+		j = 0;
+		while (j < 4)  // Loop over tile width
+		{
+			mlx_put_pixel(game->mlx_img, x + i, y + j, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+void draw_minimap(t_game *game)
+{
+	int x;
+	int y;
+	int xo;
+	int yo;
+	uint32_t tile_color;
+	int map_index_x;
+	int map_index_y;
+
+	map_index_x = game->player.x_player/64 - 4;
+	map_index_y = game->player.y_player/64 - 4;
+	if (map_index_x < 0)
+		map_index_x = 0;
+	else if(map_index_x > game->window_width/64 - 13)
+		map_index_x = game->window_width/64 - 13;
+	if(map_index_y < 0)
+		map_index_y = 0;
+	else if(map_index_y > game->window_height/64 - 13)
+		map_index_y = game->window_height/64 - 13;
+	y = 0;
+	while (y < 9)
+	{
+		x =0;
+		while (x < 9)
+		{
+			if (game->map[map_index_y + y][map_index_x + x] == '1')
+				tile_color = pixel_color(70, 150, 55, 255);
+			else if (game->map[map_index_y + y][map_index_x + x] == '0')
+				tile_color = pixel_color(255, 255, 255, 255);
+			else if (game->map[map_index_y + y][map_index_x + x] == ' ' || game->map[map_index_y + y][map_index_x + x] == '\n')
+				tile_color = pixel_color(0, 0, 0, 255);
+			xo = x * 32;
+			yo = y * 32;
+			// xo = x * (64 / (game->window_width/(9*32)));
+			// yo = y * (64 / (game->window_height/(9*32)));
+			draw_tiles(game, xo, yo, tile_color);
+			x++;
+		}
+		y++;
+	}
+}
+void	draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color)
+{
+	int i;
+	int j;
+
+	i = 0;
+	// while (i < (64 / (game->window_height/(9*32))))
+	while (i < 32)
+	{
+		j = 0;
+		while (j < (64/(game->window_width/(9*32))))
+		while (j < 32)
+		{
+			mlx_put_pixel(game->mlx_img, xo + j, yo + i, tile_color); // Draw the tile's color
+			j++;
+		}
+		i++;
+	}
+}
 
 void draw_map(t_game *game)
 {
@@ -81,7 +168,7 @@ void draw_map(t_game *game)
 	y = 0;
 	while (game->map[y] != NULL)
 	{
-		x = 0;
+		x =0;
 		while (/*game->map[y][x] != '\0'*/ x < 15)
 		{
 			// Determine the color of the tile based on the map array
@@ -295,7 +382,9 @@ void	draw_ray(t_game *game)
 	float yo;
 	r_num = 0;
 	ray_angle = game->player.angle_player - 0.523598; // - 30 degree
-	while (r_num <720)
+	// ray_angle = game->player.angle_player - 0.523598*1.5; // - 30 degree
+	// while (r_num < 720 + 359)
+	while (r_num < 720)
 	// check for the horizontal lines:
 	{
 		dof = 0;
@@ -472,11 +561,11 @@ void	draw_ray(t_game *game)
 		// Loop over the height of the wall slice
 		uint32_t texture_y;
 		uint32_t texture_color;
-		for (int y = lineOff; y < lineOff + line_height; y++) 
+		for (int y = lineOff; y < lineOff + line_height; y++)
 		{
 			// Scale the y-coordinate to the texture height
 			texture_y = (int)((y - lineOff) * current_texture->height / line_height);
-			
+
 			// Ensure texture coordinates are within bounds
 			if (texture_y < 0)
 				texture_y = 0;
@@ -487,17 +576,20 @@ void	draw_ray(t_game *game)
 			texture_color = ((uint32_t *)current_texture->pixels)[texture_y * current_texture->width + texture_x];
 
 			t_color clr;
-			
+
 		clr.channel[ALPHA] = (texture_color >> 24) & 0xFF; // Extract Alpha
 		clr.channel[RED] = (texture_color >> 16) & 0xFF;   // Extract Red
 		clr.channel[GREEN] = (texture_color >> 8) & 0xFF;   // Extract Green
-		clr.channel[BLUE] = texture_color & 0xFF;    
+		clr.channel[BLUE] = texture_color & 0xFF;
 
 			// Draw the pixel on the screen with the new color
 			mlx_put_pixel(game->mlx_img, (r_num + 1000), y, clr.color);
+			// mlx_put_pixel(game->mlx_img, (r_num), y, clr.color);
 
-			
+
 		}
+
+		
 		draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)ray_x, (int)ray_y, pixel_color(0, 0, 255, 255)); // blue
 		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, wall_color);
 		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, texture_color);

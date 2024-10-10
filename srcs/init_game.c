@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:29:10 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/01 17:35:10 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/09 23:06:41 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void init_player(t_game *game)
 {
 	game->player.x_player = game->start_pos[1] * 64 + 32;
 	game->player.y_player = game->start_pos[0] * 64 + 32;
-	// if (game->orientation == 'N')
-	// 	game->player.angle_player =   DIR_NO;
-	// else if (game->orientation == 'S')
-	// 	game->player.angle_player =   DIR_SO;
-	// else if (game->orientation == 'E')
-	// 	game->player.angle_player =   DIR_EA;
-	// else if (game->orientation == 'W')
-	// 	game->player.angle_player =   DIR_WE;
-	game->player.angle_player = 0;
+	if (game->orientation == 'N')
+		game->player.angle_player =   DIR_NO;
+	else if (game->orientation == 'S')
+		game->player.angle_player =   DIR_SO;
+	else if (game->orientation == 'E')
+		game->player.angle_player =   DIR_EA;
+	else if (game->orientation == 'W')
+		game->player.angle_player =   DIR_WE;
+	// game->player.angle_player = 0;
 	game->player.dx_player = cos (game->player.angle_player) * 5; // 5 is the speed of movment
 	game->player.dy_player = sin (game->player.angle_player) * 5;
 }

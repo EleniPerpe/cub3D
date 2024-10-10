@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/07 16:50:40 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:42:55 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,14 @@ int32_t	pixel_color(int r, int g, int b, int a);
 void	keyboard_control(void *param);
 void	clean_window(t_game *game);
 void	draw_player(t_game *game);
+void	draw_miniplayer(t_game *game);
 void	draw_map(t_game *game);
+void	draw_minimap(t_game *game);
 int		is_only_spaces(char *str);
 void	init_map(t_game *game);
 void	init_player(t_game *game);
 void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
+void	draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color);
 void	draw_ray(t_game *game);
 void	draw_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
 void	coordinate_corrector(t_game *game, char c);

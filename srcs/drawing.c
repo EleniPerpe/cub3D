@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/07 17:01:00 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:14:55 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void draw_map(t_game *game)
 		y++;
 	}
 }
+
 void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color)
 {
 	int i;
@@ -453,16 +454,17 @@ void	draw_ray(t_game *game)
 		wall_distance = wall_distance * cos(cat);
 		float line_height = (game->map_unit_size * 960 ) / wall_distance;
 		if (line_height > 960 )
-			line_height = 960 ;
+			line_height = 960;
 		int lineOff = 960/2- (line_height/2);
 		float hit_pos_x;
 		if (ver_distance < hor_distance)
 			hit_pos_x = fmod(ray_y, game->map_unit_size) / game->map_unit_size; // Vertical wall hit
 		else
 			hit_pos_x = fmod(ray_x, game->map_unit_size) / game->map_unit_size; // Horizontal wall hit
+			
 		// Convert to texture coordinates (between 0 and texture width)
 		uint32_t texture_x = (int)(hit_pos_x * current_texture->width);
-		if (texture_x < 0) 
+		if (texture_x < 0)
 			texture_x = 0;
 		if (texture_x >= current_texture->width)
 			texture_x = current_texture->width - 1;
@@ -496,8 +498,6 @@ void	draw_ray(t_game *game)
 
 			
 		}
-
-		
 		draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)ray_x, (int)ray_y, pixel_color(0, 0, 255, 255)); // blue
 		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, wall_color);
 		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, texture_color);

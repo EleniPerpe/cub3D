@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:57:24 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/01 14:48:50 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:39:23 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,11 @@ int	assign_texture(const char **destination, char *variable, char *prefix)
 		while (needle[i + 2] == ' ')
 			i++;
 		temp = ft_strdup(needle + (i + 2));
+		if (*destination != NULL)
+			{
+				printf("Error\nWrong textures!\n");
+				exit(EXIT_FAILURE);
+			}
 		*destination = ft_malloc(sizeof(char ) * ft_strlen(temp));
 		ft_strlcpy((char *)*destination, temp, ft_strlen(temp));
 		free(temp);

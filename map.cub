@@ -1,7 +1,7 @@
 SO ./textures/south_image.png
-NO ./textures/2.png
-EA ./textures/1.png
-WE ./textures/west_image.png
+NO ./textures/east_image.png
+EA ./textures/2.png
+WE ./textures/4.png
 
 
 

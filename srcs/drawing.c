@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/10 17:47:22 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:21:29 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw(void *param)
 	clean_window(game);
 	// draw_player(game);
 	// draw_map(game);
-	draw_minimap(game);
+	// draw_minimap(game);
 	// draw_miniplayer(game);
 	draw_ray(game);
 	// draw_cross(game);
@@ -384,7 +384,7 @@ void	draw_ray(t_game *game)
 	ray_angle = game->player.angle_player - 0.523598; // - 30 degree
 	// ray_angle = game->player.angle_player - 0.523598*1.5; // - 30 degree
 	// while (r_num < 720 + 359)
-	while (r_num < 720)
+	while (r_num < 1440)
 	// check for the horizontal lines:
 	{
 		dof = 0;
@@ -550,9 +550,11 @@ void	draw_ray(t_game *game)
 			hit_pos_x = fmod(ray_y, game->map_unit_size) / game->map_unit_size; // Vertical wall hit
 		else
 			hit_pos_x = fmod(ray_x, game->map_unit_size) / game->map_unit_size; // Horizontal wall hit
-			
+		if (hit_pos_x < 0.0015)
+			hit_pos_x = 0.1;
 		// Convert to texture coordinates (between 0 and texture width)
-		uint32_t texture_x = (int)(hit_pos_x * current_texture->width);
+		printf("%f		%u\n", hit_pos_x, current_texture->width);
+		uint32_t texture_x = (uint32_t)(hit_pos_x * current_texture->width);
 		if (texture_x < 0)
 			texture_x = 0;
 		if (texture_x >= current_texture->width)
@@ -564,7 +566,7 @@ void	draw_ray(t_game *game)
 		for (int y = lineOff; y < lineOff + line_height; y++)
 		{
 			// Scale the y-coordinate to the texture height
-			texture_y = (int)((y - lineOff) * current_texture->height / line_height);
+			texture_y = (uint32_t)((y - lineOff) * current_texture->height / line_height);
 
 			// Ensure texture coordinates are within bounds
 			if (texture_y < 0)
@@ -583,17 +585,17 @@ void	draw_ray(t_game *game)
 		clr.channel[BLUE] = texture_color & 0xFF;
 
 			// Draw the pixel on the screen with the new color
-			mlx_put_pixel(game->mlx_img, (r_num + 1000), y, clr.color);
+			mlx_put_pixel(game->mlx_img, (r_num), y, clr.color);
 			// mlx_put_pixel(game->mlx_img, (r_num), y, clr.color);
 
 
 		}
 
 		
-		draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)ray_x, (int)ray_y, pixel_color(0, 0, 255, 255)); // blue
+		// draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)ray_x, (int)ray_y, pixel_color(0, 0, 255, 255)); // blue
 		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, wall_color);
 		// draw_wall_line(game, (r_num * 8 + 960), lineOff, (r_num * 8 + 960), lineOff + line_height, texture_color);
-		ray_angle += 0.01745329/12; //next ray
+		ray_angle += 0.01745329/24; //next ray
 	}
 }
 

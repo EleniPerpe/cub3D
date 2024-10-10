@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:57:24 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/10 17:46:25 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:34:20 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	assign_texture(const char **destination, char *variable, char *prefix)
 	needle = ft_strnstr(variable, prefix, ft_strlen(variable));
 	if (needle != NULL)
 	{
-		while (needle[i + 2] == ' ')
+		while (needle[i + 2] == ' ' || needle[i + 2] == '\t')
 			i++;
 		temp = ft_strdup(needle + (i + 2));
 		if (*destination != NULL)
@@ -99,6 +99,7 @@ int	assign_texture(const char **destination, char *variable, char *prefix)
 			}
 		*destination = ft_malloc(sizeof(char ) * ft_strlen(temp));
 		ft_strlcpy((char *)*destination, temp, ft_strlen(temp));
+		// printf(".%s.\n",  *destination);
 		free(temp);
 		return (1);
 	}

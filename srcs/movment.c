@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/09 18:49:35 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/10 14:58:25 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void coordinate_corrector(t_game *game, char c);
 
-void    keyboard_control(void *param)
+void	keyboard_control(void *param)
 {
     t_game  *game;
     game = param;

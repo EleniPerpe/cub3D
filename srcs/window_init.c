@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:55:14 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/01 15:28:15 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/10 21:12:30 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 int	init_mlx(t_game *game)
 {
-	game->mlx = mlx_init(1920, 1080, "CUB3D", false);
+	game->mlx = mlx_init(1440, 960, "CUB3D", false);
 	if (!game->mlx)
 		return (1);
-	game->mlx_img = mlx_new_image(game->mlx, 1920, 1080);
+	game->mlx_img = mlx_new_image(game->mlx, 1440, 960);
 	if (!game->mlx_img)
 	{
 		mlx_close_window(game->mlx);

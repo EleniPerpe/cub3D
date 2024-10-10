@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/09 20:42:55 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/10 23:04:51 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,21 @@ enum channel
 	GREEN,
 	BLUE,
 };
+
+typedef struct s_raycast
+{
+	float	rx;
+	float	ry;
+	float	ra;
+	float	rx_step;
+	float	ry_step;
+	float	hor_distance;
+	float	hor_x;
+	float	hor_y;
+	float	ver_distance;
+	float	ver_x;
+	float	ver_y;
+}			t_raycast;
 
 typedef union s_color
 {
@@ -74,10 +89,8 @@ typedef struct s_game
 	char			**map;
 	int				*start_pos;
 	char			orientation;
-	// mlx_texture_t SO; instead of mlx_image_t
-	// mlx_image_t	*player;
-	mlx_image_t		*mlx_img; // new
-	const char		*name; // new
+	mlx_image_t		*mlx_img;
+	const char		*name;
 	t_texture		tex;
 	t_player		player;
 	mlx_t			*mlx;
@@ -86,7 +99,7 @@ typedef struct s_game
 	int				map_unit_x;
 	int				map_unit_y;
 	int				map_unit_size;
-	// int				speed;
+	t_raycast		ray;
 }	t_game;
 
 int		arg_check(int argc, char *arg);
@@ -122,5 +135,8 @@ float calculate_dis(float x1, float y1, float x2, float y2);
 void draw_wall_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
 void draw_cross(t_game *game);
 void mouse_move(int x, int y, t_game *game);
-
+void	calculate_horizontal_intraction(t_game *game, int *dof);
+void	calculate_vertical_intraction(t_game *game,int *dof, int *flag);
+void	get_hor_point(t_game *game,int dof);
+void	get_ver_point(t_game *game,int dof);
 #endif

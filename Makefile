@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
+#    By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 15:13:49 by eperperi          #+#    #+#              #
-#    Updated: 2024/10/01 14:10:22 by eperperi         ###   ########.fr        #
+#    Updated: 2024/10/10 21:53:30 by rshatra          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRC		 =	$(SRC_DIR)main.c \
 			$(SRC_DIR)parsing_variables.c \
 			$(SRC_DIR)parsing_main_map.c \
 			$(SRC_DIR)drawing.c \
+			$(SRC_DIR)raycast_calculations.c \
+			$(SRC_DIR)mini_map.c \
 			$(SRC_DIR)init_game.c \
 			$(SRC_DIR)movment.c \
 			$(SRC_DIR)window_init.c

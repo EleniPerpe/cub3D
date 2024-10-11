@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/10 23:04:51 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/11 20:55:56 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ typedef struct s_raycast
 	float	ver_x;
 	float	ver_y;
 }			t_raycast;
+
+typedef struct s_rend
+{
+	float		wall_distance;
+	float		wall_x;
+	float		wall_y;
+	mlx_image_t	*current_texture;
+
+}			t_rend;
 
 typedef union s_color
 {
@@ -100,6 +109,7 @@ typedef struct s_game
 	int				map_unit_y;
 	int				map_unit_size;
 	t_raycast		ray;
+	t_rend			rend;
 }	t_game;
 
 int		arg_check(int argc, char *arg);
@@ -139,4 +149,7 @@ void	calculate_horizontal_intraction(t_game *game, int *dof);
 void	calculate_vertical_intraction(t_game *game,int *dof, int *flag);
 void	get_hor_point(t_game *game,int dof);
 void	get_ver_point(t_game *game,int dof);
+void	reset_rays(t_game * game,int *flag);
+void	get_wall(t_game *game, int flag);
+
 #endif

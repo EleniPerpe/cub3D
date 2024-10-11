@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:29:10 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/10 23:12:57 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/11 19:56:26 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void init_map(t_game *game)
 	game->map_unit_y = 16;
 	game->name = "CUB3D";
 	game->window_height = 960;
-	game->window_width = 1440;
-	game->ray.hor_distance = 100000;
-	game->ray.ver_distance = 100000;
+	game->window_width = 1940;
 }
 
 void init_player(t_game *game)

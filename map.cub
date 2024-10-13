@@ -1,14 +1,14 @@
 SO    ./textures/south_image.png
-NO      ./textures/11.png
-EA 					./textures/22.png
-WE  	   ./textures/4.png
+NO      ./textures/north_image.png
+EA 					./textures/east_image.png
+WE  	   ./textures/west_image.png
 
 
 
 
 
-C    135, 20, 45
-F    101, 67, hdg
+C    0, 20, 45
+F    101, 67, 0
 
 
 

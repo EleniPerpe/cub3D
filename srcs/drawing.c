@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/13 21:36:50 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/13 23:06:26 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	draw(void *param)
 	draw_ray(game);
 	// draw_minimap(game);
 	draw_cross(game);
+	draw_weapon(game);
 }
 
 void	clean_window(t_game *game)
@@ -40,7 +41,7 @@ void	clean_window(t_game *game)
 			if (j <= game->window_height / 2 - 30)
 				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0], game->c[1], game->c[2], 180));
 			else
-				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 150));
+				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 60));
 			j++;
 		}
 		i++;
@@ -184,42 +185,27 @@ float calculate_dis(float x1, float y1, float x2, float y2)
 
 void draw_cross(t_game *game)
 {
-	uint32_t cross_color;
-	int i;
-	int reference;
+	char			*cross_path;
+	mlx_texture_t	*temp_texture;
+	mlx_image_t		**image;
 
-	i = game->window_width * 0.5;
-	reference = i + 10;
-	cross_color = pixel_color(255,0,0,255); //white
-	// draw the hor lines:
-	while (i < reference)
+	image = malloc(sizeof(mlx_image_t *));
+	cross_path = "./textures/aim _crosshair.png";
+	temp_texture = mlx_load_png(cross_path);
+	if (temp_texture == NULL)
 	{
-		mlx_put_pixel(game->mlx_img, i, game->window_height / 2, cross_color);
-		i++;
+		mlx_terminate(game->mlx);
+		ft_error_tex();
 	}
-	i = game->window_width * 0.5 + 15;
-	reference = i + 10;
-	while (i < reference)
+	*image = mlx_texture_to_image(game->mlx, temp_texture);
+	if (*image == NULL)
 	{
-		mlx_put_pixel(game->mlx_img, i, game->window_height / 2, cross_color);
-		i++;
+		mlx_terminate(game->mlx);
+		ft_error_tex();
 	}
-	// draw the verticals lines:
-	i = game->window_height * 0.5 - 13;
-	reference = i + 10;
-	while (i < reference)
-	{
-		mlx_put_pixel(game->mlx_img, game->window_width * 0.5 + 12, i, cross_color);
-		i++;
-	}
-	i = game->window_height * 0.5 + 3;
-	reference = i + 10;
-	while (i < reference)
-	{
-		mlx_put_pixel(game->mlx_img, game->window_width * 0.5 + 12, i, cross_color);
-		i++;
-	}
-
+	mlx_delete_texture(temp_texture);
+	mlx_image_to_window(game->mlx, *image, game->window_width/2 - 30 , game->window_height/2 - 30);
+	free (image);
 }
 
 void	draw_ray(t_game *game)
@@ -342,9 +328,11 @@ uint32_t	get_color(uint32_t	texture_color)
 void	draw_tex_slice(t_game *game, float wall_height, int shift_to_center, int r_num)
 {
 	uint32_t	texture_color;
+	int			y;
 
+	y = shift_to_center;
 	game->rend.texture_x = (uint32_t)(game->rend.texture_pos_x_rate * game->rend.current_texture->width);
-	for (int y = shift_to_center; y < shift_to_center + wall_height; y++)
+	while (y < shift_to_center + wall_height)
 	{
 		// Scale the y-coordinate to the texture height
 		game->rend.texture_y = (uint32_t)((y - shift_to_center) * game->rend.current_texture->height / wall_height);
@@ -353,5 +341,31 @@ void	draw_tex_slice(t_game *game, float wall_height, int shift_to_center, int r_
 			[game->rend.texture_y * game->rend.current_texture->width + game->rend.texture_x];
 		// Draw the pixel on the screen with the new color
 		mlx_put_pixel(game->mlx_img, (r_num ), y, get_color(texture_color));
+		y++;
 	}
+}
+
+void draw_weapon(t_game *game)
+{
+	char			*cross_path;
+	mlx_texture_t	*temp_texture;
+	mlx_image_t		**image;
+
+	image = malloc(sizeof(mlx_image_t *));
+	cross_path = "./textures/weapon.png";
+	temp_texture = mlx_load_png(cross_path);
+	if (temp_texture == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	*image = mlx_texture_to_image(game->mlx, temp_texture);
+	if (*image == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	mlx_delete_texture(temp_texture);
+	mlx_image_to_window(game->mlx, *image, game->window_width - 650 , game->window_height - 312);
+	free (image);
 }

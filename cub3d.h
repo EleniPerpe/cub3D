@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/13 19:22:21 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/13 22:55:07 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,6 @@ void	get_wall(t_game *game, int flag);
 void	render_walls(t_game *game, int r_num);
 uint32_t	get_color(uint32_t	texture_color);
 void	draw_tex_slice(t_game *game, float wall_height, int shift_to_center, int r_num);
-
+void	ft_error_tex(void);
+void draw_weapon(t_game *game);
 #endif

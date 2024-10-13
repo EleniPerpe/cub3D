@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/11 22:17:50 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/13 19:23:15 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw(void *param)
 	clean_window(game);
 	// draw_player(game);
 	// draw_miniplayer(game);
-	draw_map(game);
+	// draw_map(game);
 	draw_ray(game);
 	// draw_minimap(game);
 	draw_cross(game);
@@ -238,47 +238,9 @@ void	draw_ray(t_game *game)
 		calculate_vertical_intraction(game, &dof, &flag);
 		get_ver_point(game, dof);
 		get_wall(game, flag);
+		render_walls(game, r_num);
 //=	==========================================================================================================
-		float wall_height = (game->map_unit_size * game->window_height) / game->rend.wall_distance; // the wall height depending on how far it is from the player
-		if (wall_height > game->window_height) // for safty
-			wall_height = game->window_height;
-		int lineOff = game->window_height/2- (wall_height/2); // to center the wall in the middle of the window (middle of the height)
-		float hit_pos_x;
-		if (game->ray.ver_distance < game->ray.hor_distance)
-			hit_pos_x = fmod(game->rend.wall_y, game->map_unit_size) / game->map_unit_size; // Vertical wall hit
-		else
-			hit_pos_x = fmod(game->rend.wall_x, game->map_unit_size) / game->map_unit_size; // Horizontal wall hit
-		// Convert to texture coordinates (between 0 and texture width)
-		uint32_t texture_x = (uint32_t)(hit_pos_x * game->rend.current_texture->width);
-		if (texture_x < 0)
-			texture_x = 0;
-		if (texture_x >= game->rend.current_texture->width)
-			texture_x = game->rend.current_texture->width - 1;
-		// Loop over each vertical line of the wall
-		// Loop over the height of the wall slice
-		uint32_t texture_y;
-		uint32_t texture_color;
-		for (int y = lineOff; y < lineOff + wall_height; y++)
-		{
-			// Scale the y-coordinate to the texture height
-			texture_y = (uint32_t)((y - lineOff) * game->rend.current_texture->height / wall_height);
-
-			// Ensure texture coordinates are within bounds
-			if (texture_y < 0)
-				texture_y = 0;
-			if (texture_y >= game->rend.current_texture->height)
-				texture_y = game->rend.current_texture->height - 1;
-			// Sample the texture color from (texture_x, texture_y)
-			texture_color = ((uint32_t *)game->rend.current_texture->pixels)[texture_y * game->rend.current_texture->width + texture_x];
-			t_color clr;
-			clr.channel[ALPHA] = (texture_color >> 24) & 0xFF; // Extract Alpha
-			clr.channel[RED] = (texture_color >> 16) & 0xFF;   // Extract Red
-			clr.channel[GREEN] = (texture_color >> 8) & 0xFF;   // Extract Green
-			clr.channel[BLUE] = texture_color & 0xFF;
-			// Draw the pixel on the screen with the new color
-			mlx_put_pixel(game->mlx_img, (r_num + 500), y, clr.color);
-		}
-		draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)game->rend.wall_x, (int)game->rend.wall_y, pixel_color(0, 0, 255, 255)); // blue
+		// draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)game->rend.wall_x, (int)game->rend.wall_y, pixel_color(0, 0, 255, 255)); // blue
 		game->ray.ra += 0.01745329/24; //next ray
 		r_num++;
 	}
@@ -334,8 +296,63 @@ void	get_wall(t_game *game, int flag)
 		game->rend.wall_x = game->ray.hor_x;
 		game->rend.wall_y = game->ray.hor_y;
 	}
+	// if (flag ==1)
+	// {
+	// 	printf("flag is: %d\n", flag);
+	// 	exit (1);
+	// }
 	if (flag == 1)
 		game->rend.current_texture = game->tex.south_image;
 	fix_fisheye(game);
+}
+
+void	render_walls(t_game *game, int r_num)
+{
+	float		wall_height;
+	int			shift_to_center;
+
+	wall_height = (game->map_unit_size * game->window_height) / game->rend.wall_distance; // the wall height depending on how far it is from the player
+	if (wall_height > game->window_height) // for safty
+		wall_height = game->window_height;
+	shift_to_center = game->window_height/2- (wall_height/2); // to center the wall in the middle of the window (middle of the height)
+	if (game->ray.ver_distance < game->ray.hor_distance)
+		game->rend.texture_pos_x_rate = fmod(game->rend.wall_y, game->map_unit_size) / game->map_unit_size;
+		// Vertical wall hit: example: wall_y = 160
+		// fmod(160, 64) = 32 which is in the middle of the block
+		// texture_pos_x = 32 / 64 = 0.5 that means it is in the half way from the texture width
+	else
+		game->rend.texture_pos_x_rate = fmod(game->rend.wall_x, game->map_unit_size) / game->map_unit_size; // Horizontal wall hit
+	// Convert to texture coordinates (between 0 and texture width)
+	// so if hit_po_x = 0.5 --> texture_pos_x * game->rend.current_texture->width will take the middle of the texture
+	// so by knowing texture_pos_x we can take the color from the texture from the right place in it
+	draw_tex_slice(game, wall_height, shift_to_center, r_num);
+}
+
+uint32_t	get_color(uint32_t	texture_color)
+{
+		t_color clr;
+
+		clr.channel[ALPHA] = (texture_color >> 24) & 0xFF; // Extract Alpha
+		clr.channel[RED] = (texture_color >> 16) & 0xFF;   // Extract Red
+		clr.channel[GREEN] = (texture_color >> 8) & 0xFF;   // Extract Green
+		clr.channel[BLUE] = texture_color & 0xFF;
+		return (clr.color);
+}
+
+void	draw_tex_slice(t_game *game, float wall_height, int shift_to_center, int r_num)
+{
+	uint32_t	texture_color;
+
+	game->rend.texture_x = (uint32_t)(game->rend.texture_pos_x_rate * game->rend.current_texture->width);
+	for (int y = shift_to_center; y < shift_to_center + wall_height; y++)
+	{
+		// Scale the y-coordinate to the texture height
+		game->rend.texture_y = (uint32_t)((y - shift_to_center) * game->rend.current_texture->height / wall_height);
+		// Sample the texture color from (texture_x, texture_y)
+		texture_color = ((uint32_t *)game->rend.current_texture->pixels)
+			[game->rend.texture_y * game->rend.current_texture->width + game->rend.texture_x];
+		// Draw the pixel on the screen with the new color
+		mlx_put_pixel(game->mlx_img, (r_num ), y, get_color(texture_color));
+	}
 }
 

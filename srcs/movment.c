@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/11 22:41:58 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/13 19:24:47 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,19 @@ void	keyboard_control(void *param)
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) )
     {
-        game->player.angle_player -= 0.1;
+        game->player.angle_player -= 0.05;
         if (game->player.angle_player < 0)
             game->player.angle_player += 2 * PI;
-        game->player.dx_player = cos (game->player.angle_player) * 9;
-        game->player.dy_player = sin (game->player.angle_player) * 9;
+        game->player.dx_player = cos (game->player.angle_player) * 5;
+        game->player.dy_player = sin (game->player.angle_player) * 5;
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) )
     {
-        game->player.angle_player += 0.1;
+        game->player.angle_player += 0.05;
         if (game->player.angle_player > 2 * PI)
             game->player.angle_player -= 2 * PI;
-        game->player.dx_player = cos (game->player.angle_player) * 9;
-        game->player.dy_player = sin (game->player.angle_player) * 9;
+        game->player.dx_player = cos (game->player.angle_player) * 5;
+        game->player.dy_player = sin (game->player.angle_player) * 5;
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT_SHIFT))
     {

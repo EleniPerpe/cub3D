@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:29:10 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/10 18:44:46 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/13 21:34:13 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void init_map(t_game *game)
 	game->map_unit_x = 30;
 	game->map_unit_y = 16;
 	game->name = "CUB3D";
-	game->window_height = 1080;
-	game->window_width = 1440;
+	game->window_height = 960;
+	game->window_width = 1940;
 }
 
 void init_player(t_game *game)
@@ -34,7 +34,6 @@ void init_player(t_game *game)
 		game->player.angle_player =   DIR_EA;
 	else if (game->orientation == 'W')
 		game->player.angle_player =   DIR_WE;
-	// game->player.angle_player = 0;
 	game->player.dx_player = cos (game->player.angle_player) * 5; // 5 is the speed of movment
 	game->player.dy_player = sin (game->player.angle_player) * 5;
 }

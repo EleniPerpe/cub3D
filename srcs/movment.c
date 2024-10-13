@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/09 18:49:35 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/13 19:24:47 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,34 @@
 
 void coordinate_corrector(t_game *game, char c);
 
-void    keyboard_control(void *param)
+void	keyboard_control(void *param)
 {
     t_game  *game;
     game = param;
+    // int new_x;
+    // int new_y;
     if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(game->mlx);
     if (mlx_is_key_down(game->mlx, MLX_KEY_W))
     {
-        game->player.y_player+= game->player.dy_player;
-        game->player.x_player+= game->player.dx_player;
+        // new_x = (int)game->player.x_player + game->player.dx_player * 14;
+        // new_y = (int)game->player.y_player + game->player.dy_player * 14;
+        // if (game->map[new_y / 64][new_x /64] != '1')
+        // {
+            game->player.y_player+= game->player.dy_player;
+            game->player.x_player+= game->player.dx_player;
+        // }
         coordinate_corrector(game, 'W');
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_S) )
     {
-        game->player.y_player -= game->player.dy_player;
-        game->player.x_player -= game->player.dx_player;
+        // new_x = (int)game->player.x_player - game->player.dx_player * 14;
+        // new_y = (int)game->player.y_player - game->player.dy_player * 14;
+        // if (game->map[new_y / 64][new_x /64] != '1')
+        // {
+            game->player.y_player -= game->player.dy_player;
+            game->player.x_player -= game->player.dx_player;
+        // }
         coordinate_corrector(game, 'S');
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_A))
@@ -46,19 +58,19 @@ void    keyboard_control(void *param)
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) )
     {
-        game->player.angle_player -= 0.1;
+        game->player.angle_player -= 0.05;
         if (game->player.angle_player < 0)
             game->player.angle_player += 2 * PI;
-        game->player.dx_player = cos (game->player.angle_player) * 9;
-        game->player.dy_player = sin (game->player.angle_player) * 9;
+        game->player.dx_player = cos (game->player.angle_player) * 5;
+        game->player.dy_player = sin (game->player.angle_player) * 5;
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) )
     {
-        game->player.angle_player += 0.1;
+        game->player.angle_player += 0.05;
         if (game->player.angle_player > 2 * PI)
             game->player.angle_player -= 2 * PI;
-        game->player.dx_player = cos (game->player.angle_player) * 9;
-        game->player.dy_player = sin (game->player.angle_player) * 9;
+        game->player.dx_player = cos (game->player.angle_player) * 5;
+        game->player.dy_player = sin (game->player.angle_player) * 5;
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT_SHIFT))
     {
@@ -79,7 +91,7 @@ void coordinate_corrector(t_game *game, char c)
         game->player.x_player = game->window_width - 9;
     else if (game->player.x_player < 1)
         game->player.x_player = 1;
-    if (game->map[(int)game->player.y_player / 64][(int)game->player.x_player /64]== '1')
+    if (game->map[((int)game->player.y_player)/ 64][((int)game->player.x_player)/64]== '1')
     {
         if (c == 'W')
         {

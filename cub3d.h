@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/13 22:55:07 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:15:07 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_rend
 	uint32_t	texture_x;
 	uint32_t	texture_y;
 	mlx_image_t	*current_texture;
+	mlx_image_t		**crosshair_tex;
+	mlx_image_t		**weapon_tex;
 
 }			t_rend;
 
@@ -78,6 +80,7 @@ typedef struct s_player
 	float			dy_player;
 	float			angle_player;
 	float			start_angle;
+	int				mouse_pos;
 }	t_player;
 
 typedef struct s_texture
@@ -116,12 +119,13 @@ typedef struct s_game
 	t_rend			rend;
 }	t_game;
 
+int32_t	pixel_color(int r, int g, int b, int a);
+uint32_t	get_color(uint32_t	texture_color);
 int		arg_check(int argc, char *arg);
 void	map_reader(t_game *game, char *map);
 void	ft_error_exit(t_game *game, const char *msg);
 int		init_mlx(t_game *game);
 void	draw(void *param);
-int32_t	pixel_color(int r, int g, int b, int a);
 void	keyboard_control(void *param);
 void	clean_window(t_game *game);
 void	draw_player(t_game *game);
@@ -133,7 +137,7 @@ void	init_map(t_game *game);
 void	init_player(t_game *game);
 void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
 void	draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color);
-void	draw_ray(t_game *game);
+void	calculate_ray(t_game *game);
 void	draw_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
 void	coordinate_corrector(t_game *game, char c);
 void	fill_real_map(t_game *game, char *reader);
@@ -144,11 +148,9 @@ void	check_textures(t_game *game);
 int		check_rgb(char *variable, int **color);
 void	ft_setup_temp_map(t_game *game, char ***temp_map);
 void	check_walls(char **map, int x, int y, t_game *game);
-float calculate_dis(float x1, float y1, float x2, float y2);
-// float fix_ang(float a);
-void draw_wall_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
-void draw_cross(t_game *game);
-void mouse_move(int x, int y, t_game *game);
+float	calculate_dis(float x1, float y1, float x2, float y2);
+void	draw_cross(t_game *game);
+void	mouse_move(double x, double y, void *param);
 void	calculate_horizontal_intraction(t_game *game, int *dof);
 void	calculate_vertical_intraction(t_game *game,int *dof, int *flag);
 void	get_hor_point(t_game *game,int dof);
@@ -156,8 +158,14 @@ void	get_ver_point(t_game *game,int dof);
 void	reset_rays(t_game * game,int *flag);
 void	get_wall(t_game *game, int flag);
 void	render_walls(t_game *game, int r_num);
-uint32_t	get_color(uint32_t	texture_color);
 void	draw_tex_slice(t_game *game, float wall_height, int shift_to_center, int r_num);
 void	ft_error_tex(void);
-void draw_weapon(t_game *game);
+void	draw_weapon(t_game *game);
+void	init_weapon_rendering(t_game *game);
+void	init_crosshair_rendering(t_game *game);
+void	adsw(t_game *game);
+void	left_right(t_game *game);
+void	loops(t_game *game);
+void	init_game(t_game *game);
+
 #endif

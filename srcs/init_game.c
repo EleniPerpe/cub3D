@@ -37,3 +37,46 @@ void init_player(t_game *game)
 	game->player.dx_player = cos (game->player.angle_player) * 5; // 5 is the speed of movment
 	game->player.dy_player = sin (game->player.angle_player) * 5;
 }
+
+void	init_weapon_rendering(t_game *game)
+{
+		char			*cross_path;
+	mlx_texture_t	*temp_texture;
+
+	game->rend.weapon_tex = malloc(sizeof(mlx_image_t *));
+	cross_path = "./textures/weapon.png";
+	temp_texture = mlx_load_png(cross_path);
+	if (temp_texture == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	*game->rend.weapon_tex = mlx_texture_to_image(game->mlx, temp_texture);
+	if (*game->rend.weapon_tex == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	mlx_delete_texture(temp_texture);
+}
+void	init_crosshair_rendering(t_game *game)
+{
+	char			*cross_path;
+	mlx_texture_t	*temp_texture;
+
+	game->rend.crosshair_tex = malloc(sizeof(mlx_image_t *));
+	cross_path = "./textures/aim _crosshair.png";
+	temp_texture = mlx_load_png(cross_path);
+	if (temp_texture == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	*game->rend.crosshair_tex = mlx_texture_to_image(game->mlx, temp_texture);
+	if (*game->rend.crosshair_tex == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	mlx_delete_texture(temp_texture);
+}

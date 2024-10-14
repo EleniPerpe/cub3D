@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/11 16:26:54 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:12:37 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,8 @@ int	main(int argc, char **argv)
 	map_reader(&game, argv[1]);
 	if (game.map == NULL)
 		ft_error();
-	init_map(&game);
-	init_player(&game);
-	mlx_loop_hook(game.mlx, draw, &game);
-	mlx_loop_hook(game.mlx, keyboard_control, &game);
-	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx);
+	init_game(&game);
+	loops(&game);
 	free_map(&game);
 	return (EXIT_SUCCESS);
 }
@@ -52,6 +48,8 @@ void	free_map(t_game *game)
 		i++;
 	}
 	free(game->map);
+	free (game->rend.crosshair_tex);
+	free (game->rend.weapon_tex);
 }
 
 void	ft_error_exit(t_game *game, const char *msg)

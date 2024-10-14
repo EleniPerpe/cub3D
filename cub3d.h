@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/14 17:15:07 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/14 22:00:24 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ typedef struct s_rend
 	mlx_image_t	*current_texture;
 	mlx_image_t		**crosshair_tex;
 	mlx_image_t		**weapon_tex;
-
+	mlx_image_t		**heal_0;
+	mlx_image_t		**heal_1;
 }			t_rend;
 
 typedef union s_color
@@ -81,6 +82,7 @@ typedef struct s_player
 	float			angle_player;
 	float			start_angle;
 	int				mouse_pos;
+	int				health;
 }	t_player;
 
 typedef struct s_texture
@@ -167,5 +169,7 @@ void	adsw(t_game *game);
 void	left_right(t_game *game);
 void	loops(t_game *game);
 void	init_game(t_game *game);
+void	init_heal_rendering(t_game *game);
+void	draw_health(t_game *game);
 
 #endif

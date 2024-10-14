@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/14 17:12:37 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/14 21:44:59 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	free_map(t_game *game)
 	free(game->map);
 	free (game->rend.crosshair_tex);
 	free (game->rend.weapon_tex);
+	free (game->rend.heal_0);
+	free (game->rend.heal_1);
 }
 
 void	ft_error_exit(t_game *game, const char *msg)

@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/14 17:14:43 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/14 22:31:24 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_game(t_game *game)
 	init_player(game);
 	init_weapon_rendering(game);
 	init_crosshair_rendering(game);
+	init_heal_rendering(game);
 }
 
 void	loops(t_game *game)
@@ -43,4 +44,5 @@ void	draw(void *param)
 	// draw_minimap(game);
 	draw_cross(game);
 	draw_weapon(game);
+	// draw_health(game);
 }

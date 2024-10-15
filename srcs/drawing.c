@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/14 17:14:24 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/15 21:39:01 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,10 +164,6 @@ float calculate_dis(float x1, float y1, float x2, float y2)
 	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 }
 
-void draw_cross(t_game *game)
-{
-	mlx_image_to_window(game->mlx, *game->rend.crosshair_tex, game->window_width/2 - 30 , game->window_height/2 - 30);
-}
 
 void	calculate_ray(t_game *game)
 {

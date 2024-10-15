@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/14 22:00:24 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/16 01:35:36 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_rend
 	mlx_image_t		**weapon_tex;
 	mlx_image_t		**heal_0;
 	mlx_image_t		**heal_1;
+	float		wall_height;
+
 }			t_rend;
 
 typedef union s_color
@@ -160,16 +162,19 @@ void	get_ver_point(t_game *game,int dof);
 void	reset_rays(t_game * game,int *flag);
 void	get_wall(t_game *game, int flag);
 void	render_walls(t_game *game, int r_num);
-void	draw_tex_slice(t_game *game, float wall_height, int shift_to_center, int r_num);
 void	ft_error_tex(void);
 void	draw_weapon(t_game *game);
 void	init_weapon_rendering(t_game *game);
 void	init_crosshair_rendering(t_game *game);
-void	adsw(t_game *game);
+void	sw(t_game *game);
+void	ad(t_game *game);
 void	left_right(t_game *game);
 void	loops(t_game *game);
 void	init_game(t_game *game);
 void	init_heal_rendering(t_game *game);
 void	draw_health(t_game *game);
+void	draw_tex_slice(t_game *game, int shift_to_center, int r_num, int offset);
+void	draw_far_slice(t_game *game, int r_num, int shift_to_down);
+void	draw_close_slice(t_game *game,  int r_num, int offset);
 
 #endif

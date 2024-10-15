@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:01 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/13 18:23:19 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/15 19:21:44 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ void	calculate_vertical_intraction(t_game *game,int *dof, int *flag)
 		game->ray.ry_step = 64 * tan(game->ray.ra);
 		*dof = 0;
 	}
-	// else if (game->ray.ra * 180 / M_PI > 45 && game->ray.ra * 180 / M_PI <= 130)
-	// {
-	// 	game->ray.rx = game->player.x_player;
-	// 	game->ray.ry = game->player.y_player;
-	// 	game->ray.rx_step = 0;
-	// 	game->ray.ry_step = 0;
-	// 	*dof = 25;
-	// 	*flag = 1;
-	// }
 	else
 	{
 		game->ray.rx = game->player.x_player;
@@ -73,7 +64,8 @@ void	calculate_vertical_intraction(t_game *game,int *dof, int *flag)
 		game->ray.rx_step = 0;
 		game->ray.ry_step = 0;
 		*dof = 25;
-		*flag = 1;
+		if (game->ray.ra * 180 / M_PI > 45 && game->ray.ra * 180 / M_PI <= 130)
+			*flag = 1;
 	}
 }
 

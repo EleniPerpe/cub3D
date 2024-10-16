@@ -6,7 +6,7 @@
 #    By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 15:13:49 by eperperi          #+#    #+#              #
-#    Updated: 2024/10/14 17:11:31 by rshatra          ###   ########.fr        #
+#    Updated: 2024/10/16 22:51:40 by rshatra          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC		 =	$(SRC_DIR)main.c \
 			$(SRC_DIR)raycast_calculations.c \
 			$(SRC_DIR)mini_map.c \
 			$(SRC_DIR)rendering.c \
+			$(SRC_DIR)rendering_adds.c \
 			$(SRC_DIR)utilities.c \
 			$(SRC_DIR)init_game.c \
 			$(SRC_DIR)movment.c \

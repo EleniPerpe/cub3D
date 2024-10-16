@@ -6,12 +6,11 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/15 21:39:01 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/16 22:45:33 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 
 void	clean_window(t_game *game)
 {
@@ -19,13 +18,17 @@ void	clean_window(t_game *game)
 	int j;
 
 	i = 0;
-	while ( i <game->window_width)
+	while (i < game->window_width)
 	{
-		j= 0;
-		while ( j <game->window_height)
+		j = 0;
+		while (j < game->window_height)
 		{
 			if (j <= game->window_height / 2 - 30)
+			{
 				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0], game->c[1], game->c[2], 180));
+				if (rand() % 10000 < 2)
+					mlx_put_pixel(game->mlx_img, i, j, pixel_color(255, 255, 255, 255));
+			}
 			else
 				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 60));
 			j++;
@@ -63,7 +66,6 @@ void	draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color)
 	while (i < 32)
 	{
 		j = 0;
-		while (j < (64/(game->window_width/(9*32))))
 		while (j < 32)
 		{
 			mlx_put_pixel(game->mlx_img, xo + j, yo + i, tile_color);

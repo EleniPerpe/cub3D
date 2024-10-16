@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/16 01:37:50 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/16 22:50:58 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	draw(void *param)
 	game = param;
 	clean_window(game);
 	// draw_player(game);
-	// draw_miniplayer(game);
 	// draw_map(game);
 	calculate_ray(game);
-	// draw_minimap(game);
-	// draw_cross(game);
-	// draw_weapon(game);
+	draw_minimap(game);
+	draw_miniplayer(game);
+	draw_cross(game);
+	draw_weapon(game);
 	// draw_health(game);
 }

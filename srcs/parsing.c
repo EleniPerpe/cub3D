@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/13 22:16:13 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 01:31:59 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void    check_textures(t_game *game)
     ft_load_image(game, &game->tex.west_image, game->we);
     ft_load_image(game, &game->tex.south_image, game->so);
     ft_load_image(game, &game->tex.north_image, game->no);
+    ft_load_image(game, &game->tex.door, "./textures/door.png");
 }
 
 void    ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)

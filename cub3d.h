@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/16 22:34:56 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 01:25:03 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_rend
 	mlx_image_t		**heal_0;
 	mlx_image_t		**heal_1;
 	float		wall_height;
+	bool 		is_door;
 
 }			t_rend;
 
@@ -93,6 +94,7 @@ typedef struct s_texture
 	mlx_image_t	*south_image;
 	mlx_image_t	*west_image;
 	mlx_image_t	*east_image;
+	mlx_image_t	*door;
 }	t_texture;
 
 

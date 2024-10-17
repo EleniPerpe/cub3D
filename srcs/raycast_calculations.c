@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:01 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/15 19:21:44 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 01:22:44 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,14 @@ void	get_hor_point(t_game *game,int dof)
 				game->ray.hor_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.hor_x,game->ray.hor_y);
 				break ;
 			}
+			else if (game->map[map_y][map_x] == '2')
+			{
+				game->ray.hor_x = game->ray.rx;
+				game->ray.hor_y = game->ray.ry;
+				game->ray.hor_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.hor_x,game->ray.hor_y);
+				game->rend.is_door = true;
+				break ;
+			}
 			else
 			{
 				game->ray.rx += game->ray.rx_step;
@@ -116,6 +124,14 @@ void	get_ver_point(t_game *game,int dof)
 				game->ray.ver_x = game->ray.rx;
 				game->ray.ver_y = game->ray.ry;
 				game->ray.ver_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.ver_x,game->ray.ver_y);
+				break;
+			}
+			else if (game->map[map_y][map_x] == '2')
+			{
+				game->ray.ver_x = game->ray.rx;
+				game->ray.ver_y = game->ray.ry;
+				game->ray.ver_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.ver_x,game->ray.ver_y);
+				game->rend.is_door = true;
 				break;
 			}
 			else

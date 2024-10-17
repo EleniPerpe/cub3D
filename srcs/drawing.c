@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/16 22:45:33 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 01:43:59 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,20 +210,30 @@ void	get_wall(t_game *game, int flag)
 	game->rend.current_texture = NULL;
 	if(game->ray.ver_distance < game->ray.hor_distance)
 	{
-		 if (game->ray.rx > game->player.x_player)
-			game->rend.current_texture = game->tex.east_image;
+		if (game->rend.is_door)
+			game->rend.current_texture = game->tex.door;
 		else
-			game->rend.current_texture = game->tex.west_image;
+		{
+			if (game->ray.rx > game->player.x_player)
+				game->rend.current_texture = game->tex.east_image;
+			else
+				game->rend.current_texture = game->tex.west_image;
+		}
 		game->rend.wall_distance = game->ray.ver_distance;
 		game->rend.wall_x = game->ray.ver_x;
 		game->rend.wall_y = game->ray.ver_y;
 	}
 	else if(game->ray.ver_distance >= game->ray.hor_distance)
 	{
-		if (game->ray.ry > game->player.y_player)
-			game->rend.current_texture = game->tex.south_image;
+		if (game->rend.is_door)
+			game->rend.current_texture = game->tex.door;
 		else
-			game->rend.current_texture = game->tex.north_image;
+		{
+			if (game->ray.ry > game->player.y_player)
+				game->rend.current_texture = game->tex.south_image;
+			else
+				game->rend.current_texture = game->tex.north_image;
+		}
 		game->rend.wall_distance = game->ray.hor_distance;
 		game->rend.wall_x = game->ray.hor_x;
 		game->rend.wall_y = game->ray.hor_y;

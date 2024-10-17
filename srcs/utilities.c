@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:09:17 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/14 16:10:24 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 01:37:48 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	reset_rays(t_game * game,int *flag)
 	game->ray.ver_x = 0;
 	game->ray.ver_y = 0;
 	*flag = 0;
+	game->rend.is_door = false;
 }
 
 uint32_t	get_color(uint32_t	texture_color)

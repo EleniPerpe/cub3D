@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:28:12 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 01:12:30 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 01:57:50 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void draw_minimap(t_game *game)
 					tile_color = pixel_color(70, 150, 55, 255);
 				else if (game->map[map_index_y + y][map_index_x + x] == '0')
 					tile_color = pixel_color(255, 255, 255, 255);
+				else if (game->map[map_index_y + y][map_index_x + x] == '2')
+					tile_color = pixel_color(10, 115, 150, 255);
 				else if (game->map[map_index_y + y][map_index_x + x] == ' ' || game->map[map_index_y + y][map_index_x + x] == '\n')
 					tile_color = pixel_color(0, 0, 0, 255);
 				else

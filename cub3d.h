@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/17 01:25:03 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 02:43:39 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,5 +179,6 @@ void	draw_health(t_game *game);
 void	draw_tex_slice(t_game *game, int shift_to_center, int r_num, int offset);
 void	draw_far_slice(t_game *game, int r_num, int shift_to_down);
 void	draw_close_slice(t_game *game,  int r_num, int offset);
+void draw_health_section(t_game *game, mlx_image_t *heal, int x, int y);
 
 #endif

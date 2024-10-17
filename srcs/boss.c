@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/16 22:50:58 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 02:12:26 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ void	draw(void *param)
 	draw_miniplayer(game);
 	draw_cross(game);
 	draw_weapon(game);
-	// draw_health(game);
+	draw_health(game);
 }

@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/17 05:16:24 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 22:10:30 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,11 @@ typedef struct s_rend
 	uint32_t	texture_x;
 	uint32_t	texture_y;
 	mlx_image_t	*current_texture;
-	mlx_image_t		**crosshair_tex;
-	mlx_image_t		**weapon_tex;
-	mlx_image_t		**heal_0;
-	mlx_image_t		**heal_1;
-	mlx_image_t		**intro;
 	float		wall_height;
-	bool 		is_door;
+	bool 		hor_is_door;
+	bool 		ver_is_door;
+	bool 		hor_is_fire;
+	bool 		ver_is_fire;
 
 }			t_rend;
 
@@ -87,6 +85,7 @@ typedef struct s_player
 	float			start_angle;
 	int				mouse_pos;
 	int				health;
+	bool			dead;
 }	t_player;
 
 typedef struct s_texture
@@ -96,6 +95,13 @@ typedef struct s_texture
 	mlx_image_t	*west_image;
 	mlx_image_t	*east_image;
 	mlx_image_t	*door;
+	mlx_image_t	*fire;
+	mlx_image_t	*intro;
+	mlx_image_t	*heal_0;
+	mlx_image_t	*heal_1;
+	mlx_image_t	*crosshair;
+	mlx_image_t	*weapon;
+	mlx_image_t	*gameover;
 }	t_texture;
 
 
@@ -169,19 +175,16 @@ void	get_wall(t_game *game, int flag);
 void	render_walls(t_game *game, int r_num);
 void	ft_error_tex(void);
 void	draw_weapon(t_game *game);
-void	init_weapon_rendering(t_game *game);
-void	init_crosshair_rendering(t_game *game);
 void	sw(t_game *game);
 void	ad(t_game *game);
 void	left_right(t_game *game);
 void	loops(t_game *game);
 void	init_game(t_game *game);
-void	init_heal_rendering(t_game *game);
 void	draw_health(t_game *game);
 void	draw_tex_slice(t_game *game, int shift_to_center, int r_num, int offset);
 void	draw_far_slice(t_game *game, int r_num, int shift_to_down);
 void	draw_close_slice(t_game *game,  int r_num, int offset);
-void draw_health_section(t_game *game, mlx_image_t *heal, int x, int y);
-void	intro(t_game *game);
+void	draw_health_section(t_game *game, mlx_image_t *heal, int x, int y);
+void	check_fire(t_game *game);
 
 #endif

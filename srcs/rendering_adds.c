@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 01:36:55 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 04:23:21 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 21:46:53 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void draw_weapon(t_game *game)
 {
-	mlx_image_to_window(game->mlx, *game->rend.weapon_tex, game->window_width - 650 , game->window_height - 312);
+	mlx_image_to_window(game->mlx, game->tex.weapon, game->window_width - 650 , game->window_height - 312);
 }
 
 void draw_cross(t_game *game)
 {
-	draw_health_section(game, *game->rend.crosshair_tex, game->window_width/2 - 30 , game->window_height/2 - 30);
-	// mlx_image_to_window(game->mlx, *game->rend.crosshair_tex, game->window_width/2 - 30 , game->window_height/2 - 30);
+	draw_health_section(game, game->tex.crosshair, game->window_width/2 - 30 , game->window_height/2 - 30);
 }
 
 void draw_health_section(t_game *game, mlx_image_t *heal, int x, int y)
@@ -49,14 +48,14 @@ void draw_health(t_game *game)
 	int	i;
 
 	i = 0;
-	while (i < game->player.health)
+	while (i < game->player.health / 10)
 	{
-		draw_health_section(game, *game->rend.heal_1, (1020 + (i * 20)), 20);
+		draw_health_section(game, game->tex.heal_1, (1020 + (i * 20)), 20);
 		i++;
 	}
 	while (i < 20)
 	{
-		draw_health_section(game, *game->rend.heal_0, (1020 + (i * 20)), 20);
+		draw_health_section(game, game->tex.heal_0, (1020 + (i * 20)), 20);
 		i++;
 	}
 }

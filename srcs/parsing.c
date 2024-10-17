@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/17 01:31:59 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 22:11:07 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ void	check_textures(t_game *game);
 int		is_only_spaces(char *str);
 void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path);
 void	ft_error_tex(void);
+
 void	map_reader(t_game *game, char *map)
 {
 	char    *reader;
@@ -62,6 +63,13 @@ void    check_textures(t_game *game)
     ft_load_image(game, &game->tex.south_image, game->so);
     ft_load_image(game, &game->tex.north_image, game->no);
     ft_load_image(game, &game->tex.door, "./textures/door.png");
+    ft_load_image(game, &game->tex.fire, "./textures/fire.png");
+    ft_load_image(game, &game->tex.intro, "./textures/intro.png");
+    ft_load_image(game, &game->tex.heal_0, "./textures/heal_0.png");
+    ft_load_image(game, &game->tex.heal_1, "./textures/heal_1.png");
+    ft_load_image(game, &game->tex.weapon, "./textures/weapon.png");
+    ft_load_image(game, &game->tex.crosshair, "./textures/crosshair.png");
+    ft_load_image(game, &game->tex.gameover, "./textures/gameover.png");
 }
 
 void    ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)

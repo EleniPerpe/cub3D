@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:28:12 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 01:57:50 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 21:52:01 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ void draw_minimap(t_game *game)
 			if (map_index_y + y < game->height_map && map_index_x + x < (int)ft_strlen(game->map[map_index_y + y]))
 			{
 				if (game->map[map_index_y + y][map_index_x + x] == '1')
-					tile_color = pixel_color(70, 150, 55, 255);
+					tile_color = pixel_color(70, 250, 255, 100);
 				else if (game->map[map_index_y + y][map_index_x + x] == '0')
-					tile_color = pixel_color(255, 255, 255, 255);
+					tile_color = pixel_color(255, 255, 255, 150);
 				else if (game->map[map_index_y + y][map_index_x + x] == '2')
-					tile_color = pixel_color(10, 115, 150, 255);
+					tile_color = pixel_color(0, 150, 100, 255);
+				else if (game->map[map_index_y + y][map_index_x + x] == '3')
+					tile_color = pixel_color(255, 0, 0, 100);
 				else if (game->map[map_index_y + y][map_index_x + x] == ' ' || game->map[map_index_y + y][map_index_x + x] == '\n')
 					tile_color = pixel_color(0, 0, 0, 255);
 				else
-					tile_color = pixel_color(255, 255, 255, 255);
+					tile_color = pixel_color(255, 255, 255, 150);
 			}
 			else
 				tile_color = pixel_color(0, 0, 0, 255);

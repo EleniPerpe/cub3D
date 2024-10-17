@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 01:43:59 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 21:50:12 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void	calculate_ray(t_game *game)
 		get_ver_point(game, dof);
 		get_wall(game, flag);
 		render_walls(game, r_num);
-//=	==========================================================================================================
+		// draw rays:
 		// draw_line(game, (int)game->player.x_player, (int)game->player.y_player, (int)game->rend.wall_x, (int)game->rend.wall_y, pixel_color(0, 0, 255, 255)); // blue
 		game->ray.ra += 0.01745329/24; //next ray
 		r_num++;
@@ -210,8 +210,10 @@ void	get_wall(t_game *game, int flag)
 	game->rend.current_texture = NULL;
 	if(game->ray.ver_distance < game->ray.hor_distance)
 	{
-		if (game->rend.is_door)
+		if (game->rend.ver_is_door)
 			game->rend.current_texture = game->tex.door;
+		else if (game->rend.ver_is_fire)
+			game->rend.current_texture = game->tex.fire;
 		else
 		{
 			if (game->ray.rx > game->player.x_player)
@@ -225,8 +227,10 @@ void	get_wall(t_game *game, int flag)
 	}
 	else if(game->ray.ver_distance >= game->ray.hor_distance)
 	{
-		if (game->rend.is_door)
+		if (game->rend.hor_is_door)
 			game->rend.current_texture = game->tex.door;
+		else if (game->rend.hor_is_fire)
+			game->rend.current_texture = game->tex.fire;
 		else
 		{
 			if (game->ray.ry > game->player.y_player)
@@ -238,7 +242,8 @@ void	get_wall(t_game *game, int flag)
 		game->rend.wall_x = game->ray.hor_x;
 		game->rend.wall_y = game->ray.hor_y;
 	}
-	if (flag == 1)
+	if ((flag == 1) && !game->rend.hor_is_door
+		&& !game->rend.hor_is_fire)
 		game->rend.current_texture = game->tex.south_image;
 	fix_fisheye(game);
 }

@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:07:41 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 04:16:07 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:59:42 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void render_walls(t_game *game, int r_num)
 
 void draw_tex_slice(t_game *game, int shift_to_down, int r_num, int offset)
 {
-	game->rend.texture_x = (uint32_t)(game->rend.texture_pos_x_rate * game->rend.current_texture->width);
+	if (game->rend.texture_pos_x_rate > 0 && game->rend.texture_pos_x_rate <= 1)
+		game->rend.texture_x = (uint32_t)(game->rend.texture_pos_x_rate * game->rend.current_texture->width);
 	if (game->rend.texture_x >= game->rend.current_texture->width)
 		game->rend.texture_x = game->rend.current_texture->width - 1;
 	if (game->rend.wall_height <= game->window_height)

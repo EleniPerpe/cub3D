@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 05:31:29 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 22:12:22 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	init_game(t_game *game)
 {
 	init_map(game);
 	init_player(game);
-	init_weapon_rendering(game);
-	init_crosshair_rendering(game);
-	init_heal_rendering(game);
-	intro(game);
 }
 
 void	loops(t_game *game)
@@ -38,10 +34,16 @@ void	draw(void *param)
 
 	game = param;
 	if (game->intro)
-		mlx_image_to_window(game->mlx, *game->rend.intro, 0 , 0);
+		mlx_image_to_window(game->mlx, game->tex.intro, 0 , 0);
+	else if (game->player.dead)
+	{
+		mlx_delete_image(game->mlx, game->mlx_img);
+		mlx_delete_image(game->mlx, game->tex.weapon);
+		mlx_image_to_window(game->mlx, game->tex.gameover, 0 , 0);
+	}
 	else
 	{
-		mlx_delete_image(game->mlx, *game->rend.intro);
+		mlx_delete_image(game->mlx, game->tex.intro);
 		clean_window(game);
 		// draw_player(game);
 		// draw_map(game);
@@ -50,6 +52,36 @@ void	draw(void *param)
 		draw_miniplayer(game);
 		draw_cross(game);
 		draw_weapon(game);
+		check_fire(game);
 		draw_health(game);
 	}
+}
+
+void	check_fire(t_game *game)
+{
+	int x_map_index;
+	int y_map_index;
+	int i;
+	int j;
+
+	x_map_index = (game->player.x_player) / 64;
+	y_map_index = (game->player.y_player) / 64;
+	j = 0;
+	if (game->map[y_map_index][x_map_index] == '3')
+	{
+			while (j < game->window_width)
+			{
+				i = 0;
+				while (i < game->window_height)
+				{
+					if (i % 2 == 1)
+						mlx_put_pixel(game->mlx_img, j, i, pixel_color(150, 0, 0, 150));
+					i++;
+				}
+				j++;
+		}
+		game->player.health--;
+	}
+	if (game->player.health == 0)
+		game->player.dead = true;
 }

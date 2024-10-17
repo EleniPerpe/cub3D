@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/16 01:35:12 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 05:15:50 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	keyboard_control(void *param)
 		game->player.dx_player = cos (game->player.angle_player) * 17; // 20 is the speed of movement
 		game->player.dy_player = sin (game->player.angle_player) * 17;
 	}
+	if (mlx_is_key_down(game->mlx, MLX_KEY_SPACE))
+		game->intro = false;
 	sw(game);
 	ad(game);
 	left_right(game);

@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 02:12:26 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 05:31:29 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_game(t_game *game)
 	init_weapon_rendering(game);
 	init_crosshair_rendering(game);
 	init_heal_rendering(game);
+	intro(game);
 }
 
 void	loops(t_game *game)
@@ -36,13 +37,19 @@ void	draw(void *param)
 	t_game	*game;
 
 	game = param;
-	clean_window(game);
-	// draw_player(game);
-	// draw_map(game);
-	calculate_ray(game);
-	draw_minimap(game);
-	draw_miniplayer(game);
-	draw_cross(game);
-	draw_weapon(game);
-	draw_health(game);
+	if (game->intro)
+		mlx_image_to_window(game->mlx, *game->rend.intro, 0 , 0);
+	else
+	{
+		mlx_delete_image(game->mlx, *game->rend.intro);
+		clean_window(game);
+		// draw_player(game);
+		// draw_map(game);
+		calculate_ray(game);
+		draw_minimap(game);
+		draw_miniplayer(game);
+		draw_cross(game);
+		draw_weapon(game);
+		draw_health(game);
+	}
 }

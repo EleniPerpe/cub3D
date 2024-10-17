@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/17 02:43:39 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 05:16:24 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_rend
 	mlx_image_t		**weapon_tex;
 	mlx_image_t		**heal_0;
 	mlx_image_t		**heal_1;
+	mlx_image_t		**intro;
 	float		wall_height;
 	bool 		is_door;
 
@@ -124,6 +125,7 @@ typedef struct s_game
 	int				map_unit_size;
 	t_raycast		ray;
 	t_rend			rend;
+	bool			intro;
 }	t_game;
 
 int32_t	pixel_color(int r, int g, int b, int a);
@@ -180,5 +182,6 @@ void	draw_tex_slice(t_game *game, int shift_to_center, int r_num, int offset);
 void	draw_far_slice(t_game *game, int r_num, int shift_to_down);
 void	draw_close_slice(t_game *game,  int r_num, int offset);
 void draw_health_section(t_game *game, mlx_image_t *heal, int x, int y);
+void	intro(t_game *game);
 
 #endif

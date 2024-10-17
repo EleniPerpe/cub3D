@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:29:10 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 02:44:49 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 05:13:14 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void init_player(t_game *game)
 	game->player.dx_player = cos (game->player.angle_player) * 5; // 5 is the speed of movment
 	game->player.dy_player = sin (game->player.angle_player) * 5;
 	game->player.health = 13;
+	game->intro = true;
 }
 
 void	init_weapon_rendering(t_game *game)
@@ -109,4 +110,26 @@ void	init_heal_rendering(t_game *game)
 	}
 	mlx_delete_texture(temp_texture0);
 	mlx_delete_texture(temp_texture1);
+}
+
+void	intro(t_game *game)
+{
+	char			*intro_path;
+	mlx_texture_t	*temp_texture;
+
+	game->rend.intro = malloc(sizeof(mlx_image_t *));
+	intro_path = "./textures/intro.png";
+	temp_texture = mlx_load_png(intro_path);
+	if (temp_texture == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	*game->rend.intro = mlx_texture_to_image(game->mlx, temp_texture);
+	if (*game->rend.intro == NULL)
+	{
+		mlx_terminate(game->mlx);
+		ft_error_tex();
+	}
+	mlx_delete_texture(temp_texture);
 }

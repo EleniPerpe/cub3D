@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 01:36:55 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 02:43:59 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 04:23:21 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void draw_weapon(t_game *game)
 
 void draw_cross(t_game *game)
 {
-	mlx_image_to_window(game->mlx, *game->rend.crosshair_tex, game->window_width/2 - 30 , game->window_height/2 - 30);
+	draw_health_section(game, *game->rend.crosshair_tex, game->window_width/2 - 30 , game->window_height/2 - 30);
+	// mlx_image_to_window(game->mlx, *game->rend.crosshair_tex, game->window_width/2 - 30 , game->window_height/2 - 30);
 }
 
 void draw_health_section(t_game *game, mlx_image_t *heal, int x, int y)
@@ -35,7 +36,8 @@ void draw_health_section(t_game *game, mlx_image_t *heal, int x, int y)
 		while (n < heal->width)
 		{
 			texture_color = ((uint32_t *)heal->pixels)[m * heal->width + n];
-			mlx_put_pixel(game->mlx_img, x + n, y + m, get_color(texture_color));
+			if (texture_color >= 1000000000)
+				mlx_put_pixel(game->mlx_img, x + n, y + m, get_color(texture_color));
 			n++;
 		}
 		m++;

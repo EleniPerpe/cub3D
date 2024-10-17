@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 22:12:22 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 23:01:27 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ void	check_fire(t_game *game)
 		}
 		game->player.health--;
 	}
-	if (game->player.health == 0)
+	if (game->player.health < 30)
 		game->player.dead = true;
 }

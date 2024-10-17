@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:29:10 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 21:46:17 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 22:52:00 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void init_player(t_game *game)
 		game->player.angle_player =   DIR_WE;
 	game->player.dx_player = cos (game->player.angle_player) * 5; // 5 is the speed of movment
 	game->player.dy_player = sin (game->player.angle_player) * 5;
-	game->player.health = 200;
+	game->player.health = 600;
 	game->intro = true;
 	game->player.dead = false;
 }

@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 01:36:55 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 21:46:53 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/17 22:52:05 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void draw_health(t_game *game)
 	int	i;
 
 	i = 0;
-	while (i < game->player.health / 10)
+	while (i < game->player.health / 30)
 	{
 		draw_health_section(game, game->tex.heal_1, (1020 + (i * 20)), 20);
 		i++;

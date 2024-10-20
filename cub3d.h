@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/20 19:53:04 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/21 01:28:37 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,8 @@
 # include "MLX42/include/MLX42/MLX42.h"
 
 # define PI 3.1415926535
-# define DIR_SO PI / 2
-# define DIR_NO  (3 * PI / 2)
-# define DIR_WE PI
-# define DIR_EA 0
 
-enum channel
+enum e_channel
 {
 	ALPHA,
 	RED,
@@ -64,12 +60,12 @@ typedef struct s_rend
 	uint32_t	texture_y;
 	mlx_image_t	*current_texture;
 	float		wall_height;
-	bool 		hor_is_door;
-	bool 		ver_is_door;
-	bool 		hor_is_fire;
-	bool 		ver_is_fire;
-	bool 		hor_is_flame;
-	bool 		ver_is_flame;
+	bool		hor_is_door;
+	bool		ver_is_door;
+	bool		hor_is_fire;
+	bool		ver_is_fire;
+	bool		hor_is_flame;
+	bool		ver_is_flame;
 
 }			t_rend;
 
@@ -110,7 +106,6 @@ typedef struct s_texture
 	mlx_image_t	*fire_flame[21];
 }	t_texture;
 
-
 typedef struct s_game
 {
 	int				map_fd;
@@ -142,57 +137,64 @@ typedef struct s_game
 	int				frame_count2;
 }	t_game;
 
-int32_t	pixel_color(int r, int g, int b, int a);
+int32_t		pixel_color(int r, int g, int b, int a);
 uint32_t	get_color(uint32_t	texture_color);
-int		arg_check(int argc, char *arg);
-void	map_reader(t_game *game, char *map);
-void	ft_error_exit(t_game *game, const char *msg);
-int		init_mlx(t_game *game);
-void	draw(void *param);
-void	keyboard_control(void *param);
-void	clean_window(t_game *game);
-void	draw_player(t_game *game);
-void	draw_miniplayer(t_game *game);
-void	draw_map(t_game *game);
-void	draw_minimap(t_game *game);
-int		is_only_spaces(char *str);
-void	init_map(t_game *game);
-void	init_player(t_game *game);
-void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color);
-void	draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color);
-void	calculate_ray(t_game *game);
-void	draw_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color);
-void	coordinate_corrector(t_game *game, char c);
-void	fill_real_map(t_game *game, char *reader);
-void	find_map_width(t_game *game);
-void	find_start_pos(t_game *game);
-void	fill_map_variables(t_game *game);
-void	check_textures(t_game *game);
-int		check_rgb(char *variable, int **color);
-void	ft_setup_temp_map(t_game *game, char ***temp_map);
-void	check_walls(char **map, int x, int y, t_game *game);
-float	calculate_dis(float x1, float y1, float x2, float y2);
-void	draw_cross(t_game *game);
-void	mouse_move(double x, double y, void *param);
-void	calculate_horizontal_intraction(t_game *game, int *dof);
-void	calculate_vertical_intraction(t_game *game,int *dof, int *flag);
-void	get_hor_point(t_game *game,int dof);
-void	get_ver_point(t_game *game,int dof);
-void	reset_rays(t_game * game,int *flag);
-void	get_wall(t_game *game, int flag);
-void	render_walls(t_game *game, int r_num);
-void	ft_error_tex(void);
-void	draw_weapon(t_game *game);
-void	sw(t_game *game);
-void	ad(t_game *game);
-void	left_right(t_game *game);
-void	loops(t_game *game);
-void	init_game(t_game *game);
-void	draw_health(t_game *game);
-void	draw_tex_slice(t_game *game, int shift_to_center, int r_num, int offset);
-void	draw_far_slice(t_game *game, int r_num, int shift_to_down);
-void	draw_close_slice(t_game *game,  int r_num, int offset);
-void	draw_health_section(t_game *game, mlx_image_t *heal, int x, int y);
-void	check_fire(t_game *game);
+int			arg_check(int argc, char *arg);
+void		map_reader(t_game *game, char *map);
+void		ft_error_exit(t_game *game, const char *msg);
+int			init_mlx(t_game *game);
+void		draw(void *param);
+void		keyboard_control(void *param);
+void		clean_window(t_game *game);
+void		draw_miniplayer(t_game *game);
+void		draw_minimap(t_game *game);
+int			is_only_spaces(char *str);
+void		init_map(t_game *game);
+void		init_player(t_game *game);
+void		draw_tiles_boarders(t_game *game, int xo, int yo,
+				uint32_t tile_color);
+void		draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color);
+void		calculate_ray(t_game *game);
+// void		draw_line(t_game *game, int x0, int y0, int x1, int y1);
+void		draw_line(t_game *game, int *point1, int x1, int y1);
+void		coordinate_corrector(t_game *game, char c);
+void		coordinate_corrector2(t_game *game, char c);
+void		fill_real_map(t_game *game, char *reader);
+void		find_map_width(t_game *game);
+void		find_start_pos(t_game *game);
+void		fill_map_variables(t_game *game);
+void		check_textures(t_game *game);
+int			check_rgb(char *variable, int **color);
+void		ft_setup_temp_map(t_game *game, char ***temp_map);
+void		check_walls(char **map, int x, int y, t_game *game);
+float		calculate_dis(float x1, float y1, float x2, float y2);
+void		draw_cross(t_game *game);
+void		mouse_move(double x, double y, void *param);
+void		calculate_horizontal_intraction(t_game *game, int *dof);
+void		calculate_vertical_intraction(t_game *game, int *dof, int *flag);
+void		get_hor_point(t_game *game, int dof);
+void		get_ver_point(t_game *game, int dof);
+void		reset_rays(t_game *game, int *flag);
+void		get_wall(t_game *game, int flag);
+void		render_walls(t_game *game, int r_num);
+void		ft_error_tex(void);
+void		draw_weapon(t_game *game);
+void		sw(t_game *game);
+void		ad(t_game *game);
+void		left_right(t_game *game);
+void		loops(t_game *game);
+void		init_game(t_game *game);
+void		draw_health(t_game *game);
+void		draw_tex_slice(t_game *game, int shift_to_center,
+				int r_num, int offset);
+void		draw_far_slice(t_game *game, int r_num, int shift_to_down);
+void		draw_close_slice(t_game *game, int r_num, int offset);
+void		draw_health_section(t_game *game, mlx_image_t *heal, int x, int y);
+void		check_fire(t_game *game);
+void		finish(t_game *game);
+void		set_hor_tex(t_game *game);
+void		set_ver_tex(t_game *game);
+bool		checker(t_game *game);
+void		fix_fisheye(t_game *game);
 
 #endif

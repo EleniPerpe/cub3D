@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/20 19:44:17 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/21 01:30:05 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	draw(void *param)
 
 	game = param;
 	if (game->intro)
-		mlx_image_to_window(game->mlx, game->tex.intro, 0 , 0);
+		mlx_image_to_window(game->mlx, game->tex.intro, 0, 0);
 	else if (game->player.dead)
 	{
 		mlx_delete_image(game->mlx, game->mlx_img);
 		mlx_delete_image(game->mlx, game->tex.weapon);
-		mlx_image_to_window(game->mlx, game->tex.gameover, 0 , 0);
+		mlx_image_to_window(game->mlx, game->tex.gameover, 0, 0);
 	}
 	else
 	{
@@ -56,27 +56,50 @@ void	draw(void *param)
 	}
 }
 
+void	calculate_ray(t_game *game)
+{
+	int	r_num;
+	int	dof;
+	int	flag;
+
+	r_num = 0;
+	game->ray.ra = game->player.angle_player - 0.523598;
+	while (r_num < 1440)
+	{
+		dof = 0;
+		reset_rays(game, &flag);
+		calculate_horizontal_intraction(game, &dof);
+		get_hor_point(game, dof);
+		dof = 0;
+		calculate_vertical_intraction(game, &dof, &flag);
+		get_ver_point(game, dof);
+		get_wall(game, flag);
+		render_walls(game, r_num);
+		game->ray.ra += 0.01745329 / 24;
+		r_num++;
+	}
+}
+
 void	check_fire(t_game *game)
 {
-	int i;
-	int j;
-	int red_intensity;
+	int	i;
+	int	j;
+	int	red_intensity;
 
 	j = 0;
 	if (game->map[(int)(game->player.y_player) / 64]
 			[(int)(game->player.x_player) / 64] == '3')
 	{
 		red_intensity = 150 + (sin(game->frame_count * 0.2) * 50);
-		while (j < game->window_width)
+		while (j++ < game->window_width)
 		{
 			i = 0;
-			while (i < game->window_height)
+			while (i++ < game->window_height)
 			{
 				if (i % 2 == 1)
-					mlx_put_pixel(game->mlx_img, j, i, pixel_color(red_intensity, 0, 0, 150));
-				i++;
+					mlx_put_pixel(game->mlx_img, j, i,
+						pixel_color(red_intensity, 0, 0, 150));
 			}
-			j++;
 		}
 		game->player.health--;
 		game->frame_count++;

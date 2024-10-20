@@ -6,11 +6,12 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/20 18:56:07 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/21 01:16:06 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
 void	check_textures(t_game *game);
 int		is_only_spaces(char *str);
 void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path);
@@ -20,6 +21,7 @@ void	map_reader(t_game *game, char *map)
 {
 	char	*reader;
 	char	**temp_map;
+
 	game->map_fd = open(map, O_RDONLY);
 	if (game->map_fd < 0)
 	{
@@ -39,9 +41,10 @@ void	map_reader(t_game *game, char *map)
 	close(game->map_fd);
 }
 
-int is_only_spaces(char *str)
+int	is_only_spaces(char *str)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	if (str[0] == '\n')
 		return (0);
@@ -58,29 +61,28 @@ int is_only_spaces(char *str)
 
 void	keep_loading(t_game *game)
 {
-	ft_load_image(game, &game->tex.fire_flame[0], "./textures/fire/flame1.png");
-	ft_load_image(game, &game->tex.fire_flame[1], "./textures/fire/flame2.png");
-	ft_load_image(game, &game->tex.fire_flame[2], "./textures/fire/flame3.png");
-	ft_load_image(game, &game->tex.fire_flame[3], "./textures/fire/flame4.png");
-	ft_load_image(game, &game->tex.fire_flame[4], "./textures/fire/flame5.png");
-	ft_load_image(game, &game->tex.fire_flame[5], "./textures/fire/flame6.png");
-	ft_load_image(game, &game->tex.fire_flame[6], "./textures/fire/flame7.png");
-	ft_load_image(game, &game->tex.fire_flame[7], "./textures/fire/flame8.png");
-	ft_load_image(game, &game->tex.fire_flame[8], "./textures/fire/flame9.png");
-	ft_load_image(game, &game->tex.fire_flame[9], "./textures/fire/flame10.png");
-	ft_load_image(game, &game->tex.fire_flame[10], "./textures/fire/flame11.png");
-	ft_load_image(game, &game->tex.fire_flame[11], "./textures/fire/flame12.png");
-	ft_load_image(game, &game->tex.fire_flame[12], "./textures/fire/flame13.png");
-	ft_load_image(game, &game->tex.fire_flame[13], "./textures/fire/flame14.png");
-	ft_load_image(game, &game->tex.fire_flame[14], "./textures/fire/flame15.png");
-	ft_load_image(game, &game->tex.fire_flame[15], "./textures/fire/flame16.png");
-	ft_load_image(game, &game->tex.fire_flame[16], "./textures/fire/flame17.png");
-	ft_load_image(game, &game->tex.fire_flame[17], "./textures/fire/flame18.png");
-	ft_load_image(game, &game->tex.fire_flame[18], "./textures/fire/flame19.png");
-	ft_load_image(game, &game->tex.fire_flame[19], "./textures/fire/flame20.png");
-	ft_load_image(game, &game->tex.fire_flame[20], "./textures/fire/flame21.png");
+	ft_load_image(game, &game->tex.fire_flame[0], "./textures/fire/fl1.png");
+	ft_load_image(game, &game->tex.fire_flame[1], "./textures/fire/fl2.png");
+	ft_load_image(game, &game->tex.fire_flame[2], "./textures/fire/fl3.png");
+	ft_load_image(game, &game->tex.fire_flame[3], "./textures/fire/fl4.png");
+	ft_load_image(game, &game->tex.fire_flame[4], "./textures/fire/fl5.png");
+	ft_load_image(game, &game->tex.fire_flame[5], "./textures/fire/fl6.png");
+	ft_load_image(game, &game->tex.fire_flame[6], "./textures/fire/fl7.png");
+	ft_load_image(game, &game->tex.fire_flame[7], "./textures/fire/fl8.png");
+	ft_load_image(game, &game->tex.fire_flame[8], "./textures/fire/fl9.png");
+	ft_load_image(game, &game->tex.fire_flame[9], "./textures/fire/fl10.png");
+	ft_load_image(game, &game->tex.fire_flame[10], "./textures/fire/fl11.png");
+	ft_load_image(game, &game->tex.fire_flame[11], "./textures/fire/fl12.png");
+	ft_load_image(game, &game->tex.fire_flame[12], "./textures/fire/fl13.png");
+	ft_load_image(game, &game->tex.fire_flame[13], "./textures/fire/fl14.png");
+	ft_load_image(game, &game->tex.fire_flame[14], "./textures/fire/fl15.png");
+	ft_load_image(game, &game->tex.fire_flame[15], "./textures/fire/fl16.png");
+	ft_load_image(game, &game->tex.fire_flame[16], "./textures/fire/fl17.png");
+	ft_load_image(game, &game->tex.fire_flame[17], "./textures/fire/fl18.png");
+	ft_load_image(game, &game->tex.fire_flame[18], "./textures/fire/fl19.png");
+	ft_load_image(game, &game->tex.fire_flame[19], "./textures/fire/fl20.png");
+	ft_load_image(game, &game->tex.fire_flame[20], "./textures/fire/fl21.png");
 }
-
 
 void	check_textures(t_game *game)
 {
@@ -100,9 +102,10 @@ void	check_textures(t_game *game)
 	keep_loading(game);
 }
 
-void    ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
+void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
 {
-	mlx_texture_t   *temp_texture;
+	mlx_texture_t	*temp_texture;
+
 	temp_texture = mlx_load_png(file_path);
 	if (temp_texture == NULL)
 	{
@@ -116,10 +119,4 @@ void    ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
 		ft_error_tex();
 	}
 	mlx_delete_texture(temp_texture);
-}
-
-void    ft_error_tex(void)
-{
-	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
 }

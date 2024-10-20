@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:12:00 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/20 20:27:05 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/21 01:06:12 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	clean_window(t_game *game)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < game->window_width)
@@ -25,12 +25,15 @@ void	clean_window(t_game *game)
 		{
 			if (j <= game->window_height / 2 - 30)
 			{
-				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0], game->c[1], game->c[2], 180));
+				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->c[0],
+						game->c[1], game->c[2], 180));
 				if (rand() % 10000 < 2)
-					mlx_put_pixel(game->mlx_img, i, j, pixel_color(255, 255, 255, 255));
+					mlx_put_pixel(game->mlx_img, i, j,
+						pixel_color(255, 255, 255, 255));
 			}
 			else
-				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0], game->f[1], game->f[2], 60));
+				mlx_put_pixel(game->mlx_img, i, j, pixel_color(game->f[0],
+						game->f[1], game->f[2], 60));
 			j++;
 		}
 		i++;
@@ -39,8 +42,8 @@ void	clean_window(t_game *game)
 
 void	draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < 32)
@@ -55,165 +58,49 @@ void	draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color)
 	}
 }
 
-void	draw_tiles_boarders(t_game *game, int xo, int yo, uint32_t tile_color)
+void	get_next_ponit(int *point1, int *d, int *err, int *point2)
 {
-	int i;
-	int j;
-	int GRIDLINE_WIDTH;
-	uint32_t gridline_color;
-
-	gridline_color = pixel_color(0, 0, 0, 255);
-	GRIDLINE_WIDTH = 1;
-	i = 0;
-	while (i < game->map_unit_size)
+	err[1] = err[0] * 2;
+	if (err[1] > -d[1])
 	{
-		j = 0;
-		while (j < game->map_unit_size)
-		{
-			if (i < GRIDLINE_WIDTH || i >= game->map_unit_size - GRIDLINE_WIDTH ||
-				j < GRIDLINE_WIDTH || j >= game->map_unit_size - GRIDLINE_WIDTH)
-				mlx_put_pixel(game->mlx_img, xo + j, yo + i, gridline_color);
-			else
-				mlx_put_pixel(game->mlx_img, xo + j, yo + i, tile_color);
-			j++;
-		}
-		i++;
+		err[0] -= d[1];
+		if (point1[0] < point2[0])
+			point1[0] += 1;
+		else
+			point1[0] -= 1;
+	}
+	if (err[1] < d[0])
+	{
+		err[0] += d[0];
+		if (point1[1] < point2[1])
+			point1[1] += 1;
+		else
+			point1[1] -= 1;
 	}
 }
 
-void draw_line(t_game *game, int x0, int y0, int x1, int y1, uint32_t color)
+void	draw_line(t_game *game, int *point1, int x1, int y1)
 {
-	if (x1 < 0 || y1 < 0 || x0 < 0 || y0 < 0)
-		return;
-	int dx = abs(x1 - x0);
-	int dy = abs(y1 - y0);
-	int err = dx - dy;
+	int			d[2];
+	int			err[2];
+	int			point2[2];
 
+	point2[0] = x1;
+	point2[1] = y1;
+	d[0] = abs(x1 - point1[0]);
+	d[1] = abs(y1 - point1[1]);
+	err[0] = d[0] - d[1];
 	while (1)
 	{
-		if (x0 >= 0 && x0 < game->window_width && y0 >= 0 && y0 < game->window_height)
-			mlx_put_pixel(game->mlx_img, x0, y0, color);
-
-		if (x0 == x1 && y0 == y1)
-			break;
-		int err2 = err * 2;
-		if (err2 > -dy)
-		{
-			err -= dy;
-			x0 += (x0 < x1) ? 1 : -1;
-		}
-		if (err2 < dx)
-		{
-			err += dx;
-			y0 += (y0 < y1) ? 1 : -1;
-		}
+		mlx_put_pixel(game->mlx_img, point1[0], point1[1],
+			pixel_color(255, 0, 0, 255));
+		if (point1[0] == x1 && point1[1] == y1)
+			break ;
+		get_next_ponit(point1, d, err, point2);
 	}
 }
 
-float calculate_dis(float x1, float y1, float x2, float y2)
+float	calculate_dis(float x1, float y1, float x2, float y2)
 {
 	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
-}
-
-
-void	calculate_ray(t_game *game)
-{
-	int r_num;
-	int dof;
-	int flag;
-
-	r_num = 0;
-	game->ray.ra = game->player.angle_player - 0.523598; // - 30 degree
-	while (r_num < 1440)
-	{
-		reset_rays(game, &flag);
-		calculate_horizontal_intraction(game, &dof);
-		get_hor_point(game, dof);
-		calculate_vertical_intraction(game, &dof, &flag);
-		get_ver_point(game, dof);
-		get_wall(game, flag);
-		render_walls(game, r_num);
-		game->ray.ra += 0.01745329/24;
-		r_num++;
-	}
-}
-
-
-void	fix_fisheye(t_game *game)
-{
-	float fish_eye;
-
-	fish_eye = game->player.angle_player - game->ray.ra;
-	if (fish_eye < 0) // safty
-		fish_eye += 2 * PI;
-	if (fish_eye > 2 * PI)
-		fish_eye -= 2 * PI;
-	game->rend.wall_distance = game->rend.wall_distance * cos(fish_eye);
-}
-
-void	set_ver_tex(t_game *game)
-{
-	bool	temp_is_door;
-
-	temp_is_door = game->rend.ver_is_door;
-	if (game->rend.ver_is_door && game->ray.ver_distance < 80)
-		temp_is_door = false;
-	if (temp_is_door)
-		game->rend.current_texture = game->tex.door;
-	else if (game->rend.ver_is_fire)
-		game->rend.current_texture = game->tex.fire;
-	else if(!game->rend.ver_is_door)
-	{
-		if (game->ray.rx > game->player.x_player)
-			game->rend.current_texture = game->tex.east_image;
-		else
-			game->rend.current_texture = game->tex.west_image;
-	}
-	else
-		game->rend.current_texture = game->tex.black_hole;
-}
-
-void	set_hor_tex(t_game *game)
-{
-	bool	temp_is_door;
-	temp_is_door = game->rend.hor_is_door;
-	if (game->rend.hor_is_door && game->ray.hor_distance < 80)
-		temp_is_door = false;
-	if (temp_is_door)
-		game->rend.current_texture = game->tex.door;
-	else if (game->rend.hor_is_fire)
-		game->rend.current_texture = game->tex.fire;
-	else if(!game->rend.hor_is_door)
-	{
-		if (game->ray.ry > game->player.y_player)
-			game->rend.current_texture = game->tex.south_image;
-		else
-			game->rend.current_texture = game->tex.north_image;
-	}
-	else
-		game->rend.current_texture = game->tex.black_hole;
-}
-
-void	get_wall(t_game *game, int flag)
-{
-	game->rend.wall_distance = 0;
-	game->rend.current_texture = NULL;
-	if(game->ray.ver_distance < game->ray.hor_distance)
-	{
-		set_ver_tex(game);
-		game->rend.wall_distance = game->ray.ver_distance;
-		game->rend.wall_x = game->ray.ver_x;
-		game->rend.wall_y = game->ray.ver_y;
-	}
-	else if(game->ray.ver_distance >= game->ray.hor_distance)
-	{
-		set_hor_tex(game);
-		game->rend.wall_distance = game->ray.hor_distance;
-		game->rend.wall_x = game->ray.hor_x;
-		game->rend.wall_y = game->ray.hor_y;
-	}
-	if ((flag == 1) && !game->rend.hor_is_door
-		&& !game->rend.hor_is_fire)
-		game->rend.current_texture = game->tex.south_image;
-	fix_fisheye(game);
 }

@@ -6,7 +6,7 @@
 #    By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 15:13:49 by eperperi          #+#    #+#              #
-#    Updated: 2024/10/16 22:51:40 by rshatra          ###   ########.fr        #
+#    Updated: 2024/10/21 01:22:31 by rshatra          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,13 +34,17 @@ SRC		 =	$(SRC_DIR)main.c \
 			$(SRC_DIR)parsing_main_map.c \
 			$(SRC_DIR)drawing.c \
 			$(SRC_DIR)raycast_calculations.c \
+			$(SRC_DIR)raycast_points.c \
 			$(SRC_DIR)mini_map.c \
 			$(SRC_DIR)rendering.c \
 			$(SRC_DIR)rendering_adds.c \
 			$(SRC_DIR)utilities.c \
+			$(SRC_DIR)utilities2.c \
 			$(SRC_DIR)init_game.c \
-			$(SRC_DIR)movment.c \
+			$(SRC_DIR)movement.c \
+			$(SRC_DIR)movement2.c \
 			$(SRC_DIR)boss.c \
+			$(SRC_DIR)wall_texture.c \
 			$(SRC_DIR)window_init.c
 GNL_SRC  =	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_variables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:57:24 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/10 18:34:20 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:07:35 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	assign_texture(const char **destination, char *variable, char *prefix)
 			}
 		*destination = ft_malloc(sizeof(char ) * ft_strlen(temp));
 		ft_strlcpy((char *)*destination, temp, ft_strlen(temp));
-		// printf(".%s.\n",  *destination);
 		free(temp);
 		return (1);
 	}

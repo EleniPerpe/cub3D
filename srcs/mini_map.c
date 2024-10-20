@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:28:12 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 21:52:01 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 20:02:26 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,39 +22,41 @@ void get_map_index(t_game *game, int *map_index_x, int *map_index_y)
 	if(*map_index_y < 0)
 		*map_index_y = 0;
 }
+void	get_tile_color(t_game *game,uint32_t *tile_color,int x,int y)
+{
+	if (game->ray.map_index_y + y < game->height_map && game->ray.map_index_x + x < (int)ft_strlen(game->map[game->ray.map_index_y + y]))
+	{
+		if (game->map[game->ray.map_index_y + y][game->ray.map_index_x + x] == '1')
+			*tile_color = pixel_color(70, 250, 255, 100);
+		else if (game->map[game->ray.map_index_y + y][game->ray.map_index_x + x] == '0')
+			*tile_color = pixel_color(255, 255, 255, 150);
+		else if (game->map[game->ray.map_index_y + y][game->ray.map_index_x + x] == '2')
+			*tile_color = pixel_color(0, 150, 100, 255);
+		else if (game->map[game->ray.map_index_y + y][game->ray.map_index_x + x] == '3')
+			*tile_color = pixel_color(255, 0, 0, 100);
+		else if (game->map[game->ray.map_index_y + y][game->ray.map_index_x + x] == ' ' || game->map[game->ray.map_index_y + y][game->ray.map_index_x + x] == '\n')
+			*tile_color = pixel_color(0, 0, 0, 255);
+		else
+			*tile_color = pixel_color(255, 255, 255, 150);
+	}
+	else
+		*tile_color = pixel_color(0, 0, 0, 255);
+}
 
 void draw_minimap(t_game *game)
 {
 	int x;
 	int y;
 	uint32_t tile_color;
-	int map_index_x;
-	int map_index_y;
 
-	get_map_index(game, &map_index_x, &map_index_y);
+	get_map_index(game, &game->ray.map_index_x, &game->ray.map_index_y);
 	y = 0;
 	while (y < 9)
 	{
 		x =0;
 		while (x < 9)
 		{
-			if (map_index_y + y < game->height_map && map_index_x + x < (int)ft_strlen(game->map[map_index_y + y]))
-			{
-				if (game->map[map_index_y + y][map_index_x + x] == '1')
-					tile_color = pixel_color(70, 250, 255, 100);
-				else if (game->map[map_index_y + y][map_index_x + x] == '0')
-					tile_color = pixel_color(255, 255, 255, 150);
-				else if (game->map[map_index_y + y][map_index_x + x] == '2')
-					tile_color = pixel_color(0, 150, 100, 255);
-				else if (game->map[map_index_y + y][map_index_x + x] == '3')
-					tile_color = pixel_color(255, 0, 0, 100);
-				else if (game->map[map_index_y + y][map_index_x + x] == ' ' || game->map[map_index_y + y][map_index_x + x] == '\n')
-					tile_color = pixel_color(0, 0, 0, 255);
-				else
-					tile_color = pixel_color(255, 255, 255, 150);
-			}
-			else
-				tile_color = pixel_color(0, 0, 0, 255);
+			get_tile_color(game, &tile_color, x, y);
 			draw_tiles(game, x * 32, y * 32, tile_color);
 			x++;
 		}

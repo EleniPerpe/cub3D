@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:01 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/19 03:00:39 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 20:43:31 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ void	calculate_horizontal_intraction(t_game *game, int *dof)
 	{
 		game->ray.rx = game->player.x_player;
 		game->ray.ry = game->player.y_player;
-		game->ray.rx_step = 0;
-		game->ray.ry_step = 0;
 		*dof = 25;
 	}
 }
+
 void	calculate_vertical_intraction(t_game *game,int *dof, int *flag)
 {
 	if (cos(game->ray.ra) < -0.001)
@@ -61,48 +60,42 @@ void	calculate_vertical_intraction(t_game *game,int *dof, int *flag)
 	{
 		game->ray.rx = game->player.x_player;
 		game->ray.ry = game->player.y_player;
-		game->ray.rx_step = 0;
-		game->ray.ry_step = 0;
 		*dof = 25;
 		if (game->ray.ra * 180 / M_PI > 45 && game->ray.ra * 180 / M_PI <= 130)
 			*flag = 1;
 	}
 }
 
+bool	is_hor_wall(t_game *game)
+{
+	if (game->map[game->ray.map_index_y][game->ray.map_index_x] == '1')
+		return (true) ;
+	else if (game->map[game->ray.map_index_y][game->ray.map_index_x] == '2')
+	{
+		game->rend.hor_is_door = true;
+		return (true) ;
+	}
+	else if (game->map[game->ray.map_index_y][game->ray.map_index_x] == '3')
+	{
+		game->rend.hor_is_fire = true;
+		return (true) ;
+	}
+	return (false);
+}
+
 void	get_hor_point(t_game *game,int dof)
 {
-	int map_x;
-	int map_y;
-
 	while (dof < 25)
 	{
-		map_x = (int) (game->ray.rx) / 64 ;
-		map_y = (int) (game->ray.ry) / 64 ;
-		if (map_x >= 0 && map_y >=0 && map_y < game->height_map && map_x < (int)ft_strlen(game->map[map_y]) - 1)
+		game->ray.map_index_x = (int) (game->ray.rx) / 64 ;
+		game->ray.map_index_y = (int) (game->ray.ry) / 64 ;
+		game->ray.hor_x = game->ray.rx;
+		game->ray.hor_y = game->ray.ry;
+		game->ray.hor_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.hor_x,game->ray.hor_y);
+		if (game->ray.map_index_x >= 0 && game->ray.map_index_y >=0 && game->ray.map_index_y < game->height_map && game->ray.map_index_x < (int)ft_strlen(game->map[game->ray.map_index_y]) - 1)
 		{
-			if (game->map[map_y][map_x] == '1')
-			{
-				game->ray.hor_x = game->ray.rx;
-				game->ray.hor_y = game->ray.ry;
-				game->ray.hor_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.hor_x,game->ray.hor_y);
+			if (is_hor_wall(game))
 				break ;
-			}
-			else if (game->map[map_y][map_x] == '2')
-			{
-				game->ray.hor_x = game->ray.rx;
-				game->ray.hor_y = game->ray.ry;
-				game->ray.hor_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.hor_x,game->ray.hor_y);
-				game->rend.hor_is_door = true;
-				break ;
-			}
-			else if (game->map[map_y][map_x] == '3')
-			{
-				game->ray.hor_x = game->ray.rx;
-				game->ray.hor_y = game->ray.ry;
-				game->ray.hor_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.hor_x,game->ray.hor_y);
-				game->rend.hor_is_fire = true;
-				break ;
-			}
 			else
 			{
 				game->ray.rx += game->ray.rx_step;
@@ -113,43 +106,38 @@ void	get_hor_point(t_game *game,int dof)
 		else
 			break ;
 	}
-
 }
 
-void	get_ver_point(t_game *game,int dof)
+bool	is_ver_wall(t_game *game)
 {
-	int map_x;
-	int map_y;
+	if (game->map[game->ray.map_index_y][game->ray.map_index_x] == '1')
+		return (true);
+	else if (game->map[game->ray.map_index_y][game->ray.map_index_x] == '2')
+	{
+		game->rend.ver_is_door = true;
+		return (true);
+	}
+	else if (game->map[game->ray.map_index_y][game->ray.map_index_x] == '3')
+	{
+		game->rend.ver_is_fire = true;
+		return (true);
+	}
+	return (false);
+}
+
+void	get_ver_point(t_game *game, int dof)
+{
 	while (dof < 25)
 	{
-		map_x = (int)(game->ray.rx) / 64;
-		map_y = (int)(game->ray.ry) / 64;
-
-		if (map_x >= 0 && map_y >= 0 && map_y < game->height_map && map_x < (int)ft_strlen(game->map[map_y]) - 1 )
+		game->ray.map_index_x = (int)(game->ray.rx) / 64;
+		game->ray.map_index_y = (int)(game->ray.ry) / 64;
+		game->ray.ver_x = game->ray.rx;
+		game->ray.ver_y = game->ray.ry;
+		game->ray.ver_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.ver_x,game->ray.ver_y);
+		if (game->ray.map_index_x >= 0 && game->ray.map_index_y >= 0 && game->ray.map_index_y < game->height_map && game->ray.map_index_x < (int)ft_strlen(game->map[game->ray.map_index_y]) - 1 )
 		{
-			if (game->map[map_y][map_x] == '1')
-			{
-				game->ray.ver_x = game->ray.rx;
-				game->ray.ver_y = game->ray.ry;
-				game->ray.ver_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.ver_x,game->ray.ver_y);
-				break;
-			}
-			else if (game->map[map_y][map_x] == '2')
-			{
-				game->ray.ver_x = game->ray.rx;
-				game->ray.ver_y = game->ray.ry;
-				game->ray.ver_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.ver_x,game->ray.ver_y);
-				game->rend.ver_is_door = true;
-				break;
-			}
-			else if (game->map[map_y][map_x] == '3')
-			{
-				game->ray.ver_x = game->ray.rx;
-				game->ray.ver_y = game->ray.ry;
-				game->ray.ver_distance = calculate_dis(game->player.x_player ,game->player.y_player,game->ray.ver_x,game->ray.ver_y);
-				game->rend.ver_is_fire = true;
-				break;
-			}
+			if (is_ver_wall(game))
+				break ;
 			else
 			{
 				game->ray.rx += game->ray.rx_step;

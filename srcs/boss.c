@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/20 15:24:11 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 19:44:17 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	draw(void *param)
 	{
 		mlx_delete_image(game->mlx, game->tex.intro);
 		clean_window(game);
-		// draw_map(game);
-		// draw_player(game);
 		calculate_ray(game);
 		draw_minimap(game);
 		draw_miniplayer(game);

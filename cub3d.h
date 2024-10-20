@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/20 18:40:11 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 19:53:04 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_raycast
 	float		ver_distance;
 	float		ver_x;
 	float		ver_y;
+	int			map_index_x;
+	int			map_index_y;
 
 }			t_raycast;
 

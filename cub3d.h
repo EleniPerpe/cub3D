@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/17 22:10:30 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 18:40:11 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ typedef struct s_rend
 	bool 		ver_is_door;
 	bool 		hor_is_fire;
 	bool 		ver_is_fire;
+	bool 		hor_is_flame;
+	bool 		ver_is_flame;
 
 }			t_rend;
 
@@ -102,6 +104,8 @@ typedef struct s_texture
 	mlx_image_t	*crosshair;
 	mlx_image_t	*weapon;
 	mlx_image_t	*gameover;
+	mlx_image_t	*black_hole;
+	mlx_image_t	*fire_flame[21];
 }	t_texture;
 
 
@@ -132,6 +136,8 @@ typedef struct s_game
 	t_raycast		ray;
 	t_rend			rend;
 	bool			intro;
+	int				frame_count;
+	int				frame_count2;
 }	t_game;
 
 int32_t	pixel_color(int r, int g, int b, int a);

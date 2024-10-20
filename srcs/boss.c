@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 23:01:27 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:24:11 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	draw(void *param)
 	{
 		mlx_delete_image(game->mlx, game->tex.intro);
 		clean_window(game);
-		// draw_player(game);
 		// draw_map(game);
+		// draw_player(game);
 		calculate_ray(game);
 		draw_minimap(game);
 		draw_miniplayer(game);
@@ -54,33 +54,34 @@ void	draw(void *param)
 		draw_weapon(game);
 		check_fire(game);
 		draw_health(game);
+		game->frame_count2++;
 	}
 }
 
 void	check_fire(t_game *game)
 {
-	int x_map_index;
-	int y_map_index;
 	int i;
 	int j;
+	int red_intensity;
 
-	x_map_index = (game->player.x_player) / 64;
-	y_map_index = (game->player.y_player) / 64;
 	j = 0;
-	if (game->map[y_map_index][x_map_index] == '3')
+	if (game->map[(int)(game->player.y_player) / 64]
+			[(int)(game->player.x_player) / 64] == '3')
 	{
-			while (j < game->window_width)
+		red_intensity = 150 + (sin(game->frame_count * 0.2) * 50);
+		while (j < game->window_width)
+		{
+			i = 0;
+			while (i < game->window_height)
 			{
-				i = 0;
-				while (i < game->window_height)
-				{
-					if (i % 2 == 1)
-						mlx_put_pixel(game->mlx_img, j, i, pixel_color(150, 0, 0, 150));
-					i++;
-				}
-				j++;
+				if (i % 2 == 1)
+					mlx_put_pixel(game->mlx_img, j, i, pixel_color(red_intensity, 0, 0, 150));
+				i++;
+			}
+			j++;
 		}
 		game->player.health--;
+		game->frame_count++;
 	}
 	if (game->player.health < 30)
 		game->player.dead = true;

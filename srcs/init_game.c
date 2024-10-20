@@ -6,7 +6,7 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:29:10 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 22:52:00 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:12:24 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void init_map(t_game *game)
 	game->name = "CUB3D";
 	game->window_height = 960;
 	game->window_width = 1440;
+	game->frame_count = 0;
+	game->frame_count2 = 0;
 }
 
 void init_player(t_game *game)

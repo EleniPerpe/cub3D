@@ -6,11 +6,33 @@
 /*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:07:41 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/17 17:59:42 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/20 18:47:49 by rshatra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	animate_fire(t_game *game, int r_num)
+{
+	int		shift_to_down;
+	int		offset;
+	int i;
+
+	(void)r_num;
+	i = 0;
+	offset = 0;
+	int index = 5 + (sin(game->frame_count2 * 0.6) * 5);
+	game->rend.current_texture = game->tex.fire_flame[index];
+	game->rend.wall_height = game->map_unit_size * (game->window_height) / game->rend.wall_distance;
+	if (game->rend.wall_height > game->window_height)
+		offset = (game->rend.wall_height - game->window_height) / 2;
+	shift_to_down = game->window_height / 2 - (game->rend.wall_height / 2);
+	if (game->ray.ver_distance < game->ray.hor_distance)
+		game->rend.texture_pos_x_rate = fmod(game->rend.wall_y, game->map_unit_size) / game->map_unit_size;
+	else
+		game->rend.texture_pos_x_rate = fmod(game->rend.wall_x, game->map_unit_size) / game->map_unit_size;
+	draw_tex_slice(game, shift_to_down, r_num, offset);
+}
 
 void render_walls(t_game *game, int r_num)
 {
@@ -18,6 +40,16 @@ void render_walls(t_game *game, int r_num)
 	int		offset;
 
 	offset = 0;
+	if ((game->rend.hor_is_fire) && (game->ray.hor_distance < game->ray.ver_distance))
+	{
+		animate_fire(game, r_num);
+		return ;
+	}
+	else if ((game->rend.ver_is_fire) && (game->ray.hor_distance > game->ray.ver_distance))
+	{
+		animate_fire(game, r_num);
+		return ;
+	}
 	game->rend.wall_height = game->map_unit_size * (game->window_height) / game->rend.wall_distance;
 	if (game->rend.wall_height > game->window_height)
 		offset = (game->rend.wall_height - game->window_height) / 2;

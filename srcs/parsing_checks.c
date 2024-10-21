@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:09:57 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/10 19:39:55 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:11:56 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int		check_rgb(char *variable, int **color);
 void	validate_rgb_count(char **c);
+int		char_control(char *c);
 
 int	arg_check(int argc, char *arg)
 {
@@ -71,7 +72,7 @@ void	check_walls(char **map, int x, int y, t_game *game)
 	}
 	if (map[x][y] == ' ' || game->map[x][y] == '\n')
 	{
-		printf("No closed map!\n");
+		printf("No closed map!2\n");
 		exit(EXIT_FAILURE);
 	}
 	map[x][y] = '1';
@@ -111,11 +112,21 @@ int	check_rgb(char *variable, int **color)
 void	validate_rgb_count(char **c)
 {
 	int	count;
-
+	int i;
+	int	flag;
+	
+	flag = 0;
 	count = 0;
 	while (c[count] != NULL)
+	{
+		i = 0;
+		while (c[count][i] != '\0' && !ft_isalpha(c[count][i]))
+			i++;
+		if (c[count][i] != '\0')
+			flag = 1;
 		count++;
-	if (count != 3)
+	}
+	if (count + flag != 3)
 	{
 		printf("Invalid RGB numbers\n");
 		free_split(c);

@@ -3,60 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/21 01:16:06 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/21 19:06:10 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 void	check_textures(t_game *game);
 int		is_only_spaces(char *str);
 void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path);
 void	ft_error_tex(void);
-
+void 	check_wall_boarders(char **map, int x, int y, t_game *game);
 void	map_reader(t_game *game, char *map)
 {
-	char	*reader;
-	char	**temp_map;
-
+	char    *reader;
+	char    **temp_map;
 	game->map_fd = open(map, O_RDONLY);
 	if (game->map_fd < 0)
 	{
-		printf("Error\nCouldn't load the map!\n");
-		exit(EXIT_FAILURE);
+	    printf("Error\nCouldn't load the map!\n");
+	    exit(EXIT_FAILURE);
 	}
 	fill_map_variables(game);
 	reader = get_next_line(game->map_fd);
 	while (is_only_spaces(reader) == 0)
-		reader = get_next_line(game->map_fd);
+	    reader = get_next_line(game->map_fd);
 	fill_real_map(game, reader);
 	find_map_width(game);
 	find_start_pos(game);
 	ft_setup_temp_map(game, &temp_map);
+	check_wall_boarders(temp_map, game->start_pos[0], game->start_pos[1], game);
 	check_walls(temp_map, game->start_pos[0], game->start_pos[1], game);
-	free_split(temp_map);
+	// free_split(temp_map);
 	close(game->map_fd);
 }
 
-int	is_only_spaces(char *str)
+void check_wall_boarders(char **map, int x, int y, t_game *game)
 {
-	int	i;
-
-	i = 0;
-	if (str[0] == '\n')
-		return (0);
-	while (str[i] != '\0')
+	(void)map;
+	(void)game;
+	printf("%d %d\nheight map : %d\n", x, y, game->height_map);
+	if (x == 0 || y == 0)
 	{
-		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
-		{
-			return (1);
-		}
-		i++;
+		printf("No closed map!\n");
+		exit(EXIT_FAILURE);
 	}
-	return (0);
+	if (y + 1 == ' ' || y + 1 == '\0' || y + 1 == '\n')
+	{
+		printf("No closed map!\n");
+		exit(EXIT_FAILURE);
+	}
+	if (x + 1 >= game->height_map)
+	{
+		printf("No closed map!\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+int is_only_spaces(char *str)
+{
+    int i;
+    i = 0;
+    if (str[0] == '\n')
+        return (0);
+    while (str[i] != '\0')
+    {
+        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+        {
+            return (1);
+        }
+        i++;
+    }
+    return (0);
 }
 
 void	keep_loading(t_game *game)
@@ -102,21 +122,20 @@ void	check_textures(t_game *game)
 	keep_loading(game);
 }
 
-void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
+void    ft_load_image(t_game *game, mlx_image_t **image, const char *file_path)
 {
-	mlx_texture_t	*temp_texture;
-
-	temp_texture = mlx_load_png(file_path);
-	if (temp_texture == NULL)
-	{
-		mlx_terminate(game->mlx);
-		ft_error_tex();
-	}
-	*image = mlx_texture_to_image(game->mlx, temp_texture);
-	if (*image == NULL)
-	{
-		mlx_terminate(game->mlx);
-		ft_error_tex();
-	}
-	mlx_delete_texture(temp_texture);
+    mlx_texture_t   *temp_texture;
+    temp_texture = mlx_load_png(file_path);
+    if (temp_texture == NULL)
+    {
+        mlx_terminate(game->mlx);
+        ft_error_tex();
+    }
+    *image = mlx_texture_to_image(game->mlx, temp_texture);
+    if (*image == NULL)
+    {
+        mlx_terminate(game->mlx);
+        ft_error_tex();
+    }
+    mlx_delete_texture(temp_texture);
 }

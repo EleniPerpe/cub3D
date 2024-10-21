@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+         #
+#    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 15:13:49 by eperperi          #+#    #+#              #
-#    Updated: 2024/10/21 01:22:31 by rshatra          ###   ########.fr        #
+#    Updated: 2024/10/21 18:43:10 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,18 +69,18 @@ $(OBJ_DIR)%.o: $(GNL_DIR)%.c
 $(LIB):
 	@$(MAKE) -C Libft
 
-$(MLX42):
-	@if [ ! -d "./MLX42" ]; then git clone https://github.com/codam-coding-college/MLX42.git; fi
-	@cd MLX42 && cmake -B build
-	@cd MLX42 && cmake --build build -j4
 
-all:	$(MLX42) $(NAME)
+
+all: $(NAME)
+
+mlx:
+	git clone https://github.com/ashirzad313/MLX42 MLX42
 
 cleanmlx:
 		@rm -rf MLX42
 		@echo "$(CYAN)MLX42 folder is deleted!$(WHITE)"
 
-clean:
+clean: 
 		@$(MAKE) -C Libft clean
 		@rm -rf $(OBJ_DIR)
 		@rm -f libmlx42.a

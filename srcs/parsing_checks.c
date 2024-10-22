@@ -45,7 +45,7 @@ void	ft_setup_temp_map(t_game *game, char ***temp_map)
 	i = -1;
 	while (++i < game->height_map)
 	{
-		(*temp_map)[i] = strdup(game->map[i]);
+		(*temp_map)[i] = ft_strdup(game->map[i]);
 		if ((*temp_map)[i] == NULL)
 		{
 			j = -1;
@@ -64,15 +64,16 @@ void	check_walls(char **map, int x, int y, t_game *game)
 		return ;
 	if (map[x][y] == '1')
 		return ;
-	if (map[x][y] == '0' && (x - 1 == -1 || y - 1 == -1
-		|| x == game->height_map - 1))
+	if ((map[x][y] == '0' || map[x][y] == '2' || map[x][y] == '3')
+		&& ((x - 1 == -1 || y - 1 == -1
+		|| x == game->height_map - 1)))
 	{
 		printf("No closed map!\n");
 		exit(EXIT_FAILURE);
 	}
 	if (map[x][y] == ' ' || game->map[x][y] == '\n')
 	{
-		printf("No closed map!2\n");
+		printf("No closed map!\n");
 		exit(EXIT_FAILURE);
 	}
 	map[x][y] = '1';
@@ -112,9 +113,9 @@ int	check_rgb(char *variable, int **color)
 void	validate_rgb_count(char **c)
 {
 	int	count;
-	int i;
+	int	i;
 	int	flag;
-	
+
 	flag = 0;
 	count = 0;
 	while (c[count] != NULL)

@@ -30,7 +30,12 @@ void	keyboard_control(void *param)
 	ad(game);
 	left_right(game);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+	{
 		mlx_close_window(game->mlx);
+		finish(game);
+		atexit(leaks);
+		exit(1);
+	}
 }
 
 void	sw(t_game *game)

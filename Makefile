@@ -14,10 +14,10 @@
 
 NAME	=	cub3D
 
-CC			=	gcc -g -fsanitize=address
-# LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
+CC			=	gcc -g #-fsanitize=address
+LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
 CFLAGS		=	-Wall -Wextra -Werror
-MLXFLAGS	=	-lglfw #-L "$(HOME)/.brew/opt/glfw/lib/"
+MLXFLAGS	=	-lglfw -L "$(HOME)/.brew/opt/glfw/lib/"
 
 GREEN	=	\033[0;32m
 CYAN	=	\033[0;36m
@@ -80,7 +80,7 @@ cleanmlx:
 		@rm -rf MLX42
 		@echo "$(CYAN)MLX42 folder is deleted!$(WHITE)"
 
-clean: 
+clean:
 		@$(MAKE) -C Libft clean
 		@rm -rf $(OBJ_DIR)
 		@rm -f libmlx42.a

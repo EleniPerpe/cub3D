@@ -15,7 +15,7 @@
 void	fill_map_variables(t_game *game);
 void	process_variable(t_game *game, char *variable, int *i);
 int		check_for_assign(t_game *game, char *variable);
-int		assign_texture(const char **destination, char *variable, char *prefix);
+int		assign_texture(char **destination, char *variable, char *prefix);
 void	check_unique_textures(t_game *game);
 
 void	fill_map_variables(t_game *game)
@@ -28,6 +28,7 @@ void	fill_map_variables(t_game *game)
 	while (variable != NULL)
 	{
 		process_variable(game, variable, &i);
+		free (variable);
 		if (i == 6)
 			break ;
 		variable = get_next_line(game->map_fd);
@@ -79,7 +80,7 @@ int	check_for_assign(t_game *game, char *variable)
 	return (i);
 }
 
-int	assign_texture(const char **destination, char *variable, char *prefix)
+int	assign_texture(char **destination, char *variable, char *prefix)
 {
 	int		i;
 	char	*needle;
@@ -93,10 +94,10 @@ int	assign_texture(const char **destination, char *variable, char *prefix)
 			i++;
 		temp = ft_strdup(needle + (i + 2));
 		if (*destination != NULL)
-			{
-				printf("Error\nWrong textures!\n");
-				exit(EXIT_FAILURE);
-			}
+		{
+			printf("Error\nWrong textures!\n");
+			exit(EXIT_FAILURE);
+		}
 		*destination = ft_malloc(sizeof(char ) * ft_strlen(temp));
 		ft_strlcpy((char *)*destination, temp, ft_strlen(temp));
 		free(temp);

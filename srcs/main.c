@@ -17,6 +17,11 @@ void	free_map(t_game *game);
 void	finish(t_game *game);
 void	delete_texs(t_game *game);
 
+void	leaks(void)
+{
+	system("leaks cub3D");
+}
+
 int	main(int argc, char **argv)
 {
 	t_game				game;
@@ -30,6 +35,7 @@ int	main(int argc, char **argv)
 	init_game(&game);
 	loops(&game);
 	finish(&game);
+	atexit(leaks);
 	return (EXIT_SUCCESS);
 }
 
@@ -61,12 +67,6 @@ void	delete_texs(t_game *game)
 		mlx_delete_image(game->mlx, game->tex.fire_flame[i++]);
 }
 
-void	ft_error(void)
-{
-	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
-}
-
 void	free_map(t_game *game)
 {
 	int	i;
@@ -78,4 +78,10 @@ void	free_map(t_game *game)
 		i++;
 	}
 	free(game->map);
+	free(game->c);
+	free(game->f);
+	free(game->so);
+	free(game->no);
+	free(game->we);
+	free(game->ea);
 }

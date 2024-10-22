@@ -111,10 +111,10 @@ typedef struct s_game
 	int				map_fd;
 	int				height_map;
 	int				width_map;
-	const char		*so;
-	const char		*no;
-	const char		*we;
-	const char		*ea;
+	char			*so;
+	char			*no;
+	char			*we;
+	char			*ea;
 	int				*c;
 	int				*f;
 	char			**map;
@@ -155,7 +155,6 @@ void		draw_tiles_boarders(t_game *game, int xo, int yo,
 				uint32_t tile_color);
 void		draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color);
 void		calculate_ray(t_game *game);
-// void		draw_line(t_game *game, int x0, int y0, int x1, int y1);
 void		draw_line(t_game *game, int *point1, int x1, int y1);
 void		coordinate_corrector(t_game *game, char c);
 void		coordinate_corrector2(t_game *game, char c);
@@ -196,5 +195,7 @@ void		set_hor_tex(t_game *game);
 void		set_ver_tex(t_game *game);
 bool		checker(t_game *game);
 void		fix_fisheye(t_game *game);
+void		leaks(void);
+void		ft_error(void);
 
 #endif

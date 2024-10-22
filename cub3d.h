@@ -151,8 +151,6 @@ void		draw_minimap(t_game *game);
 int			is_only_spaces(char *str);
 void		init_map(t_game *game);
 void		init_player(t_game *game);
-void		draw_tiles_boarders(t_game *game, int xo, int yo,
-				uint32_t tile_color);
 void		draw_tiles(t_game *game, int xo, int yo, uint32_t tile_color);
 void		calculate_ray(t_game *game);
 void		draw_line(t_game *game, int *point1, int x1, int y1);
@@ -197,5 +195,7 @@ bool		checker(t_game *game);
 void		fix_fisheye(t_game *game);
 void		leaks(void);
 void		ft_error(void);
+void		keep_loading(t_game *game);
+void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path);
 
 #endif

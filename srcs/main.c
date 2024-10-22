@@ -17,11 +17,6 @@ void	free_map(t_game *game);
 void	finish(t_game *game);
 void	delete_texs(t_game *game);
 
-void	leaks(void)
-{
-	system("leaks cub3D");
-}
-
 int	main(int argc, char **argv)
 {
 	t_game				game;
@@ -35,7 +30,6 @@ int	main(int argc, char **argv)
 	init_game(&game);
 	loops(&game);
 	finish(&game);
-	atexit(leaks);
 	return (EXIT_SUCCESS);
 }
 

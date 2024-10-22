@@ -14,7 +14,7 @@
 
 NAME	=	cub3D
 
-CC			=	gcc -g #-fsanitize=address
+CC			=	gcc -g -fsanitize=address
 LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
 CFLAGS		=	-Wall -Wextra -Werror
 MLXFLAGS	=	-lglfw -L "$(HOME)/.brew/opt/glfw/lib/"

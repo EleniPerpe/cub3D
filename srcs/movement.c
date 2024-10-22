@@ -33,7 +33,6 @@ void	keyboard_control(void *param)
 	{
 		mlx_close_window(game->mlx);
 		finish(game);
-		atexit(leaks);
 		exit(1);
 	}
 }

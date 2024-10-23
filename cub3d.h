@@ -196,6 +196,7 @@ void		fix_fisheye(t_game *game);
 void		leaks(void);
 void		ft_error(void);
 void		keep_loading(t_game *game);
-void	ft_load_image(t_game *game, mlx_image_t **image, const char *file_path);
+void		ft_load_image(t_game *game, mlx_image_t **image,
+				const char *file_path);
 
 #endif

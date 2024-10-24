@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:09:35 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/21 01:30:05 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:35:50 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ void	check_fire(t_game *game)
 			[(int)(game->player.x_player) / 64] == '3')
 	{
 		red_intensity = 150 + (sin(game->frame_count * 0.2) * 50);
-		while (j++ < game->window_width)
+		while (j++ < game->window_width - 1)
 		{
 			i = 0;
-			while (i++ < game->window_height)
+			while (i++ < game->window_height - 1)
 			{
 				if (i % 2 == 1)
 					mlx_put_pixel(game->mlx_img, j, i,

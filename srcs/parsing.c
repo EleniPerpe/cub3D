@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:13:07 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/21 19:06:10 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:40:59 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	check_wall_boarders(int x, int y, t_game *game);
 void	map_reader(t_game *game, char *map)
 {
 	char	*reader;
-	char	**temp_map;
 
 	game->map_fd = open(map, O_RDONLY);
 	if (game->map_fd < 0)
@@ -39,10 +38,8 @@ void	map_reader(t_game *game, char *map)
 	fill_real_map(game, reader);
 	find_map_width(game);
 	find_start_pos(game);
-	ft_setup_temp_map(game, &temp_map);
 	check_wall_boarders(game->start_pos[0], game->start_pos[1], game);
-	check_walls(temp_map, game->start_pos[0], game->start_pos[1], game);
-	free_split(temp_map);
+	ft_setup_temp_map(game, game->start_pos[0], game->start_pos[1]);
 	close(game->map_fd);
 }
 

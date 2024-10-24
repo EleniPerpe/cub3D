@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 01:15:46 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/21 18:32:59 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:42:54 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,17 @@ void	keep_loading(t_game *game)
 	ft_load_image(game, &game->tex.fire_flame[18], "./textures/fire/fl19.png");
 	ft_load_image(game, &game->tex.fire_flame[19], "./textures/fire/fl20.png");
 	ft_load_image(game, &game->tex.fire_flame[20], "./textures/fire/fl21.png");
+}
+
+void	free_temp(t_game *game, char **temp)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->height_map)
+	{
+		free(temp[i]);
+		i++;
+	}
+	free(temp);
 }

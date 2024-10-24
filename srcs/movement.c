@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:10:39 by rshatra           #+#    #+#             */
-/*   Updated: 2024/10/21 01:22:48 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:07:24 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	keyboard_control(void *param)
 	{
 		mlx_close_window(game->mlx);
 		finish(game);
+		atexit(leak);
 		exit(1);
 	}
 }

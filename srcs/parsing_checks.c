@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:09:57 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/21 19:11:56 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:42:37 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,30 @@ int	arg_check(int argc, char *arg)
 	return (1);
 }
 
-void	ft_setup_temp_map(t_game *game, char ***temp_map)
+void	ft_setup_temp_map(t_game *game, int x, int y)
 {
 	int		i;
 	int		j;
+	char	**temp_map;
 
-	*temp_map = malloc(game->height_map * sizeof(char *));
-	if (*temp_map == NULL)
+	temp_map = malloc(game->height_map * sizeof(char *));
+	if (temp_map == NULL)
 		ft_error_exit(game, "Error\nMemory allocation failed");
 	i = -1;
 	while (++i < game->height_map)
 	{
-		(*temp_map)[i] = ft_strdup(game->map[i]);
-		if ((*temp_map)[i] == NULL)
+		(temp_map)[i] = ft_strdup(game->map[i]);
+		if ((temp_map)[i] == NULL)
 		{
 			j = -1;
 			while (++j < i)
-				free((*temp_map)[j]);
-			free(*temp_map);
+				free((temp_map)[j]);
+			free(temp_map);
 			ft_error_exit(game, "Error\nMemory allocation failed");
 		}
 	}
+	check_walls(temp_map, x, y, game);
+	free_temp(game, temp_map);
 }
 
 void	check_walls(char **map, int x, int y, t_game *game)

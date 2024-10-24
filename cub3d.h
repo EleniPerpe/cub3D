@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:22:48 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/21 01:28:37 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:42:27 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void		find_start_pos(t_game *game);
 void		fill_map_variables(t_game *game);
 void		check_textures(t_game *game);
 int			check_rgb(char *variable, int **color);
-void		ft_setup_temp_map(t_game *game, char ***temp_map);
+void		ft_setup_temp_map(t_game *game, int x, int y);
 void		check_walls(char **map, int x, int y, t_game *game);
 float		calculate_dis(float x1, float y1, float x2, float y2);
 void		draw_cross(t_game *game);
@@ -198,5 +198,7 @@ void		ft_error(void);
 void		keep_loading(t_game *game);
 void		ft_load_image(t_game *game, mlx_image_t **image,
 				const char *file_path);
+void		leak(void);
+void		free_temp(t_game *game, char **temp);
 
 #endif

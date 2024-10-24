@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rshatra <rshatra@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:58:37 by eperperi          #+#    #+#             */
-/*   Updated: 2024/10/20 21:53:22 by rshatra          ###   ########.fr       */
+/*   Updated: 2024/10/23 14:40:38 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	ft_error(void);
 void	free_map(t_game *game);
 void	finish(t_game *game);
 void	delete_texs(t_game *game);
+
+void	leak(void)
+{
+	system("leaks cub3D");
+}
 
 int	main(int argc, char **argv)
 {
@@ -30,6 +35,7 @@ int	main(int argc, char **argv)
 	init_game(&game);
 	loops(&game);
 	finish(&game);
+	atexit(leak);
 	return (EXIT_SUCCESS);
 }
 

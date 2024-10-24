@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:25:23 by eperperi          #+#    #+#             */
-/*   Updated: 2024/09/24 17:25:42 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:39:47 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@ void	free_split(char **args)
 	if (args == NULL)
 		return ;
 	i = 0;
-	while (args && args[i] != NULL)
+	while (args[i] != NULL)
 	{
 		free(args[i]);
 		i++;
 	}
-	free(args);
-	args = NULL;
+	if (args)
+	{
+		free(args);
+		args = NULL;
+	}
 }

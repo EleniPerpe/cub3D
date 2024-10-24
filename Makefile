@@ -6,7 +6,7 @@
 #    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 15:13:49 by eperperi          #+#    #+#              #
-#    Updated: 2024/10/21 18:43:10 by eperperi         ###   ########.fr        #
+#    Updated: 2024/10/24 14:58:48 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME	=	cub3D
 
-CC			=	gcc -g -fsanitize=address
+CC			=	gcc -g #-fsanitize=address
 LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
 CFLAGS		=	-Wall -Wextra -Werror
 MLXFLAGS	=	-lglfw -L "$(HOME)/.brew/opt/glfw/lib/"

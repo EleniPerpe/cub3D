@@ -1,0 +1,3 @@
+cub3D is a 3D maze simulation project that uses ray-casting techniques to create a realistic first-person perspective representation of a maze. The project relies on mathematical algorithms to render walls, textures, floor, and ceiling in a graphical window. With a focus on performance, the program allows users to navigate a maze, change the view, and interact with the environment using a simple set of controls.
+
+This project demonstrates the application of basic C programming skills, graphical rendering, and mathematical principles to create a 3D environment using the MinilibX graphics library. The program includes the handling of textures, keyboard controls, and window management, while following strict constraints regarding input and output file formats.
